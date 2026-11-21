@@ -76,6 +76,9 @@
   .previa { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 22px 0 0; padding: 0; list-style: none; font-size: 13px; color: var(--suave); }
   .previa li { border: 1px solid var(--linha); padding: 6px 10px; }
   #erro { color: var(--vermelho); font-weight: 600; margin-top: 16px; white-space: pre-line; }
+  .passos { text-align: left; max-width: 34em; margin: 0 auto 22px; padding-left: 1.4em; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
+  .botao-grande { font-size: 17px; padding: 14px 28px; min-height: 52px; }
+  #abrir .nota-abrir { font-size: 13px; margin-top: 12px; }
 
   /* Números principais */
   h2 { font: 700 22px var(--titulo); text-transform: uppercase; letter-spacing: .03em; margin: 28px 0 12px; }
@@ -413,9 +416,14 @@
   <!-- Tela 1: escolher a planilha -->
   <section id="abrir">
     <h1>Abra a planilha de RH</h1>
-    <p>Toque no botão e escolha o arquivo <b>.xlsx</b> (no computador, também dá para arrastar o arquivo para cá).
-       A planilha é lida só neste aparelho e não é enviada para lugar nenhum.</p>
-    <button class="botao" id="escolher">Escolher planilha</button>
+    <p>O painel fica vazio até você escolher a planilha. Ela é lida só neste aparelho e não é enviada para lugar nenhum.</p>
+    <ol class="passos">
+      <li>Toque em <b>Escolher planilha</b>.</li>
+      <li>No celular, escolha <b>Drive</b> e abra a pasta <b>Ferraz RH treinamento</b>. No computador, ache o arquivo onde ele estiver salvo.</li>
+      <li>Toque no arquivo <b>ferraz_rh_base_treino.xlsx</b>. O painel abre na hora.</li>
+    </ol>
+    <button class="botao botao-grande" id="escolher">Escolher planilha</button>
+    <p class="nota-abrir">No computador, também dá para arrastar o arquivo para cá.</p>
     <input type="file" id="arquivo" accept=".xlsx,.xlsm,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="escondido">
     <div id="erro"></div>
     <ul class="previa" aria-label="O que o painel mostra">

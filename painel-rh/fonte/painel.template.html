@@ -28,6 +28,9 @@
     --cabecalho-suave: #C9CED3;
     --cabecalho-borda: #6B737B;
     --sobreposicao: rgba(34, 38, 43, .55);
+    --serie-1: #2a78d6;        /* gráfico: saiu por liderança */
+    --serie-2: #1baf7a;        /* gráfico: saiu por jornada */
+    --serie-risco: #eb6834;    /* gráfico: ativo com risco */
     --titulo: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
     --corpo: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
     --mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
@@ -38,7 +41,7 @@
       --aco: #8A949E; --linha: #353B41; --linha-fraca: #2A2F34; --borda: #4A5158; --laranja: #F2692A; --laranja-fundo: #2A1E17;
       --verde: #7CCBA4; --verde-fundo: #1E3A2E; --amarelo: #E8B931; --amarelo-texto: #22262B; --vermelho: #C8382C; --vermelho-texto: #FFFFFF;
       --cinza-fundo: #2C3136; --cabecalho: #0E1012; --cabecalho-texto: #FFFFFF; --cabecalho-suave: #A3ABB3; --cabecalho-borda: #4A5158;
-      --sobreposicao: rgba(0, 0, 0, .65); color-scheme: dark;
+      --sobreposicao: rgba(0, 0, 0, .65); --serie-1: #3987e5; --serie-2: #199e70; --serie-risco: #d95926; color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
@@ -46,9 +49,10 @@
     --aco: #8A949E; --linha: #353B41; --linha-fraca: #2A2F34; --borda: #4A5158; --laranja: #F2692A; --laranja-fundo: #2A1E17;
     --verde: #7CCBA4; --verde-fundo: #1E3A2E; --amarelo: #E8B931; --amarelo-texto: #22262B; --vermelho: #C8382C; --vermelho-texto: #FFFFFF;
     --cinza-fundo: #2C3136; --cabecalho: #0E1012; --cabecalho-texto: #FFFFFF; --cabecalho-suave: #A3ABB3; --cabecalho-borda: #4A5158;
-    --sobreposicao: rgba(0, 0, 0, .65); color-scheme: dark;
+    --sobreposicao: rgba(0, 0, 0, .65); --serie-1: #3987e5; --serie-2: #199e70; --serie-risco: #d95926; color-scheme: dark;
   }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   body { margin: 0; background: var(--fundo); color: var(--texto); font-family: var(--corpo); font-size: 15px; line-height: 1.45; }
   .gutter { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   header { background: var(--cabecalho); color: var(--cabecalho-texto); padding-block: 14px; }
@@ -194,6 +198,90 @@
     .ip-pedido, .ip-gestor { flex-direction: row !important; gap: 6px !important; align-items: baseline; grid-column: 1 / -1; }
   }
 
+  /* Abas */
+  .abas { display: flex; gap: 0; margin-top: 4px; border-bottom: 2px solid var(--borda); }
+  .aba { background: none; border: 0; border-bottom: 4px solid transparent; margin-bottom: -2px; padding: 12px 18px 10px; min-height: 44px;
+         font: 700 18px var(--titulo); text-transform: uppercase; letter-spacing: .04em; color: var(--suave); cursor: pointer; }
+  .aba.ativa { color: var(--texto); border-bottom-color: var(--laranja); }
+  .aba:focus-visible { outline: 3px solid var(--laranja); outline-offset: 2px; }
+
+  /* Filtros por área (chips em uma linha que quebra) */
+  .filtros-area, .eixo-y { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+  .filtro { background: var(--superficie); color: var(--texto); border: 1px solid var(--linha); border-radius: 16px; padding: 6px 12px; min-height: 36px;
+            font: 14px var(--corpo); cursor: pointer; }
+  .filtro span { font-family: var(--mono); font-size: 12px; color: var(--suave); margin-left: 2px; }
+  .filtro.ativo { background: var(--texto); color: var(--fundo); border-color: var(--texto); }
+  .filtro.ativo span { color: var(--fundo); }
+  .filtro:focus-visible { outline: 3px solid var(--laranja); outline-offset: 2px; }
+  .chip.laranja { background: var(--laranja); color: #FFFFFF; }
+
+  /* Gráfico */
+  .painel-grafico { background: var(--superficie); border: 1px solid var(--borda); padding: 16px; margin-top: 16px; min-width: 0; }
+  .grafico-topo { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; align-items: flex-start; }
+  .grafico-topo h3, .caixa-motivos h3, .caixa-risco h3 { font: 700 19px var(--titulo); text-transform: uppercase; letter-spacing: .03em; margin: 0 0 4px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .grafico-sub { margin: 0 0 10px; color: var(--suave); font-size: 14px; }
+  .eixo-y { margin: 0; }
+  .legenda { list-style: none; padding: 0; margin: 4px 0 6px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--texto); }
+  .legenda li { display: flex; align-items: center; gap: 6px; }
+  .legenda li span { font-family: var(--mono); color: var(--suave); }
+  .dispersao { position: relative; width: 100%; min-width: 0; }
+  .dispersao svg { display: block; max-width: 100%; touch-action: manipulation; }
+  .dispersao .grade { stroke: var(--linha-fraca); stroke-width: 1; }
+  .dispersao .eixo-linha { stroke: var(--aco); stroke-width: 1; }
+  .dispersao .eixo, .dispersao .eixo-titulo { fill: var(--suave); font: 11px var(--mono); }
+  .dispersao .eixo-titulo { font: 12px var(--corpo); }
+  .dispersao .ref { stroke: var(--aco); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .dispersao .ref-texto { fill: var(--suave); font: 11px var(--corpo); }
+  .dispersao .mira { fill: none; stroke: var(--texto); stroke-width: 2; pointer-events: none; }
+  .ponto > * { stroke: var(--superficie); stroke-width: 2; }
+  .pt-ativo > * { fill: var(--superficie); stroke: var(--aco); stroke-width: 1.5; }
+  .pt-risco > * { fill: var(--serie-risco); }
+  .pt-lideranca > * { fill: var(--serie-1); }
+  .pt-jornada > * { fill: var(--serie-2); }
+  .pt-carreira > * { fill: var(--texto); }
+  .pt-outros > * { fill: var(--superficie); stroke: var(--suave); stroke-width: 1.5; }
+  .dica { position: absolute; z-index: 3; background: var(--superficie); border: 1px solid var(--borda); padding: 10px 12px; font-size: 13px;
+          display: flex; flex-direction: column; gap: 3px; pointer-events: none; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+  .dica[hidden] { display: none; }
+  .dica b { font-size: 14px; }
+  .dica .chip { align-self: flex-start; }
+  .dica span { color: var(--suave); }
+  .dica small { color: var(--suave); font-size: 11px; }
+
+  /* Motivos e risco */
+  .duas-colunas { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 14px; margin-top: 14px; }
+  .caixa-motivos, .caixa-risco { background: var(--superficie); border: 1px solid var(--borda); padding: 16px; min-width: 0; }
+  .motivos { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .motivos h4 { font: 700 15px var(--titulo); text-transform: uppercase; letter-spacing: .04em; margin: 0 0 8px; color: var(--suave); }
+  .barras { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .barras li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; font-size: 13px; }
+  .b-nome { grid-column: 1 / -1; }
+  .b-trilho { height: 8px; background: var(--linha-fraca); border-radius: 0 4px 4px 0; align-self: center; }
+  .b-barra { display: block; height: 100%; background: var(--aco); border-radius: 0 4px 4px 0; min-width: 2px; }
+  .b-num { font: 600 13px var(--mono); font-variant-numeric: tabular-nums; }
+  .lista-risco { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--linha-fraca); max-height: 520px; overflow-y: auto; }
+  .lista-risco li + li { border-top: 1px solid var(--linha-fraca); }
+  .item-risco { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px;
+                padding: 10px 4px; border-left: 4px solid var(--laranja); padding-left: 10px; }
+  .item-risco:hover { background: var(--superficie-2); }
+  .item-risco:focus-visible { outline: 3px solid var(--laranja); outline-offset: -3px; }
+  .ir-quem { display: flex; flex-direction: column; min-width: 0; }
+  .ir-quem small { color: var(--suave); font-size: 12px; }
+  .ir-sinais { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px; }
+  .sinal { font-size: 12px; border: 1px solid var(--linha); padding: 1px 7px; border-radius: 10px; color: var(--texto); }
+  .caixa-saidas { margin-top: 14px; }
+  .tabela-saidas td.motivo { min-width: 180px; }
+  .ficha-risco { margin: 16px 0 0; padding: 10px 12px; border-left: 6px solid var(--laranja); background: var(--superficie-2); }
+  .ficha-risco b { display: block; margin-bottom: 6px; }
+  .ficha-risco div { display: flex; flex-wrap: wrap; gap: 4px; }
+
+  @media (max-width: 640px) {
+    .aba { flex: 1; padding: 12px 8px 10px; font-size: 17px; }
+    .painel-grafico, .caixa-motivos, .caixa-risco { padding: 12px; }
+    .tabela-saidas td.motivo { order: 8; flex-basis: 100%; min-width: 0; color: var(--texto); }
+    .tabela-saidas td.gestor::before { content: "· "; }
+  }
+
   /* Celular: cada pessoa vira um cartão de duas linhas, sem rolagem lateral */
   @media (max-width: 640px) {
     .marca b { font-size: 19px; }
@@ -257,6 +345,56 @@
 
   <!-- Tela 2: painel -->
   <section id="painel" class="escondido">
+    <div class="abas" role="tablist" aria-label="Telas do painel">
+      <button type="button" class="aba ativa" role="tab" data-aba="geral" aria-selected="true" id="abaGeral">Visão geral</button>
+      <button type="button" class="aba" role="tab" data-aba="analises" aria-selected="false" id="abaAnalises">Análises</button>
+    </div>
+
+    <section id="vistaAnalises" hidden aria-labelledby="abaAnalises">
+      <h2>Por que as pessoas saem</h2>
+      <div class="filtros-area" id="filtroArea" role="group" aria-label="Filtrar por área"></div>
+      <div class="cartoes" id="numerosAnalise"></div>
+
+      <div class="painel-grafico">
+        <div class="grafico-topo">
+          <div>
+            <h3>Cada pessoa é um ponto</h3>
+            <p class="grafico-sub">Eixo vertical: <b id="tituloEixoY">Horas extras por mês</b>. Eixo horizontal: tempo de casa (de quem saiu, até a saída).</p>
+          </div>
+          <div class="eixo-y" id="eixoY" role="group" aria-label="O que o eixo vertical mostra" hidden>
+            <button type="button" class="filtro ativo" data-eixo="he" aria-pressed="true">Horas extras</button>
+            <button type="button" class="filtro" data-eixo="promo" aria-pressed="false">Tempo sem promoção</button>
+          </div>
+        </div>
+        <p class="nota" id="avisoPromo">O eixo "tempo sem promoção" fica disponível quando a planilha tiver a aba <b>Historico_Cargos</b>. Até lá, o eixo vertical mostra as horas extras, que os dados ligam às saídas.</p>
+        <ul class="legenda" id="legenda"></ul>
+        <div class="dispersao" id="dispersao"></div>
+        <p class="nota" id="semDados"></p>
+      </div>
+
+      <div class="duas-colunas">
+        <section class="caixa-motivos">
+          <h3>O que diz a rescisão × o que a pessoa contou</h3>
+          <p class="nota" id="motivosTitulo"></p>
+          <div class="motivos">
+            <div><h4>Na rescisão</h4><ul class="barras" id="motivoDeclarado"></ul></div>
+            <div><h4>Na entrevista ou pela chefia</h4><ul class="barras" id="motivoReal"></ul></div>
+          </div>
+        </section>
+        <section class="caixa-risco">
+          <h3>Ativos com risco de sair <span class="chip laranja" id="qtdRisco"></span></h3>
+          <p class="nota">Um ponto por sinal: menos de 1 ano de casa; 2º ou 3º turno de Estamparia, Montagem ou Logística; hora extra acima de 20 h/mês; férias vencidas ou último pedido negado ou sem resposta; mais de 2 anos sem promoção (quando houver o histórico). Com 2 ou mais pontos, entra na lista.</p>
+          <ul class="lista-risco" id="listaRisco"></ul>
+        </section>
+      </div>
+
+      <details class="area caixa-saidas">
+        <summary><span class="area-nome">Quem saiu <span class="chip cinza" id="qtdSaidas"></span></span><span class="area-info">lista completa, com o mesmo dado do gráfico</span></summary>
+        <div class="tabela-rolagem" id="tabelaSaidas"></div>
+      </details>
+    </section>
+
+    <section id="vistaGeral" aria-labelledby="abaGeral">
     <h2>Números principais</h2>
     <div class="cartoes" id="cartoes"></div>
 
@@ -277,6 +415,7 @@
       <button class="link" id="fecharTodas">Fechar todas</button>
     </div>
     <div id="areas"></div>
+    </section>
     <footer id="rodape"></footer>
   </section>
 </main>
@@ -368,6 +507,7 @@ function montarDados(wb) {
     pedidos: [],
     cargos: [],
     saida: null,
+    ponto: [],
   }));
   const porMatricula = new Map(pessoas.map(p => [p.matricula, p]));
 
@@ -436,6 +576,15 @@ function montarDados(wb) {
     }
   }
 
+  // Ponto mensal (opcional): horas extras de cada mês
+  for (const l of lerAba(wb, "Ponto_Mensal") || []) {
+    const p = porMatricula.get(l["Matrícula"]);
+    const mes = dataExcel(l["Mês"]);
+    if (!p || !mes) continue;
+    p.ponto.push({ mes, he: num(l["Horas extras (h)"]) });
+  }
+  for (const p of pessoas) p.ponto.sort((a, b) => a.mes - b.mes);
+
   // Detalhes do desligamento (opcional)
   for (const l of lerAba(wb, "Desligamentos") || []) {
     const p = porMatricula.get(l["Matrícula"]);
@@ -445,6 +594,7 @@ function montarDados(wb) {
       declarado: l["Motivo declarado"] || "",
       real: l["Motivo real (entrevista ou chefia)"] || "",
       data: dataExcel(l["Data do desligamento"]),
+      meses: l["Tempo de casa (meses)"] == null ? null : num(l["Tempo de casa (meses)"]),
     };
   }
 
@@ -812,6 +962,9 @@ function abrirFicha(matricula) {
       ${p.ferias.vencidas ? `Tem ${p.ferias.vencidas === 1 ? "1 período" : p.ferias.vencidas + " períodos"} de férias vencido${p.ferias.vencidas === 1 ? "" : "s"}` : `Férias vencem em ${dias(p.ferias.proximoLimite)}`}
       · ${fmtMoeda(custoAberto)} ${p.ferias.vencidas ? "a pagar em dobro" : "se vencer"}.</p>` : ""}
 
+    ${p.ativo && p.sinais && p.sinais.length ? `<div class="ficha-risco"><b>${p.risco ? "Risco de sair" : "Sinal de atenção"}: ${p.sinais.length} ${p.sinais.length === 1 ? "sinal" : "sinais"}</b>
+      <div>${p.sinais.map(s => `<span class="sinal">${esc(s)}</span>`).join("")}</div></div>` : ""}
+
     <h4>Linha do tempo</h4>
     ${avisoHist}
     ${p.periodos.length === 0 && p.ativo ? '<p class="nota">A planilha não traz períodos de férias para esta pessoa.</p>' : ""}
@@ -825,6 +978,367 @@ function abrirFicha(matricula) {
 }
 function fecharFicha() { document.getElementById("ficha").classList.remove("aberta"); }
 
+/* ===================== Análises: quem sai, por quê, e quem pode sair ===================== */
+const SETORES_RISCO = ["estamparia", "montagem e embalagem", "logistica e expedicao"];
+const HE_LIMITE_RISCO = 20;     // h extras/mês acima disso conta como sinal
+const PONTOS_RISCO = 2;         // sinais a partir dos quais a pessoa entra como risco
+
+// Agrupa o motivo real da saída em poucas categorias (cada uma tem cor e forma próprias no gráfico).
+const GRUPOS_MOTIVO = {
+  lideranca: { nome: "Liderança", forma: "quadrado" },
+  jornada:   { nome: "Hora extra, turno ou férias", forma: "triangulo" },
+  carreira:  { nome: "Carreira ou salário", forma: "losango" },
+  outros:    { nome: "Decisão da empresa ou não apurado", forma: "vazado" },
+};
+function grupoMotivo(p) {
+  const tipo = semAcento(p.saida?.tipo || "");
+  const real = semAcento(p.saida?.real || "");
+  if (!tipo.startsWith("pedido")) return "outros";
+  if (real.includes("lideranca")) return "lideranca";
+  if (real.includes("hora") || real.includes("turno") || real.includes("ferias")) return "jornada";
+  if (real.includes("carreira") || real.includes("salario") || real.includes("treinamento")) return "carreira";
+  return "outros";
+}
+
+// Média de horas extras dos 3 meses mais recentes (para quem saiu: os 3 meses antes do mês da saída).
+function mediaHorasExtras(p) {
+  let meses = p.ponto;
+  if (!p.ativo && p.desligamento) {
+    const inicioMesSaida = Date.UTC(p.desligamento.getUTCFullYear(), p.desligamento.getUTCMonth(), 1);
+    const antes = meses.filter(m => m.mes.getTime() < inicioMesSaida);
+    meses = antes.length ? antes : meses;
+  }
+  const ult = meses.slice(-3);
+  if (!ult.length) return null;
+  return ult.reduce((s, m) => s + m.he, 0) / ult.length;
+}
+
+function mesesEntre(a, b) {
+  if (!a || !b) return null;
+  return Math.max(0, diasEntre(a, b) / 30.4375);
+}
+
+// Meses desde a última troca de cargo (ou desde a admissão, se não houver troca registrada).
+// Sem nenhum registro da pessoa na aba Historico_Cargos, fica em branco: não dá para saber.
+function mesesSemPromocao(p) {
+  if (!p.cargos.length) return null;
+  const fim = p.ativo ? DADOS.ref : (p.desligamento || DADOS.ref);
+  let ultima = null;
+  for (let i = 1; i < p.cargos.length; i++) {
+    const c = p.cargos[i];
+    if (c.data <= fim && c.cargo && semAcento(c.cargo) !== semAcento(p.cargos[i - 1].cargo)) ultima = c.data;
+  }
+  return mesesEntre(ultima || p.admissao, fim);
+}
+
+function sinaisDeRisco(p) {
+  if (!p.ativo) return [];
+  const s = [];
+  if (p.mesesCasa != null && p.mesesCasa < 12) s.push("Menos de 1 ano de casa");
+  if (SETORES_RISCO.includes(semAcento(p.setor)) && /^(2|3)/.test(String(p.turno).trim()))
+    s.push(`${p.turno} de ${p.setor}`);
+  if (p.heMedia != null && p.heMedia > HE_LIMITE_RISCO)
+    s.push(`Hora extra alta (${p.heMedia.toFixed(0)} h/mês)`);
+  const ultimoPedido = p.pedidos[0];
+  const stPedido = semAcento(ultimoPedido?.status || "");
+  if (p.ferias?.vencidas) s.push("Férias vencidas");
+  else if (stPedido.startsWith("negada") || stPedido.startsWith("remarcada") || stPedido.startsWith("aguardando"))
+    s.push(stPedido.startsWith("aguardando") ? "Pedido de férias sem resposta" : "Último pedido de férias negado");
+  if (p.mesesSemPromo != null && p.mesesCasa > 24 && p.mesesSemPromo > 24) s.push("Mais de 2 anos sem promoção");
+  return s;
+}
+
+function prepararAnalises() {
+  for (const p of DADOS.pessoas) {
+    const fim = p.ativo ? DADOS.ref : (p.desligamento || DADOS.ref);
+    // Para quem saiu, usa o tempo de casa da aba Desligamentos quando existir (é o número oficial da rescisão).
+    p.mesesCasa = !p.ativo && p.saida && p.saida.meses != null ? p.saida.meses : mesesEntre(p.admissao, fim);
+    p.heMedia = mediaHorasExtras(p);
+    p.mesesSemPromo = mesesSemPromocao(p);
+    p.grupo = p.ativo ? null : grupoMotivo(p);
+    p.sinais = sinaisDeRisco(p);
+    p.risco = p.ativo && p.sinais.length >= PONTOS_RISCO;
+  }
+}
+
+let FILTRO_AREA = "";          // "" = toda a empresa
+let EIXO_Y = "he";             // "he" ou "promo"
+
+function emAnalise(p) { return !FILTRO_AREA || p.setor === FILTRO_AREA; }
+
+function desenharFiltrosAnalise() {
+  const areas = [...new Set(DADOS.pessoas.map(p => p.setor))].sort((a, b) => a.localeCompare(b));
+  const conta = s => DADOS.pessoas.filter(p => p.setor === s && (p.ativo || p.desligamento)).length;
+  const opcoes = [["", "Toda a empresa"], ...areas.map(a => [a, a])];
+  document.getElementById("filtroArea").innerHTML = opcoes.map(([v, t]) =>
+    `<button type="button" class="filtro ${v === FILTRO_AREA ? "ativo" : ""}" data-area="${esc(v)}" aria-pressed="${v === FILTRO_AREA}">${esc(t)}${v ? ` <span>${conta(v)}</span>` : ""}</button>`
+  ).join("");
+  const eixo = document.getElementById("eixoY");
+  eixo.hidden = !DADOS.temHistorico;
+  eixo.querySelectorAll("button").forEach(b => {
+    b.classList.toggle("ativo", b.dataset.eixo === EIXO_Y);
+    b.setAttribute("aria-pressed", b.dataset.eixo === EIXO_Y);
+  });
+  document.getElementById("avisoPromo").hidden = DADOS.temHistorico;
+}
+
+function janelaDoze() {
+  const ini = new Date(DADOS.ref.getTime() - 365 * DIA);
+  return { ini, fim: DADOS.ref };
+}
+function ativoEm(p, d) { return p.admissao && p.admissao <= d && (!p.desligamento || p.desligamento > d); }
+
+function desenharNumerosAnalise() {
+  const { ini, fim } = janelaDoze();
+  const grupo = DADOS.pessoas.filter(emAnalise);
+  const saidas = grupo.filter(p => !p.ativo && p.desligamento && p.desligamento > ini && p.desligamento <= fim);
+  const qIni = grupo.filter(p => ativoEm(p, ini)).length;
+  const qFim = grupo.filter(p => ativoEm(p, fim)).length;
+  const media = (qIni + qFim) / 2;
+  const taxa = media ? saidas.length / media * 100 : 0;
+  const pedidos = saidas.filter(p => semAcento(p.saida?.tipo).startsWith("pedido")).length;
+  const casa = saidas.map(p => p.mesesCasa).filter(x => x != null).sort((a, b) => a - b);
+  const mediana = casa.length ? (casa.length % 2 ? casa[(casa.length - 1) / 2] : (casa[casa.length / 2 - 1] + casa[casa.length / 2]) / 2) : null;
+  const risco = grupo.filter(p => p.risco).length;
+  const ativos = grupo.filter(p => p.ativo).length;
+  document.getElementById("numerosAnalise").innerHTML = `
+    <div class="cartao"><div class="rotulo">Saídas em 12 meses</div><div class="valor">${saidas.length}</div>
+      <div class="detalhe">${media ? "rotatividade de " + taxa.toFixed(0) + "% do quadro" : "sem quadro no período"}</div></div>
+    <div class="cartao"><div class="rotulo">Pediram para sair</div><div class="valor">${pedidos}</div>
+      <div class="detalhe">${saidas.length ? Math.round(pedidos / saidas.length * 100) + "% das saídas" : "—"}</div></div>
+    <div class="cartao"><div class="rotulo">Tempo de casa de quem saiu</div><div class="valor">${mediana == null ? "—" : fmtMeses(mediana)}</div>
+      <div class="detalhe">mediana · ${casa.filter(x => x < 12).length} saíram antes de 1 ano</div></div>
+    <div class="cartao destaque"><div class="rotulo">Ativos com risco de sair</div><div class="valor">${risco}</div>
+      <div class="detalhe">de ${ativos} ativos · ${PONTOS_RISCO} ou mais sinais</div></div>`;
+}
+
+function fmtMeses(m) {
+  if (m == null) return "—";
+  if (m < 12) return Math.round(m) + (Math.round(m) === 1 ? " mês" : " meses");
+  const a = m / 12;
+  return (a < 10 ? a.toFixed(1).replace(".", ",") : Math.round(a)) + " anos";
+}
+
+/* ---------- Gráfico de dispersão (SVG desenhado à mão) ---------- */
+function formaSVG(tipo, x, y, r) {
+  switch (tipo) {
+    case "quadrado": return `<rect x="${x - r}" y="${y - r}" width="${2 * r}" height="${2 * r}" rx="1.5"/>`;
+    case "triangulo": { const h = r * 1.2; return `<path d="M${x} ${y - h} L${x + h} ${y + h * .8} L${x - h} ${y + h * .8} Z"/>`; }
+    case "losango": { const h = r * 1.3; return `<path d="M${x} ${y - h} L${x + h} ${y} L${x} ${y + h} L${x - h} ${y} Z"/>`; }
+    case "vazado": return `<rect x="${x - r + 1}" y="${y - r + 1}" width="${2 * r - 2}" height="${2 * r - 2}" rx="1"/>`;
+    default: return `<circle cx="${x}" cy="${y}" r="${r}"/>`;
+  }
+}
+function classePonto(p) {
+  if (p.ativo) return p.risco ? "pt-risco" : "pt-ativo";
+  return "pt-" + p.grupo;
+}
+function formaPonto(p) {
+  if (p.ativo) return "circulo";
+  return GRUPOS_MOTIVO[p.grupo].forma;
+}
+
+let PONTOS_TELA = [];
+
+function desenharDispersao() {
+  const caixa = document.getElementById("dispersao");
+  const largura = Math.max(300, caixa.clientWidth || 800);
+  const estreito = largura < 560;
+  const altura = estreito ? 360 : 440;
+  const m = { esq: estreito ? 42 : 52, dir: 14, topo: 16, base: 46 };
+  const L = largura - m.esq - m.dir, A = altura - m.topo - m.base;
+
+  const pessoas = DADOS.pessoas.filter(p => emAnalise(p) && (p.ativo || p.desligamento) && p.mesesCasa != null);
+  const valY = p => EIXO_Y === "he" ? p.heMedia : p.mesesSemPromo;
+  const comY = pessoas.filter(p => valY(p) != null);
+  const semY = pessoas.length - comY.length;
+
+  // Eixo X: tempo de casa em escala de raiz quadrada (abre espaço para o primeiro ano, onde estão as saídas).
+  const maxX = Math.max(24, ...comY.map(p => p.mesesCasa));
+  const sx = v => m.esq + Math.sqrt(Math.max(0, v)) / Math.sqrt(maxX) * L;
+  const marcasX = [0, 3, 6, 12, 24, 60, 120, 180, 240].filter(v => v <= maxX && !(estreito && v === 3));
+  const nomeX = v => v === 0 ? "0" : v < 12 ? v + "m" : v === 12 ? "1 ano" : (v / 12) + " anos";
+
+  let sy, marcasY, nomeY, tituloY;
+  if (EIXO_Y === "he") {
+    const maxY = Math.max(50, Math.ceil(Math.max(0, ...comY.map(valY)) / 10) * 10);
+    sy = v => m.topo + A - v / maxY * A;
+    marcasY = []; for (let v = 0; v <= maxY; v += 10) marcasY.push(v);
+    nomeY = v => v + " h";
+    tituloY = "Horas extras por mês (média dos últimos 3 meses)";
+  } else {
+    const maxY = Math.max(24, ...comY.map(valY));
+    sy = v => m.topo + A - Math.sqrt(Math.max(0, v)) / Math.sqrt(maxY) * A;
+    marcasY = [0, 6, 12, 24, 60, 120, 180, 240].filter(v => v <= maxY);
+    nomeY = nomeX;
+    tituloY = "Tempo sem promoção";
+  }
+
+  const grade = [
+    ...marcasX.map(v => `<line class="grade" x1="${sx(v)}" x2="${sx(v)}" y1="${m.topo}" y2="${m.topo + A}"/>
+      <text class="eixo" x="${sx(v)}" y="${m.topo + A + 18}" text-anchor="middle">${nomeX(v)}</text>`),
+    ...marcasY.map(v => `<line class="grade" x1="${m.esq}" x2="${m.esq + L}" y1="${sy(v)}" y2="${sy(v)}"/>
+      <text class="eixo" x="${m.esq - 8}" y="${sy(v) + 4}" text-anchor="end">${nomeY(v)}</text>`),
+  ].join("");
+
+  // Linhas de referência dos sinais de risco
+  const refs = [`<line class="ref" x1="${sx(12)}" x2="${sx(12)}" y1="${m.topo}" y2="${m.topo + A}"/>
+    <text class="ref-texto" x="${sx(12) + 6}" y="${m.topo + 12}">1 ano de casa</text>`];
+  if (EIXO_Y === "he") refs.push(`<line class="ref" x1="${m.esq}" x2="${m.esq + L}" y1="${sy(HE_LIMITE_RISCO)}" y2="${sy(HE_LIMITE_RISCO)}"/>
+    <text class="ref-texto" x="${m.esq + L - 4}" y="${sy(HE_LIMITE_RISCO) - 6}" text-anchor="end">${HE_LIMITE_RISCO} h/mês</text>`);
+  else refs.push(`<line class="ref" x1="${m.esq}" x2="${m.esq + L}" y1="${sy(24)}" y2="${sy(24)}"/>
+    <text class="ref-texto" x="${m.esq + L - 4}" y="${sy(24) - 6}" text-anchor="end">2 anos sem promoção</text>`);
+
+  // Ordem de desenho: ativos sem risco atrás, depois quem saiu, depois risco por cima.
+  const ordem = p => p.ativo ? (p.risco ? 2 : 0) : 1;
+  const desenhados = [...comY].sort((a, b) => ordem(a) - ordem(b));
+  PONTOS_TELA = desenhados.map(p => ({ p, x: sx(p.mesesCasa), y: sy(valY(p)) }));
+  const pontos = PONTOS_TELA.map(({ p, x, y }) => {
+    const r = p.ativo ? (p.risco ? 6 : 4.5) : 5.5;
+    return `<g class="ponto ${classePonto(p)}">${formaSVG(formaPonto(p), x, y, r)}</g>`;
+  }).join("");
+
+  caixa.innerHTML = `
+    <svg width="${largura}" height="${altura}" viewBox="0 0 ${largura} ${altura}" role="img"
+         aria-label="Gráfico de dispersão: tempo de casa versus ${EIXO_Y === "he" ? "horas extras" : "tempo sem promoção"}, ${comY.length} pessoas">
+      ${grade}
+      <line class="eixo-linha" x1="${m.esq}" x2="${m.esq + L}" y1="${m.topo + A}" y2="${m.topo + A}"/>
+      ${refs.join("")}
+      ${pontos}
+      <circle id="mira" r="10" class="mira" cx="-50" cy="-50"/>
+      <text class="eixo-titulo" x="${m.esq + L / 2}" y="${altura - 6}" text-anchor="middle">Tempo de casa (escala comprimida depois de 1 ano)</text>
+    </svg>
+    <div id="dica" class="dica" hidden></div>`;
+  document.getElementById("tituloEixoY").textContent = tituloY;
+  document.getElementById("semDados").textContent = semY
+    ? `${semY} ${semY === 1 ? "pessoa não aparece" : "pessoas não aparecem"} no gráfico por falta de registro de ${EIXO_Y === "he" ? "ponto" : "cargo"}.` : "";
+  desenharLegenda(comY);
+}
+
+function desenharLegenda(lista) {
+  const n = f => lista.filter(f).length;
+  const item = (cls, forma, texto, qtd) => `<li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><g class="ponto ${cls}">${formaSVG(forma, 8, 8, forma === "circulo" ? 5 : 5)}</g></svg>${texto} <span>${qtd}</span></li>`;
+  document.getElementById("legenda").innerHTML = [
+    item("pt-risco", "circulo", "Ativo com risco de sair", n(p => p.risco)),
+    item("pt-ativo", "circulo", "Ativo sem risco", n(p => p.ativo && !p.risco)),
+    ...Object.entries(GRUPOS_MOTIVO).map(([k, g]) => item("pt-" + k, g.forma, "Saiu: " + g.nome.toLowerCase(), n(p => p.grupo === k))),
+  ].join("");
+}
+
+function pontoMaisProximo(ev) {
+  const svg = document.querySelector("#dispersao svg");
+  if (!svg) return null;
+  const r = svg.getBoundingClientRect();
+  const x = ev.clientX - r.left, y = ev.clientY - r.top;
+  let melhor = null, dist = 22 * 22;
+  for (const pt of PONTOS_TELA) {
+    const d = (pt.x - x) ** 2 + (pt.y - y) ** 2;
+    if (d <= dist) { dist = d; melhor = pt; }
+  }
+  return melhor;
+}
+
+function mostrarDica(pt) {
+  const dica = document.getElementById("dica");
+  const mira = document.getElementById("mira");
+  if (!pt) { dica.hidden = true; mira.setAttribute("cx", -50); mira.setAttribute("cy", -50); return; }
+  const p = pt.p;
+  mira.setAttribute("cx", pt.x); mira.setAttribute("cy", pt.y);
+  const status = p.ativo
+    ? (p.risco ? `<span class="chip laranja">Risco: ${p.sinais.length} sinais</span>` : `<span class="chip cinza">Ativo</span>`)
+    : `<span class="chip cinza">Saiu em ${fmtData(p.desligamento)}</span>`;
+  dica.innerHTML = `<b>${esc(p.nome)}</b> ${status}
+    <span>${esc(p.cargo)} · ${esc(p.setor)} · ${esc(p.turno)}</span>
+    <span>Tempo de casa: ${fmtMeses(p.mesesCasa)} · Hora extra: ${p.heMedia == null ? "—" : p.heMedia.toFixed(0) + " h/mês"}${p.mesesSemPromo != null ? " · Sem promoção há " + fmtMeses(p.mesesSemPromo) : ""}</span>
+    ${p.ativo ? (p.sinais.length ? `<span>Sinais: ${p.sinais.map(esc).join("; ")}</span>` : "") : `<span>Motivo apurado: ${esc(p.saida?.real || "não apurado")} · Na rescisão: ${esc(p.saida?.declarado || "—")}</span>`}
+    <small>Clique para abrir a ficha</small>`;
+  dica.hidden = false;
+  const caixa = document.getElementById("dispersao");
+  const larg = caixa.clientWidth;
+  const w = Math.min(300, larg - 16);
+  dica.style.width = w + "px";
+  let left = pt.x + 14; if (left + w > larg - 4) left = Math.max(4, pt.x - w - 14);
+  dica.style.left = left + "px";
+  dica.style.top = Math.max(4, pt.y - 20) + "px";
+}
+
+/* ---------- Por que saíram: rescisão x entrevista ---------- */
+function barras(contagem, total) {
+  const max = Math.max(1, ...contagem.map(c => c[1]));
+  return contagem.map(([nome, n]) => `
+    <li><span class="b-nome">${esc(nome)}</span>
+      <span class="b-trilho"><span class="b-barra" style="width:${(n / max * 100).toFixed(1)}%"></span></span>
+      <span class="b-num">${n}</span></li>`).join("") || `<li class="vazio">Nenhuma saída nesta área.</li>`;
+}
+function desenharMotivos() {
+  const { ini, fim } = janelaDoze();
+  const pedidos = DADOS.pessoas.filter(p => emAnalise(p) && !p.ativo && p.saida && p.desligamento > ini && p.desligamento <= fim
+    && semAcento(p.saida.tipo).startsWith("pedido"));
+  const contar = chave => {
+    const m = new Map();
+    for (const p of pedidos) { const k = p.saida[chave] || "Não apurado"; m.set(k, (m.get(k) || 0) + 1); }
+    return [...m.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  };
+  document.getElementById("motivosTitulo").textContent =
+    `${pedidos.length} ${pedidos.length === 1 ? "pedido" : "pedidos"} de demissão nos últimos 12 meses`;
+  document.getElementById("motivoDeclarado").innerHTML = barras(contar("declarado"));
+  document.getElementById("motivoReal").innerHTML = barras(contar("real"));
+}
+
+/* ---------- Listas ---------- */
+function desenharRisco() {
+  const lista = DADOS.pessoas.filter(p => emAnalise(p) && p.risco)
+    .sort((a, b) => b.sinais.length - a.sinais.length || a.nome.localeCompare(b.nome));
+  document.getElementById("qtdRisco").textContent = lista.length;
+  document.getElementById("listaRisco").innerHTML = lista.length ? lista.map(p => `
+    <li><button type="button" class="item-risco" data-mat="${esc(p.matricula)}">
+      <span class="ir-quem"><b>${esc(p.nome)}</b><small>${esc(p.cargo)} · ${esc(p.setor)} · ${esc(p.turno)} · ${fmtMeses(p.mesesCasa)} de casa</small></span>
+      <span class="ir-pontos"><span class="chip laranja">${p.sinais.length} sinais</span></span>
+      <span class="ir-sinais">${p.sinais.map(s => `<span class="sinal">${esc(s)}</span>`).join("")}</span>
+    </button></li>`).join("") : `<li class="precisa-vazio">Ninguém nesta área com ${PONTOS_RISCO} ou mais sinais de risco.</li>`;
+}
+
+function desenharSaidas() {
+  const lista = DADOS.pessoas.filter(p => emAnalise(p) && !p.ativo && p.desligamento)
+    .sort((a, b) => b.desligamento - a.desligamento);
+  document.getElementById("qtdSaidas").textContent = lista.length;
+  document.getElementById("tabelaSaidas").innerHTML = lista.length ? `
+    <table class="tabela-pessoas tabela-saidas">
+      <thead><tr><th>Nome</th><th>Setor e turno</th><th>Saída</th><th>Tipo</th><th>Motivo apurado</th><th>Tempo de casa</th><th style="text-align:right">Hora extra</th></tr></thead>
+      <tbody>${lista.map(p => `
+        <tr class="pessoa" data-mat="${esc(p.matricula)}" tabindex="0">
+          <td class="nome"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><g class="ponto pt-${p.grupo}">${formaSVG(GRUPOS_MOTIVO[p.grupo].forma, 8, 8, 5)}</g></svg> ${esc(p.nome)}</td>
+          <td class="cargo">${esc(p.setor)} · ${esc(p.turno)}</td>
+          <td class="turno">${fmtData(p.desligamento)}</td>
+          <td class="gestor">${esc(p.saida?.tipo || "—")}</td>
+          <td class="motivo">${esc(p.saida?.real || "Não apurado")}</td>
+          <td class="tempo">${fmtMeses(p.mesesCasa)}</td>
+          <td class="num salario">${p.heMedia == null ? "—" : p.heMedia.toFixed(0) + " h"}</td>
+        </tr>`).join("")}</tbody></table>` : `<p class="precisa-vazio">Ninguém saiu desta área no período da planilha.</p>`;
+}
+
+function desenharAnalises() {
+  desenharFiltrosAnalise();
+  desenharNumerosAnalise();
+  desenharDispersao();
+  desenharMotivos();
+  desenharRisco();
+  desenharSaidas();
+}
+
+/* ---------- Abas ---------- */
+function mostrarAba(aba) {
+  const analises = aba === "analises";
+  document.getElementById("vistaGeral").hidden = analises;
+  document.getElementById("vistaAnalises").hidden = !analises;
+  document.querySelectorAll(".aba").forEach(b => {
+    const ativa = b.dataset.aba === aba;
+    b.classList.toggle("ativa", ativa);
+    b.setAttribute("aria-selected", ativa);
+  });
+  if (analises && DADOS) desenharAnalises();
+}
+
 function mostrarPainel(nomeArquivo) {
   document.getElementById("abrir").classList.add("escondido");
   document.getElementById("painel").classList.remove("escondido");
@@ -832,9 +1346,12 @@ function mostrarPainel(nomeArquivo) {
   document.getElementById("dataRef").textContent = "Calculado em " + fmtData(DADOS.ref);
   document.getElementById("rodape").textContent =
     "Planilha: " + nomeArquivo + " · Situação das férias recalculada com a data de hoje · Custo da dobra = saldo ÷ 30 × salário base × 4/3 (estimativa, sem encargos).";
+  prepararAnalises();
   desenharCartoes();
   desenharPrecisa();
   desenharAreas();
+  FILTRO_AREA = ""; EIXO_Y = "he";
+  mostrarAba(location.hash === "#analises" ? "analises" : "geral");
 }
 
 /* ===================== Abrir arquivo ===================== */
@@ -890,4 +1407,36 @@ document.getElementById("areas").addEventListener("keydown", e => {
 document.getElementById("fecharFicha").onclick = fecharFicha;
 document.getElementById("ficha").addEventListener("click", e => { if (e.target.id === "ficha") fecharFicha(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") fecharFicha(); });
+
+// Análises
+document.querySelectorAll(".aba").forEach(b => b.addEventListener("click", () => {
+  if (location.hash === "#" + b.dataset.aba) mostrarAba(b.dataset.aba); else location.hash = b.dataset.aba;
+}));
+window.addEventListener("hashchange", () => { if (DADOS) mostrarAba(location.hash === "#analises" ? "analises" : "geral"); });
+document.getElementById("filtroArea").addEventListener("click", e => {
+  const b = e.target.closest(".filtro"); if (!b) return;
+  FILTRO_AREA = b.dataset.area; desenharAnalises();
+});
+document.getElementById("eixoY").addEventListener("click", e => {
+  const b = e.target.closest(".filtro"); if (!b) return;
+  EIXO_Y = b.dataset.eixo; desenharAnalises();
+});
+const areaGrafico = document.getElementById("dispersao");
+areaGrafico.addEventListener("pointermove", e => mostrarDica(pontoMaisProximo(e)));
+areaGrafico.addEventListener("pointerleave", () => mostrarDica(null));
+areaGrafico.addEventListener("click", e => { const pt = pontoMaisProximo(e); if (pt) { mostrarDica(null); abrirFicha(pt.p.matricula); } });
+document.getElementById("listaRisco").addEventListener("click", e => {
+  const b = e.target.closest(".item-risco"); if (b) abrirFicha(b.dataset.mat);
+});
+document.getElementById("tabelaSaidas").addEventListener("click", e => {
+  const tr = e.target.closest("tr.pessoa"); if (tr) abrirFicha(tr.dataset.mat);
+});
+document.getElementById("tabelaSaidas").addEventListener("keydown", e => {
+  const tr = e.target.closest("tr.pessoa"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); abrirFicha(tr.dataset.mat); }
+});
+let esperaRedesenho = null;
+window.addEventListener("resize", () => {
+  clearTimeout(esperaRedesenho);
+  esperaRedesenho = setTimeout(() => { if (DADOS && !document.getElementById("vistaAnalises").hidden) desenharDispersao(); }, 150);
+});
 </script>

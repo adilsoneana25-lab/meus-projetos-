@@ -36,6 +36,37 @@ O celular precisa de internet só para abrir a página.
 - **Ficha da pessoa:** cargo, salário, tempo de casa e uma **linha do tempo** com admissão, promoções e reajustes,
   férias ganhas e tiradas, pedidos negados ou parados, prazos que vêm por aí e desligamento.
 
+### Aba "Análises"
+
+No topo do painel há duas abas: **Visão geral** e **Análises**. A aba Análises mostra por que as pessoas saem:
+
+- **Filtro por área:** toque numa área para ver só ela, ou em "Toda a empresa".
+- **Números da área:** saídas nos últimos 12 meses e rotatividade, quantos pediram para sair,
+  tempo de casa de quem saiu e quantos ativos têm risco de sair.
+- **Gráfico "Cada pessoa é um ponto":** tempo de casa (horizontal) × horas extras por mês (vertical, média dos
+  últimos 3 meses; para quem saiu, os 3 meses antes da saída). A forma e a cor dizem quem é:
+  - círculo laranja: ativo com risco de sair;
+  - círculo vazado: ativo sem risco;
+  - quadrado azul: saiu por liderança;
+  - triângulo verde: saiu por hora extra, turno ou férias;
+  - losango escuro: saiu por carreira ou salário;
+  - quadrado vazado: saída por decisão da empresa ou motivo não apurado.
+
+  Passe o mouse para ver os detalhes; clique (ou toque) para abrir a ficha.
+  Quando existir a aba `Historico_Cargos`, aparece um botão para trocar o eixo vertical por **tempo sem promoção**.
+- **Rescisão × entrevista:** o motivo escrito na rescisão ao lado do motivo apurado, nos pedidos de demissão.
+- **Ativos com risco de sair:** um ponto por sinal. Os sinais são:
+  - menos de 1 ano de casa;
+  - 2º ou 3º turno de Estamparia, Montagem ou Logística;
+  - hora extra acima de 20 h/mês;
+  - férias vencidas, ou último pedido de férias negado ou sem resposta;
+  - mais de 2 anos sem promoção (só para quem tem registro no histórico).
+
+  Com 2 ou mais pontos, a pessoa entra na lista. Os sinais aparecem também na ficha da pessoa.
+  A regra foi montada a partir dos padrões das saídas da planilha. É um alerta para conversar com a pessoa,
+  não uma previsão.
+- **Quem saiu:** a lista completa por trás do gráfico.
+
 A situação das férias é recalculada **com a data do dia em que você abre o painel**.
 
 ## O que a planilha precisa ter

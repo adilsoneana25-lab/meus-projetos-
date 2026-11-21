@@ -2024,8 +2024,20 @@ function carregarArquivo(arquivo) {
   if (!arquivo) return;
   const leitor = new FileReader();
   leitor.onload = e => {
+    const bytes = new Uint8Array(e.target.result);
+    // Uma planilha .xlsx é um arquivo compactado que começa com "PK"; o .xls antigo começa com D0 CF.
+    const ehXlsx = bytes[0] === 0x50 && bytes[1] === 0x4B;
+    const ehXlsAntigo = bytes[0] === 0xD0 && bytes[1] === 0xCF;
+    if (!ehXlsx && !ehXlsAntigo) {
+      erro.textContent = `O arquivo "${arquivo.name}" não é uma planilha do Excel (.xlsx).
+` +
+        (/\.gsheet$/i.test(arquivo.name) || bytes[0] === 0x7B
+          ? "Parece um atalho do Google Planilhas. Abra no Drive e use Arquivo → Fazer download → Microsoft Excel (.xlsx); depois escolha o arquivo baixado."
+          : "Escolha o arquivo ferraz_rh_base_treino.xlsx. Se ele estiver no Google Drive, baixe-o antes para o computador ou o celular.");
+      return;
+    }
     try {
-      const wb = XLSX.read(new Uint8Array(e.target.result), { type: "array" });
+      const wb = XLSX.read(bytes, { type: "array" });
       DADOS = montarDados(wb);
       mostrarPainel(arquivo.name);
     } catch (ex) {

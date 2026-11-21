@@ -185,7 +185,7 @@ painel-rh/
   fonte/
     painel.template.html    ← o código de verdade: CSS + HTML + JS num arquivo só
     montar.py               ← gera as duas versões
-    xlsx.mini.min.js        ← SheetJS 0.18.5 (lê o Excel; Apache 2.0)
+    xlsx.full.min.js        ← SheetJS 0.18.5, versão completa (lê o Excel; Apache 2.0). A versão "mini" falha com arquivos que não são .xlsx ("parse_xlml is not defined")
     jspdf.umd.min.js        ← jsPDF 3.0.4 (gera o PDF; MIT)
 ```
 
@@ -221,7 +221,7 @@ painel-rh/
   - `mostrarAba()` desenha a aba ativa;
   - o endereço usa `#geral`, `#analises`, `#simulacao` e `#gestor`.
 - **Celular:** tabelas viram cartões abaixo de 640 px. Botões e campos têm pelo menos 44 px de altura.
-- **Escolher planilha:** o `<input type="file">` fica **dentro do botão**, invisível e cobrindo o botão inteiro, para receber o toque direto. Não troque por `input.click()` disparado de outro botão: o seletor pode não abrir no celular. O campo não tem `accept`, para o seletor do Drive não deixar o arquivo apagado; o tipo é validado na leitura.
+- **Escolher planilha:** o `<input type="file">` fica **dentro do botão**, invisível e cobrindo o botão inteiro, para receber o toque direto. Não troque por `input.click()` disparado de outro botão: o seletor pode não abrir no celular. O campo não tem `accept`, para o seletor do Drive não deixar o arquivo apagado. O tipo é conferido pelos primeiros bytes ("PK" = .xlsx, D0 CF = .xls). Se não for planilha, a tela explica o que fazer (atalho `.gsheet` do Google Drive: baixar como .xlsx).
 - **Gráficos:** feitos à mão em SVG. Valide paletas novas com o validador do skill `dataviz`. Nunca use gráfico com dois eixos verticais.
 - **Limitações do claude.ai:**
   - `window.print()`, `alert()` e `confirm()` não funcionam;

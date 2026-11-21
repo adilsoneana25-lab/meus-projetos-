@@ -19,7 +19,7 @@ marcador_pdf = "<!--BIBLIOTECA_PDF-->"
 assert conteudo.count(marcador_pdf) == 1
 
 # 1) Versão offline: documento completo com a biblioteca embutida.
-lib = (aqui / "xlsx.mini.min.js").read_text(encoding="utf-8").replace("</script", "<\\/script")
+lib = (aqui / "xlsx.full.min.js").read_text(encoding="utf-8").replace("</script", "<\\/script")
 lib_pdf = (aqui / "jspdf.umd.min.js").read_text(encoding="utf-8").replace("</script", "<\\/script")
 offline = (
     '<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n'
@@ -34,7 +34,7 @@ saida1.write_text(offline, encoding="utf-8")
 # 2) Versão para link (celular): só o conteúdo, biblioteca carregada do CDN.
 web = conteudo.replace(
     marcador,
-    f'<script src="https://cdn.jsdelivr.net/npm/xlsx@{VERSAO_XLSX}/dist/xlsx.mini.min.js"></script>',
+    f'<script src="https://cdn.jsdelivr.net/npm/xlsx@{VERSAO_XLSX}/dist/xlsx.full.min.js"></script>',
     1,
 ).replace(
     marcador_pdf,

@@ -31,12 +31,34 @@ O celular precisa de internet só para abrir a página.
   clique numa pessoa para abrir a ficha (dados, férias em aberto e últimos pedidos de férias).
   Use a caixa de busca para achar alguém pelo nome, cargo ou gestor.
 
+- **Precisa de você:** lista quem tem férias vencidas ou com prazo final nos próximos 60 dias, da mais urgente
+  para a menos urgente, com o custo, a situação do pedido e o gestor. Toque numa pessoa para abrir a ficha.
+- **Ficha da pessoa:** cargo, salário, tempo de casa e uma **linha do tempo** com admissão, promoções e reajustes,
+  férias ganhas e tiradas, pedidos negados ou parados, prazos que vêm por aí e desligamento.
+
 A situação das férias é recalculada **com a data do dia em que você abre o painel**.
 
 ## O que a planilha precisa ter
 
 As abas `Funcionarios` e `Ferias_Periodos`, com os mesmos nomes de coluna da planilha original.
 A aba `Ferias_Solicitacoes` é opcional e serve para mostrar os pedidos na ficha da pessoa.
+A aba `Desligamentos` é opcional e mostra o tipo e o motivo da saída na linha do tempo.
+
+### Promoções e reajustes (aba `Historico_Cargos`)
+
+A planilha atual não guarda histórico de cargos. Para as promoções aparecerem na linha do tempo,
+crie uma aba chamada `Historico_Cargos`, com uma linha para cada mudança:
+
+| Matrícula | Data | Cargo | Salário (R$) | Motivo |
+|---|---|---|---|---|
+| 1049 | 27/01/2022 | Auxiliar de Usinagem | 2600 | Admissão |
+| 1049 | 01/08/2023 | Operador CNC | 3400 | Promoção |
+| 1049 | 01/03/2025 | Operador CNC | 3820 | Reajuste anual |
+
+- A linha com a data da admissão mostra o cargo e o salário de entrada.
+- Quando o cargo muda, o painel mostra "de → para" e o aumento em %.
+- O Motivo vira o título do evento; sem motivo, o painel escreve "Novo cargo" ou "Reajuste de salário".
+- Coluna `Setor` é opcional.
 
 ## Para quem for mexer no código
 

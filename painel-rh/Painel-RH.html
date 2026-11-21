@@ -136,6 +136,69 @@
   footer { text-align: center; color: var(--suave); font-size: 12px; margin-top: 40px; }
   .escondido { display: none !important; }
 
+  /* Precisa de você */
+  .bloco-precisa { margin-top: 8px; }
+  .precisa-topo { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; }
+  .precisa-topo h2 { margin-bottom: 4px; }
+  .precisa-resumo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .resumo-custo { font: 600 14px var(--mono); font-variant-numeric: tabular-nums; }
+  .precisa-explica { margin: 0 0 10px; color: var(--suave); font-size: 14px; }
+  .lista-precisa { list-style: none; margin: 0; padding: 0; background: var(--superficie); border: 1px solid var(--borda); }
+  .lista-precisa li + li { border-top: 1px solid var(--linha-fraca); }
+  .precisa-vazio { padding: 16px; margin: 0; color: var(--suave); }
+  .item-precisa { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid;
+                  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr) minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1.2fr);
+                  gap: 6px 16px; align-items: center; padding: 12px 16px 12px 14px; border-left: 6px solid var(--amarelo); font-size: 14px; color: var(--texto); }
+  .item-precisa.e-vencida { border-left-color: var(--vermelho); }
+  .item-precisa:hover { background: var(--superficie-2); }
+  .item-precisa:focus-visible { outline: 3px solid var(--laranja); outline-offset: -3px; }
+  .item-precisa > span { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .item-precisa small { color: var(--suave); font-size: 12px; }
+  .ip-quem b { font-size: 15px; }
+  .ip-quando .chip { align-self: flex-start; }
+  .ip-custo b { font: 600 15px var(--mono); font-variant-numeric: tabular-nums; }
+  .ip-pedido small, .ip-gestor small { text-transform: uppercase; letter-spacing: .04em; font-size: 11px; }
+
+  /* Ficha: números e linha do tempo */
+  .ficha-sub { color: var(--suave); }
+  .ficha-numeros { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-top: 16px; }
+  .ficha-numeros > div { border: 1px solid var(--borda); padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .ficha-numeros span { font-size: 12px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+  .ficha-numeros b { font-size: 19px; line-height: 1.25; }
+  .ficha-numeros b.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .ficha-numeros small { font-size: 12px; color: var(--suave); }
+  .ficha-alerta { margin: 16px 0 0; padding: 10px 12px; border-left: 6px solid var(--amarelo); background: var(--superficie-2); font-weight: 600; }
+  .ficha-alerta.e-vencida { border-left-color: var(--vermelho); }
+  .nota { color: var(--suave); font-size: 13px; margin: 0 0 10px; }
+  .linha-tempo { list-style: none; margin: 8px 0 0; padding: 0; position: relative; }
+  .linha-tempo::before { content: ""; position: absolute; left: 97px; top: 6px; bottom: 6px; width: 2px; background: var(--linha); }
+  .lt-ano { font: 700 16px var(--titulo); letter-spacing: .04em; color: var(--suave); padding: 12px 0 4px 0; width: 90px; text-align: right; background: var(--superficie); position: relative; }
+  .lt-item { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 0 22px; padding: 7px 0; position: relative; }
+  .lt-item::before { content: ""; position: absolute; left: 92px; top: 12px; width: 12px; height: 12px; border-radius: 50%; background: var(--superficie); border: 2px solid var(--aco); }
+  .lt-data { font: 12px/1.9 var(--mono); color: var(--suave); text-align: right; font-variant-numeric: tabular-nums; }
+  .lt-corpo { display: block; }
+  .lt-corpo b { font-weight: 600; }
+  .lt-corpo .lt-texto { display: block; color: var(--suave); font-size: 13px; }
+  .t-adm::before { background: var(--texto); border-color: var(--texto); }
+  .t-cargo::before { background: var(--laranja); border-color: var(--laranja); }
+  .t-ok::before { background: var(--verde); border-color: var(--verde); }
+  .t-alerta::before { background: var(--amarelo); border-color: var(--amarelo); }
+  .t-vencida::before { background: var(--vermelho); border-color: var(--vermelho); }
+  .t-negado::before { border-color: var(--vermelho); }
+  .t-futuro::before { border-style: dashed; }
+  .t-saida::before { background: var(--aco); border-color: var(--aco); border-radius: 2px; }
+  .lt-hoje { position: relative; margin: 8px 0; height: 22px; }
+  .lt-hoje::before { content: ""; position: absolute; left: 0; right: 0; top: 11px; border-top: 2px dashed var(--aco); }
+  .lt-hoje span { position: relative; background: var(--superficie); padding: 0 8px; margin-left: 110px; font: 600 12px/22px var(--mono); color: var(--texto); text-transform: uppercase; letter-spacing: .04em; }
+
+  @media (max-width: 860px) {
+    .item-precisa { grid-template-columns: minmax(0, 1fr) auto; }
+    .ip-quem { grid-column: 1 / -1; }
+    .ip-quando { grid-column: 1; }
+    .ip-custo { grid-column: 2; text-align: right; }
+    .ip-pedido, .ip-gestor { flex-direction: row !important; gap: 6px !important; align-items: baseline; grid-column: 1 / -1; }
+  }
+
   /* Celular: cada pessoa vira um cartão de duas linhas, sem rolagem lateral */
   @media (max-width: 640px) {
     .marca b { font-size: 19px; }
@@ -159,6 +222,12 @@
     .tabela-pessoas td.salario::before { content: "· "; }
     .desligado td.nome { color: var(--aco) !important; }
     .ficha-caixa { padding: 18px 16px; }
+    .linha-tempo::before { left: 5px; }
+    .lt-ano { width: auto; text-align: left; padding-left: 24px; }
+    .lt-item { grid-template-columns: minmax(0, 1fr); padding-left: 24px; }
+    .lt-item::before { left: 0; top: 10px; }
+    .lt-data { text-align: left; line-height: 1.5; }
+    .lt-hoje span { margin-left: 18px; }
     .ficha-caixa h3 { font-size: 23px; }
   }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
@@ -195,6 +264,15 @@
   <section id="painel" class="escondido">
     <h2>Números principais</h2>
     <div class="cartoes" id="cartoes"></div>
+
+    <section class="bloco-precisa" aria-labelledby="tituloPrecisa">
+      <div class="precisa-topo">
+        <h2 id="tituloPrecisa">Precisa de você</h2>
+        <div class="precisa-resumo" id="precisaResumo"></div>
+      </div>
+      <p class="precisa-explica" id="precisaExplica">Férias vencidas ou que vencem nos próximos 60 dias. Toque em uma pessoa para ver a ficha.</p>
+      <ul class="lista-precisa" id="precisa"></ul>
+    </section>
 
     <h2>A empresa por área</h2>
     <div class="ferramentas">
@@ -304,6 +382,8 @@ function montarDados(wb) {
     desligamento: dataExcel(l["Data de desligamento"]),
     periodos: [],
     pedidos: [],
+    cargos: [],
+    saida: null,
   }));
   const porMatricula = new Map(pessoas.map(p => [p.matricula, p]));
 
@@ -352,7 +432,40 @@ function montarDados(wb) {
     });
   }
 
+  // Histórico de cargos e salários (opcional): aba "Historico_Cargos", uma linha por mudança.
+  // Colunas aceitas (nome aproximado): Matrícula, Data, Cargo, Salário, Motivo, Setor.
+  const nomeHist = wb.SheetNames.find(n => semAcento(n).replace(/[^a-z]/g, "").includes("historico"));
+  const temHistorico = !!nomeHist;
+  if (nomeHist) {
+    for (const l of lerAba(wb, nomeHist)) {
+      const p = porMatricula.get(coluna(l, "matric"));
+      const data = dataExcel(coluna(l, "data"));
+      if (!p || !data) continue;
+      const sal = coluna(l, "salar");
+      p.cargos.push({
+        data,
+        cargo: coluna(l, "cargo") || "",
+        salario: sal === null || sal === "" ? null : num(sal),
+        motivo: coluna(l, "motivo", "tipo", "observ") || "",
+        setor: coluna(l, "setor") || "",
+      });
+    }
+  }
+
+  // Detalhes do desligamento (opcional)
+  for (const l of lerAba(wb, "Desligamentos") || []) {
+    const p = porMatricula.get(l["Matrícula"]);
+    if (!p) continue;
+    p.saida = {
+      tipo: l["Tipo de desligamento"] || "",
+      declarado: l["Motivo declarado"] || "",
+      real: l["Motivo real (entrevista ou chefia)"] || "",
+      data: dataExcel(l["Data do desligamento"]),
+    };
+  }
+
   for (const p of pessoas) {
+    p.cargos.sort((a, b) => a.data - b.data);
     p.periodos.sort((a, b) => num(a.n) - num(b.n));
     p.pedidos.sort((a, b) => (b.data || 0) - (a.data || 0));
     const vencidas = p.periodos.filter(x => x.situacao === "vencida");
@@ -366,7 +479,16 @@ function montarDados(wb) {
       pendentes: p.periodos.filter(x => x.situacao === "prazo").length,
     };
   }
-  return { pessoas, ref };
+  return { pessoas, ref, temHistorico };
+}
+
+// Procura uma coluna pelo começo/trecho do nome, sem ligar para acento ou maiúscula.
+function coluna(linha, ...trechos) {
+  for (const k of Object.keys(linha)) {
+    const n = semAcento(k);
+    if (trechos.some(t => n.includes(t))) return linha[k];
+  }
+  return null;
 }
 
 /* ===================== Desenho da tela ===================== */
@@ -481,55 +603,240 @@ function nomeSituacao(s) {
   }[s] || esc(s);
 }
 
+function dias(n) { return n + (n === 1 ? " dia" : " dias"); }
+
+/* ===================== "Precisa de você" ===================== */
+// Quem tem férias vencidas ou vencendo nos próximos DIAS_ALERTA dias.
+function listaPrecisa() {
+  const itens = [];
+  for (const p of DADOS.pessoas) {
+    if (!p.ativo) continue;
+    const venc = p.periodos.filter(x => x.situacao === "vencida");
+    const vence = p.periodos.filter(x => x.situacao === "vence");
+    if (!venc.length && !vence.length) continue;
+    // O período mais urgente decide a ordem e a frase.
+    const critico = venc.length
+      ? venc.reduce((a, b) => (a.diasAteLimite <= b.diasAteLimite ? a : b))
+      : vence.reduce((a, b) => (a.diasAteLimite <= b.diasAteLimite ? a : b));
+    itens.push({
+      p,
+      vencida: venc.length > 0,
+      dias: critico.diasAteLimite,
+      limite: critico.limite,
+      periodos: venc.length + vence.length,
+      saldo: [...venc, ...vence].reduce((s, x) => s + x.saldo, 0),
+      custo: [...venc, ...vence].reduce((s, x) => s + x.custoDobra, 0),
+      programacao: critico.programacao,
+    });
+  }
+  // Vencidas primeiro (as mais antigas no topo), depois as que vencem antes.
+  itens.sort((a, b) => (b.vencida - a.vencida) || (a.dias - b.dias));
+  return itens;
+}
+
+function desenharPrecisa() {
+  const itens = listaPrecisa();
+  const caixa = document.getElementById("precisa");
+  const nVenc = itens.filter(i => i.vencida).length;
+  const nVence = itens.filter(i => i.p.ferias.vencendo > 0).length; // pode incluir quem também tem vencida
+  const total = itens.reduce((s, i) => s + i.custo, 0);
+  document.getElementById("precisaExplica").textContent =
+    `Férias vencidas ou que vencem nos próximos ${DIAS_ALERTA} dias, da mais urgente para a menos urgente. Toque em uma pessoa para ver a ficha.`;
+  document.getElementById("precisaResumo").innerHTML = itens.length
+    ? `<span class="chip cinza">${itens.length} ${itens.length === 1 ? "pessoa" : "pessoas"}</span>
+       <span class="chip vermelho">${nVenc} com férias vencidas</span>
+       <span class="chip amarelo">${nVence} com prazo nos próximos ${DIAS_ALERTA} dias</span>
+       <span class="resumo-custo">${fmtMoeda(total)} em jogo</span>`
+    : "";
+  if (!itens.length) {
+    caixa.innerHTML = `<p class="precisa-vazio">Ninguém com férias vencidas ou vencendo nos próximos ${DIAS_ALERTA} dias.</p>`;
+    return;
+  }
+  caixa.innerHTML = itens.map(i => `
+    <li>
+      <button type="button" class="item-precisa ${i.vencida ? "e-vencida" : "e-vence"}" data-mat="${esc(i.p.matricula)}">
+        <span class="ip-quem">
+          <b>${esc(i.p.nome)}</b>
+          <small>${esc(i.p.cargo)} · ${esc(i.p.setor)} · ${esc(i.p.turno)}</small>
+        </span>
+        <span class="ip-quando">
+          ${i.vencida
+            ? `<span class="chip vermelho">Vencida há ${dias(-i.dias)}</span>`
+            : `<span class="chip amarelo">Vence em ${dias(i.dias)}</span>`}
+          <small>${i.vencida ? "venceu em" : "prazo:"} ${fmtData(i.limite)}${i.periodos > 1 ? ` · ${i.periodos} períodos` : ""}</small>
+          ${i.vencida && i.p.ferias.vencendo ? `<small>e outro período vence em ${dias(i.p.ferias.proximoLimite)}</small>` : ""}
+        </span>
+        <span class="ip-custo"><b>${fmtMoeda(i.custo)}</b><small>${i.vencida ? "a pagar em dobro" : "se vencer"} · ${i.saldo} dias</small></span>
+        <span class="ip-pedido"><small>Pedido</small>${esc(i.programacao || "—")}</span>
+        <span class="ip-gestor"><small>Gestor</small>${esc(i.p.gestor)}</span>
+      </button>
+    </li>`).join("");
+}
+
+/* ===================== Ficha individual ===================== */
+function eventosDaPessoa(p) {
+  const ev = [];
+  const ref = DADOS.ref;
+  const fimHist = p.ativo ? ref : (p.desligamento || ref);
+
+  // Admissão (e cargo inicial, se o histórico trouxer)
+  if (p.admissao) {
+    const inicial = p.cargos.find(c => Math.abs(diasEntre(p.admissao, c.data)) <= 31);
+    ev.push({
+      data: p.admissao, tipo: "adm", titulo: "Admissão",
+      texto: inicial
+        ? `Entrou como ${esc(inicial.cargo || "—")}${inicial.salario != null ? ", salário de " + moedaCentavos.format(inicial.salario) : ""}.`
+        : `Entrou na empresa. Contrato atual: ${esc(p.contrato)}.`,
+    });
+  }
+
+  // Promoções, mudanças de cargo e reajustes (aba Historico_Cargos)
+  let anterior = null;
+  for (const c of p.cargos) {
+    const ehInicial = p.admissao && Math.abs(diasEntre(p.admissao, c.data)) <= 31;
+    if (!ehInicial) {
+      const mudouCargo = anterior && c.cargo && semAcento(c.cargo) !== semAcento(anterior.cargo);
+      const mudouSal = anterior && c.salario != null && anterior.salario != null && c.salario !== anterior.salario;
+      const motivo = String(c.motivo || "");
+      // O título usa o motivo escrito na planilha; sem motivo, descreve o que mudou.
+      const titulo = motivo ? esc(motivo) : mudouCargo ? "Novo cargo" : mudouSal ? "Reajuste de salário" : "Registro de cargo";
+      const partes = [];
+      if (c.cargo) partes.push(anterior && mudouCargo ? `${esc(anterior.cargo)} → <b>${esc(c.cargo)}</b>` : `Cargo: <b>${esc(c.cargo)}</b>`);
+      if (c.salario != null) partes.push(anterior && anterior.salario != null && mudouSal
+        ? `Salário ${moedaCentavos.format(anterior.salario)} → <b>${moedaCentavos.format(c.salario)}</b> (${c.salario > anterior.salario ? "+" : ""}${((c.salario / anterior.salario - 1) * 100).toFixed(1).replace(".", ",")}%)`
+        : `Salário: ${moedaCentavos.format(c.salario)}`);
+      if (c.setor) partes.push(`Setor: ${esc(c.setor)}`);
+      ev.push({ data: c.data, tipo: "cargo", titulo, texto: partes.join(" · ") });
+    }
+    anterior = c;
+  }
+
+  // Períodos de férias
+  for (const x of p.periodos) {
+    if (x.fim && x.fim < ref) {
+      const ganhou = new Date(x.fim.getTime() + DIA);
+      ev.push({
+        data: ganhou, tipo: x.situacao === "gozada" ? "ok" : "neutro",
+        titulo: `Ganhou ${dias(x.direito || 30)} de férias (${x.n}º período)`,
+        texto: `Período de ${fmtData(x.inicio)} a ${fmtData(x.fim)}. Prazo para tirar até ${fmtData(x.limite)}.`
+             + (x.situacao === "gozada" ? ` Já tirou ${dias(x.gozados)}.` : ` Saldo: ${dias(x.saldo)}.`),
+        chip: nomeSituacao(x.situacao),
+      });
+    }
+    if (x.limite && x.saldo > 0 && x.situacao !== "aquisicao") {
+      if (x.situacao === "vencida") {
+        ev.push({ data: x.limite, tipo: "vencida", titulo: `Férias do ${x.n}º período venceram`,
+          texto: `Ficaram ${dias(x.saldo)} sem tirar. A empresa deve pagar em dobro: ${moedaCentavos.format(x.custoDobra)}. Pedido: ${esc(x.programacao || "—")}.` });
+      } else {
+        ev.push({ data: x.limite, tipo: x.situacao === "vence" ? "alerta" : "futuro",
+          titulo: `Prazo final das férias do ${x.n}º período`,
+          texto: `Faltam ${dias(x.diasAteLimite)}. Saldo de ${dias(x.saldo)}; se vencer, custa ${moedaCentavos.format(x.custoDobra)}. Pedido: ${esc(x.programacao || "—")}.` });
+      }
+    }
+  }
+
+  // Pedidos de férias
+  for (const r of p.pedidos) {
+    const periodo = `${fmtData(r.inicio)} a ${fmtData(r.fim)} (${dias(num(r.dias))})`;
+    const quem = r.decisor ? ` Decidiu: ${esc(r.decisor)}.` : "";
+    const st = semAcento(r.status);
+    if (st.startsWith("gozada")) {
+      ev.push({ data: r.inicio || r.data, tipo: "ok", titulo: "Tirou férias", texto: `${periodo}.${quem}` });
+    } else if (st.startsWith("aprovada")) {
+      ev.push({ data: r.inicio || r.data, tipo: r.inicio && r.inicio > ref ? "futuro" : "ok", titulo: "Férias aprovadas", texto: `${periodo}.${quem}` });
+    } else if (st.startsWith("negada")) {
+      ev.push({ data: r.data, tipo: "negado", titulo: "Pedido de férias negado", texto: `Pediu ${periodo}. Motivo: ${esc(r.motivo || "não informado")}.${quem}` });
+    } else if (st.startsWith("remarcada")) {
+      ev.push({ data: r.data, tipo: "negado", titulo: "Pedido remarcado, sem nova data", texto: `Pediu ${periodo}. Motivo: ${esc(r.motivo || "não informado")}.${quem}` });
+    } else if (st.startsWith("aguardando")) {
+      ev.push({ data: r.data, tipo: "alerta", titulo: "Pedido de férias sem resposta", texto: `Pediu ${periodo}. Aguardando o gestor há ${dias(diasEntre(r.data, ref))}.` });
+    } else {
+      ev.push({ data: r.data, tipo: "neutro", titulo: "Pedido de férias: " + esc(r.status), texto: periodo });
+    }
+  }
+
+  // Desligamento
+  if (!p.ativo && p.desligamento) {
+    const s = p.saida;
+    ev.push({ data: p.desligamento, tipo: "saida", titulo: "Desligamento",
+      texto: s ? `${esc(s.tipo)}. Motivo na rescisão: ${esc(s.declarado || "—")}.${s.real ? " Motivo apurado: " + esc(s.real) + "." : ""}`
+               : `Saiu da empresa após ${tempoDeCasa(p.admissao, p.desligamento)}.` });
+  }
+
+  ev.push({ data: fimHist, tipo: "hoje", titulo: p.ativo ? "Hoje" : "", texto: "" });
+  // Mais recente (e futuro) no topo; no mesmo dia, "Hoje" separa o que vem do que já foi.
+  ev.sort((a, b) => (b.data - a.data) || ((a.tipo === "hoje") - (b.tipo === "hoje")));
+  return ev.filter(e => e.tipo !== "hoje" || p.ativo);
+}
+
+function desenharLinhaDoTempo(p) {
+  const ev = eventosDaPessoa(p);
+  let ano = null;
+  const partes = [];
+  for (const e of ev) {
+    if (e.tipo === "hoje") {
+      partes.push(`<li class="lt-hoje"><span>Hoje · ${fmtData(e.data)}</span></li>`);
+      continue;
+    }
+    const a = e.data.getUTCFullYear();
+    if (a !== ano) { ano = a; partes.push(`<li class="lt-ano">${a}</li>`); }
+    partes.push(`
+      <li class="lt-item t-${e.tipo}">
+        <span class="lt-data">${fmtData(e.data)}</span>
+        <span class="lt-corpo"><b>${e.titulo}</b>${e.chip ? " " + e.chip : ""}<span class="lt-texto">${e.texto}</span></span>
+      </li>`);
+  }
+  return `<ol class="linha-tempo">${partes.join("")}</ol>`;
+}
+
 function abrirFicha(matricula) {
   const p = DADOS.pessoas.find(x => String(x.matricula) === String(matricula));
   if (!p) return;
-  const periodosAbertos = p.periodos.filter(x => x.situacao !== "gozada");
-  const linhasPeriodos = periodosAbertos.length ? periodosAbertos.map(x => `
-      <tr>
-        <td>${esc(x.n)}º</td>
-        <td>${fmtData(x.inicio)} a ${fmtData(x.fim)}</td>
-        <td>${fmtData(x.limite)}</td>
-        <td class="num">${x.saldo}</td>
-        <td>${nomeSituacao(x.situacao)}${x.situacao === "vencida" ? " há " + (-x.diasAteLimite) + " dias" : x.situacao === "vence" ? " (" + x.diasAteLimite + " dias)" : ""}</td>
-        <td class="num">${x.situacao === "vencida" || x.situacao === "vence" ? moedaCentavos.format(x.custoDobra) : "—"}</td>
-        <td>${esc(x.programacao)}</td>
-      </tr>`).join("")
-    : "";
-  const gozados = p.periodos.filter(x => x.situacao === "gozada").length;
-  const pedidos = p.pedidos.slice(0, 8);
+  const fimHist = p.ativo ? DADOS.ref : (p.desligamento || DADOS.ref);
+  const ultimoCargo = p.cargos.length ? p.cargos[p.cargos.length - 1] : null;
+  const noCargoDesde = ultimoCargo && semAcento(ultimoCargo.cargo) === semAcento(p.cargo) ? ultimoCargo.data : null;
+  const promocoes = p.cargos.filter((c, i) => i > 0 && c.cargo && semAcento(c.cargo) !== semAcento(p.cargos[i - 1].cargo)).length; // trocas de cargo
+  const custoAberto = p.ferias ? p.ferias.custoVencidas + p.ferias.custoVencendo : 0;
+
+  let avisoHist = "";
+  if (!DADOS.temHistorico) {
+    avisoHist = `<p class="nota">Promoções e reajustes aparecem aqui quando a planilha tiver a aba <b>Historico_Cargos</b> (colunas: Matrícula, Data, Cargo, Salário, Motivo).</p>`;
+  } else if (!p.cargos.length) {
+    avisoHist = `<p class="nota">A aba Historico_Cargos não tem registros para esta pessoa.</p>`;
+  }
 
   document.getElementById("fichaConteudo").innerHTML = `
     <h3>${esc(p.nome)}</h3>
-    <div>${esc(p.cargo)} · ${esc(p.setor)} · ${chipFerias(p)}</div>
+    <div class="ficha-sub">${esc(p.setor)} · ${esc(p.turno)} · ${chipFerias(p)}</div>
+
+    <div class="ficha-numeros">
+      <div><span>Cargo</span><b>${esc(p.cargo)}</b><small>${noCargoDesde ? "no cargo desde " + fmtData(noCargoDesde) : "cargo atual"}</small></div>
+      <div><span>Salário base</span><b class="mono">${moedaCentavos.format(p.salario)}</b><small>${promocoes ? promocoes + (promocoes === 1 ? " troca de cargo registrada" : " trocas de cargo registradas") : "por mês, sem adicionais"}</small></div>
+      <div><span>Tempo de casa</span><b>${tempoDeCasa(p.admissao, fimHist)}</b><small>admissão em ${fmtData(p.admissao)}</small></div>
+    </div>
+
     <div class="dados">
       <div><span>Matrícula</span>${esc(p.matricula)}</div>
-      <div><span>Turno</span>${esc(p.turno)}</div>
       <div><span>Gestor imediato</span>${esc(p.gestor)}</div>
-      <div><span>Admissão</span>${fmtData(p.admissao)} (${tempoDeCasa(p.admissao, p.ativo ? DADOS.ref : (p.desligamento || DADOS.ref))})</div>
       <div><span>Contrato</span>${esc(p.contrato)}</div>
-      <div><span>Salário base</span>${moedaCentavos.format(p.salario)}</div>
       <div><span>Cidade</span>${esc(p.cidade || "—")}</div>
       <div><span>Escolaridade</span>${esc(p.escolaridade || "—")}</div>
       ${p.ativo ? "" : `<div><span>Desligamento</span>${fmtData(p.desligamento)}</div>`}
     </div>
 
-    <h4>Férias em aberto</h4>
-    ${p.periodos.length === 0 ? '<p class="vazio">A planilha não traz períodos de férias para esta pessoa (a aba de férias só cobre quem está ativo).</p>' :
-      linhasPeriodos ? `<div class="tabela-rolagem"><table>
-        <thead><tr><th>Período</th><th>Aquisitivo</th><th>Prazo para conceder</th><th style="text-align:right">Saldo (dias)</th><th>Situação</th><th style="text-align:right">Custo se dobrar</th><th>Programação</th></tr></thead>
-        <tbody>${linhasPeriodos}</tbody></table></div>` : '<p class="vazio">Nenhuma férias em aberto.</p>'}
-    ${gozados ? `<p class="vazio">${gozados} ${gozados === 1 ? "período já gozado" : "períodos já gozados"}.</p>` : ""}
+    ${custoAberto > 0 ? `<p class="ficha-alerta ${p.ferias.vencidas ? "e-vencida" : "e-vence"}">
+      ${p.ferias.vencidas ? `Tem ${p.ferias.vencidas === 1 ? "1 período" : p.ferias.vencidas + " períodos"} de férias vencido${p.ferias.vencidas === 1 ? "" : "s"}` : `Férias vencem em ${dias(p.ferias.proximoLimite)}`}
+      · ${fmtMoeda(custoAberto)} ${p.ferias.vencidas ? "a pagar em dobro" : "se vencer"}.</p>` : ""}
 
-    <h4>Últimos pedidos de férias</h4>
-    ${pedidos.length ? `<div class="tabela-rolagem"><table>
-      <thead><tr><th>Pedido em</th><th>Férias pedidas</th><th style="text-align:right">Dias</th><th>Resultado</th><th>Motivo</th><th>Quem decidiu</th></tr></thead>
-      <tbody>${pedidos.map(x => `<tr>
-        <td>${fmtData(x.data)}</td><td>${fmtData(x.inicio)} a ${fmtData(x.fim)}</td><td class="num">${esc(x.dias)}</td>
-        <td>${esc(x.status)}</td><td>${esc(x.motivo)}</td><td>${esc(x.decisor)}</td></tr>`).join("")}</tbody></table></div>`
-      : '<p class="vazio">Nenhum pedido registrado.</p>'}
+    <h4>Linha do tempo</h4>
+    ${avisoHist}
+    ${p.periodos.length === 0 && p.ativo ? '<p class="nota">A planilha não traz períodos de férias para esta pessoa.</p>' : ""}
+    ${!p.ativo ? '<p class="nota">A aba de férias só cobre quem está ativo; aqui aparecem os pedidos de férias registrados.</p>' : ""}
+    ${desenharLinhaDoTempo(p)}
   `;
   document.getElementById("ficha").classList.add("aberta");
+  document.querySelector(".ficha-caixa").scrollTop = 0;
+  document.getElementById("ficha").scrollTop = 0;
   document.getElementById("fecharFicha").focus();
 }
 function fecharFicha() { document.getElementById("ficha").classList.remove("aberta"); }
@@ -542,6 +849,7 @@ function mostrarPainel(nomeArquivo) {
   document.getElementById("rodape").textContent =
     "Planilha: " + nomeArquivo + " · Situação das férias recalculada com a data de hoje · Custo da dobra = saldo ÷ 30 × salário base × 4/3 (estimativa, sem encargos).";
   desenharCartoes();
+  desenharPrecisa();
   desenharAreas();
 }
 
@@ -586,6 +894,9 @@ document.getElementById("busca").addEventListener("input", desenharAreas);
 document.getElementById("verDesligados").addEventListener("change", desenharAreas);
 document.getElementById("abrirTodas").onclick = () => document.querySelectorAll("details.area").forEach(d => d.open = true);
 document.getElementById("fecharTodas").onclick = () => document.querySelectorAll("details.area").forEach(d => d.open = false);
+document.getElementById("precisa").addEventListener("click", e => {
+  const b = e.target.closest(".item-precisa"); if (b) abrirFicha(b.dataset.mat);
+});
 document.getElementById("areas").addEventListener("click", e => {
   const tr = e.target.closest("tr.pessoa"); if (tr) abrirFicha(tr.dataset.mat);
 });

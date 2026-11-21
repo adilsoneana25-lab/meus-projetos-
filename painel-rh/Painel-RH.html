@@ -84,6 +84,9 @@
   .passos { text-align: left; max-width: 34em; margin: 0 auto 22px; padding-left: 1.4em; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
   .botao-grande { font-size: 17px; padding: 14px 28px; min-height: 52px; }
   #abrir .nota-abrir { font-size: 13px; margin-top: 12px; }
+  .botao-arquivo { position: relative; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
+  .botao-arquivo input[type=file] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 200px; }
+  .botao-arquivo:focus-within { outline: 3px solid var(--texto); outline-offset: 3px; }
 
   /* Números principais */
   h2 { font: 700 22px var(--titulo); text-transform: uppercase; letter-spacing: .03em; margin: 28px 0 12px; }
@@ -427,9 +430,12 @@
       <li>No celular, escolha <b>Drive</b> e abra a pasta <b>Ferraz RH treinamento</b>. No computador, ache o arquivo onde ele estiver salvo.</li>
       <li>Toque no arquivo <b>ferraz_rh_base_treino.xlsx</b>. O painel abre na hora.</li>
     </ol>
-    <button class="botao botao-grande" id="escolher">Escolher planilha</button>
-    <p class="nota-abrir">No computador, também dá para arrastar o arquivo para cá.</p>
-    <input type="file" id="arquivo" accept=".xlsx,.xlsm,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="escondido">
+    <!-- O próprio campo de arquivo recebe o toque: o app do Claude no Android não abre o seletor quando o clique vem de outro botão. -->
+    <label class="botao botao-grande botao-arquivo" id="escolher">Escolher planilha
+      <input type="file" id="arquivo" aria-label="Escolher a planilha de RH">
+    </label>
+    <p class="nota-abrir">No computador, também dá para arrastar o arquivo para cá.<br>
+      Se no celular nada acontecer ao tocar no botão, abra este link no navegador <b>Chrome</b> (menu ⋮ → "Abrir no navegador") e tente de novo.</p>
     <div id="erro"></div>
     <ul class="previa" aria-label="O que o painel mostra">
       <li>Pessoas ativas</li>
@@ -2423,7 +2429,6 @@ function carregarArquivo(arquivo) {
 }
 
 const entrada = document.getElementById("arquivo");
-document.getElementById("escolher").onclick = () => entrada.click();
 entrada.onchange = () => carregarArquivo(entrada.files[0]);
 document.getElementById("trocar").onclick = () => {
   entrada.value = "";

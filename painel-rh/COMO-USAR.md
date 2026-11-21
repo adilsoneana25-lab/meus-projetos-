@@ -98,6 +98,21 @@ A tela se atualiza na hora e mostra:
 
 Promoções de quem não está em risco entram no custo, mas não contam como reposição evitada.
 
+### Aba "Visão do gestor"
+
+1. Escolha o gestor na lista. O número entre parênteses é o tamanho da equipe direta. O painel lembra a última escolha.
+2. A tela mostra o resumo da equipe:
+   - férias vencidas e vencendo;
+   - pedidos de férias pendentes;
+   - pessoas que pedem atenção à permanência;
+   - hora extra média;
+   - saídas da equipe no último ano.
+3. Logo abaixo vem o **mapa de situação** de cada pessoa, da mais urgente para a mais tranquila, com o que fazer.
+4. **Salvar relatório em PDF** gera um relatório limpo para enviar ao gestor. Ele pode ser impresso depois.
+   - O relatório **não traz salários nem valores em reais**.
+   - Desmarque "Incluir atenção à permanência" para tirar do PDF a coluna de sinais de risco de saída.
+   - No link do celular, o claude.ai pede para você confirmar o download.
+
 A situação das férias é recalculada **com a data do dia em que você abre o painel**.
 
 ## O que a planilha precisa ter

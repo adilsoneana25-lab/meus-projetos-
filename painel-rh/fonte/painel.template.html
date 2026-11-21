@@ -276,7 +276,7 @@
   .ficha-risco div { display: flex; flex-wrap: wrap; gap: 4px; }
 
   @media (max-width: 640px) {
-    .aba { flex: 1; padding: 12px 8px 10px; font-size: 17px; }
+    .aba { flex: 0 0 auto; padding: 12px 10px 10px; font-size: 16px; }
     .painel-grafico, .caixa-motivos, .caixa-risco { padding: 12px; }
     .tabela-saidas td.motivo { order: 8; flex-basis: 100%; min-width: 0; color: var(--texto); }
     .tabela-saidas td.gestor::before { content: "· "; }
@@ -327,6 +327,42 @@
     .tabela-fila td.num:nth-child(4)::before { content: "Salário "; font-family: var(--corpo); color: var(--suave); }
     .tabela-fila td.num:nth-child(5)::before { content: "Custo da promoção "; font-family: var(--corpo); color: var(--suave); }
     .tabela-fila td.num:nth-child(6)::before { content: "Reposição "; font-family: var(--corpo); color: var(--suave); }
+  }
+
+  /* Visão do gestor */
+  .abas { overflow-x: auto; }
+  .gestor-controle { background: var(--superficie); border: 1px solid var(--borda); padding: 16px; margin: 10px 0 14px; display: flex; flex-direction: column; gap: 8px; }
+  .gestor-controle select { font: 600 17px var(--corpo); padding: 8px 10px; min-height: 44px; border: 1px solid var(--borda); background: var(--superficie); color: var(--texto); max-width: 100%; }
+  .gestor-pdf { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+  .gestor-pdf .nota { margin: 0; }
+  .gestor-topo h3 { font: 700 22px var(--titulo); text-transform: uppercase; letter-spacing: .03em; margin: 6px 0 2px; }
+  .cartoes-gestor { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin-top: 10px; }
+  .est { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 13px; white-space: nowrap; }
+  .est::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--aco); flex: none; }
+  .est-critico::before { background: var(--vermelho); }
+  .est-atencao::before { background: var(--amarelo); }
+  .est-alerta::before { background: var(--serie-risco); }
+  .est-ok::before { background: var(--verde); }
+  .est-neutro { color: var(--suave); font-weight: 400; }
+  .legenda-mapa li { color: var(--suave); }
+  .legenda-mapa .est { color: var(--texto); font-family: var(--corpo); }
+  .tabela-mapa td small { display: block; color: var(--suave); font-size: 12px; font-weight: 400; margin-top: 2px; }
+  .tabela-mapa td.nome small { margin-top: 1px; }
+  .tabela-mapa td.mapa-cel { min-width: 130px; }
+  .tabela-mapa td.acoes ul { margin: 0; padding-left: 16px; font-size: 13px; }
+  .tabela-mapa td.acoes { min-width: 200px; }
+  @media (max-width: 640px) {
+    .tabela-mapa thead { display: none; }
+    .tabela-mapa, .tabela-mapa tbody { display: block; }
+    .tabela-mapa tr.pessoa { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; padding: 12px 6px; border-bottom: 1px solid var(--linha-fraca); }
+    .tabela-mapa td { display: block; padding: 0; border: 0; min-width: 0 !important; }
+    .tabela-mapa td.nome, .tabela-mapa td.acoes { grid-column: 1 / -1; }
+    .tabela-mapa td.mapa-cel::before { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--suave); margin-bottom: 2px; }
+    .tabela-mapa td.c-ferias::before { content: "Férias"; }
+    .tabela-mapa td.c-pedido::before { content: "Último pedido"; }
+    .tabela-mapa td.c-horas::before { content: "Hora extra"; }
+    .tabela-mapa td.c-perm::before { content: "Permanência"; }
+    .tabela-mapa .est { white-space: normal; }
   }
 
   /* Celular: cada pessoa vira um cartão de duas linhas, sem rolagem lateral */
@@ -396,6 +432,7 @@
       <button type="button" class="aba ativa" role="tab" data-aba="geral" aria-selected="true" id="abaGeral">Visão geral</button>
       <button type="button" class="aba" role="tab" data-aba="analises" aria-selected="false" id="abaAnalises">Análises</button>
       <button type="button" class="aba" role="tab" data-aba="simulacao" aria-selected="false" id="abaSimulacao">E se...</button>
+      <button type="button" class="aba" role="tab" data-aba="gestor" aria-selected="false" id="abaGestor">Visão do gestor</button>
     </div>
 
     <section id="vistaAnalises" hidden aria-labelledby="abaAnalises">
@@ -496,6 +533,21 @@
       <p class="nota" id="simPremissas"></p>
     </section>
 
+    <section id="vistaGestor" hidden aria-labelledby="abaGestor">
+      <h2>Visão do gestor</h2>
+      <div class="gestor-controle">
+        <label for="gestorEscolha" class="sim-rotulo">Gestor</label>
+        <select id="gestorEscolha"></select>
+        <div class="gestor-pdf">
+          <button type="button" class="botao" id="gerarPDF">Salvar relatório em PDF</button>
+          <label class="sim-vertudo"><input type="checkbox" id="pdfRisco" checked> Incluir atenção à permanência no relatório</label>
+          <span class="nota" id="pdfStatus" role="status"></span>
+        </div>
+        <p class="nota">O relatório sai sem salários e sem valores em reais, para poder ser enviado ao gestor. O PDF pode ser impresso.</p>
+      </div>
+      <div id="gestorConteudo"></div>
+    </section>
+
     <section id="vistaGeral" aria-labelledby="abaGeral">
     <h2>Números principais</h2>
     <div class="cartoes" id="cartoes"></div>
@@ -531,6 +583,7 @@
 </div>
 
 <!--BIBLIOTECA_XLSX-->
+<!--BIBLIOTECA_PDF-->
 <script>
 "use strict";
 
@@ -1430,7 +1483,7 @@ function desenharAnalises() {
 }
 
 /* ---------- Abas ---------- */
-const ABAS = { geral: "vistaGeral", analises: "vistaAnalises", simulacao: "vistaSimulacao" };
+const ABAS = { geral: "vistaGeral", analises: "vistaAnalises", simulacao: "vistaSimulacao", gestor: "vistaGestor" };
 function abaDoHash() { const h = location.hash.replace("#", ""); return ABAS[h] ? h : "geral"; }
 function mostrarAba(aba) {
   if (!ABAS[aba]) aba = "geral";
@@ -1443,6 +1496,7 @@ function mostrarAba(aba) {
   if (!DADOS) return;
   if (aba === "analises") desenharAnalises();
   if (aba === "simulacao") desenharSimulacao();
+  if (aba === "gestor") desenharGestor();
 }
 
 /* ===================== Simulação "E se..." ===================== */
@@ -1626,6 +1680,313 @@ function desenharFilaSimulacao(fila, r) {
     : `Mostrando ${limite} de ${fila.length} pessoas na fila.`;
 }
 
+/* ===================== Visão do gestor ===================== */
+let GESTOR_ATUAL = null;
+const HE_LIMITE_LEGAL = 44; // ~2 h por dia útil (CLT, art. 59)
+
+function lerPreferencia(chave) { try { return localStorage.getItem(chave); } catch (e) { return null; } }
+function gravarPreferencia(chave, valor) { try { localStorage.setItem(chave, valor); } catch (e) { /* sem armazenamento: tudo bem */ } }
+
+function listaGestores() {
+  const m = new Map();
+  for (const p of DADOS.pessoas) {
+    if (!p.ativo || !p.gestor || p.gestor === "—") continue;
+    m.set(p.gestor, (m.get(p.gestor) || 0) + 1);
+  }
+  return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+}
+
+// Situação de uma pessoa, em linguagem de gestor (sem salário nem valores).
+function situacaoPessoa(p) {
+  const f = p.ferias || {};
+  const ultimo = p.pedidos[0];
+  const stPed = semAcento(ultimo?.status || "");
+  const venc = p.periodos.filter(x => x.situacao === "vencida");
+  const vence = p.periodos.filter(x => x.situacao === "vence");
+
+  let ferias;
+  if (venc.length) ferias = { nivel: "critico", texto: `Vencida há ${dias(-Math.min(...venc.map(x => x.diasAteLimite)))}`, extra: venc.length > 1 ? `${venc.length} períodos vencidos` : `${venc[0].saldo} dias sem tirar` };
+  else if (vence.length) { const x = vence.reduce((a, b) => a.diasAteLimite <= b.diasAteLimite ? a : b); ferias = { nivel: "atencao", texto: `Vence em ${dias(x.diasAteLimite)}`, extra: `prazo ${fmtData(x.limite)}` }; }
+  else if (!p.periodos.length) ferias = { nivel: "neutro", texto: "Sem registro", extra: "" };
+  else ferias = { nivel: "ok", texto: "Em dia", extra: "" };
+
+  let pedido;
+  if (!ultimo) pedido = { nivel: "neutro", texto: "Nenhum pedido", extra: "" };
+  else if (stPed.startsWith("aguardando")) pedido = { nivel: "atencao", texto: "Sem resposta", extra: `há ${dias(diasEntre(ultimo.data, DADOS.ref))}` };
+  else if (stPed.startsWith("negada")) pedido = { nivel: "atencao", texto: "Negado", extra: ultimo.motivo || "" };
+  else if (stPed.startsWith("remarcada")) pedido = { nivel: "atencao", texto: "Remarcado sem data", extra: ultimo.motivo || "" };
+  else if (stPed.startsWith("aprovada")) pedido = { nivel: "ok", texto: "Aprovado", extra: `${fmtData(ultimo.inicio)} a ${fmtData(ultimo.fim)}` };
+  else pedido = { nivel: "ok", texto: stPed.startsWith("gozada") ? "Férias tiradas" : ultimo.status, extra: `${fmtData(ultimo.inicio)} a ${fmtData(ultimo.fim)}` };
+
+  const he = p.heMedia;
+  const horas = he == null ? { nivel: "neutro", texto: "—", extra: "" }
+    : he > HE_LIMITE_LEGAL ? { nivel: "alerta", texto: `${he.toFixed(0)} h/mês`, extra: "acima de 2 h por dia" }
+    : he > HE_LIMITE_RISCO ? { nivel: "alerta", texto: `${he.toFixed(0)} h/mês`, extra: "alta" }
+    : { nivel: "ok", texto: `${he.toFixed(0)} h/mês`, extra: "" };
+
+  const permanencia = p.risco ? { nivel: "alerta", texto: `Alerta · ${p.sinais.length} sinais`, extra: p.sinais.join("; ") }
+    : p.sinais.length ? { nivel: "neutro", texto: "1 sinal", extra: p.sinais.join("; ") }
+    : { nivel: "ok", texto: "Sem sinais", extra: "" };
+
+  const acoes = [];
+  if (venc.length) acoes.push("Marcar as férias vencidas o quanto antes");
+  else if (vence.length) acoes.push(`Programar as férias até ${fmtData(vence[0].limite)}`);
+  if (stPed.startsWith("aguardando")) acoes.push("Responder o pedido de férias");
+  else if ((stPed.startsWith("negada") || stPed.startsWith("remarcada")) && !venc.length && !vence.length) acoes.push("Combinar uma nova data de férias");
+  if (he != null && he > HE_LIMITE_LEGAL) acoes.push("Reduzir as horas extras");
+  else if (he != null && he > HE_LIMITE_RISCO) acoes.push("Acompanhar as horas extras");
+  if (p.risco) acoes.push("Conversa individual sobre permanência");
+  if (/experi/i.test(semAcento(p.contrato))) acoes.push("Acompanhar o período de experiência");
+  if (!acoes.length) acoes.push("Nada pendente");
+
+  const peso = (venc.length ? 100 : 0) + (p.risco ? 40 : 0) + (vence.length ? 30 : 0) + (stPed.startsWith("aguardando") ? 20 : 0) + (he > HE_LIMITE_LEGAL ? 15 : 0);
+  return { ferias, pedido, horas, permanencia, acoes, peso };
+}
+
+function equipeDo(gestor) {
+  return DADOS.pessoas.filter(p => p.ativo && p.gestor === gestor)
+    .map(p => ({ p, s: situacaoPessoa(p) }))
+    .sort((a, b) => b.s.peso - a.s.peso || a.p.nome.localeCompare(b.p.nome));
+}
+
+function resumoEquipe(gestor, equipe) {
+  const { ini, fim } = janelaDoze();
+  const saidas = DADOS.pessoas.filter(p => !p.ativo && p.gestor === gestor && p.desligamento && p.desligamento > ini && p.desligamento <= fim).length;
+  const heVals = equipe.map(e => e.p.heMedia).filter(v => v != null);
+  return {
+    pessoas: equipe.length,
+    vencidas: equipe.filter(e => e.s.ferias.nivel === "critico").length,
+    vencem: equipe.filter(e => e.s.ferias.nivel === "atencao").length,
+    pedidos: equipe.filter(e => e.s.pedido.nivel === "atencao").length,
+    risco: equipe.filter(e => e.p.risco).length,
+    heMedia: heVals.length ? heVals.reduce((s, v) => s + v, 0) / heVals.length : null,
+    heAcima: equipe.filter(e => e.p.heMedia != null && e.p.heMedia > HE_LIMITE_LEGAL).length,
+    saidas,
+  };
+}
+
+function celula(st, cls = "") {
+  return `<td class="mapa-cel ${cls}"><span class="est est-${st.nivel}">${esc(st.texto)}</span>${st.extra ? `<small>${esc(st.extra)}</small>` : ""}</td>`;
+}
+
+function desenharGestor() {
+  const gestores = listaGestores();
+  const sel = document.getElementById("gestorEscolha");
+  if (!GESTOR_ATUAL || !gestores.some(g => g[0] === GESTOR_ATUAL)) {
+    const salvo = lerPreferencia("painelRH.gestor");
+    GESTOR_ATUAL = gestores.some(g => g[0] === salvo) ? salvo
+      : (gestores.slice().sort((a, b) => b[1] - a[1])[0] || [null])[0];
+  }
+  sel.innerHTML = gestores.map(([g, n]) => `<option value="${esc(g)}" ${g === GESTOR_ATUAL ? "selected" : ""}>${esc(g)} (${n})</option>`).join("");
+  if (!GESTOR_ATUAL) { document.getElementById("gestorConteudo").innerHTML = '<p class="vazio">A planilha não tem gestores cadastrados.</p>'; return; }
+
+  const equipe = equipeDo(GESTOR_ATUAL);
+  const r = resumoEquipe(GESTOR_ATUAL, equipe);
+  const g = DADOS.pessoas.find(p => p.ativo && p.nome === GESTOR_ATUAL);
+
+  document.getElementById("gestorConteudo").innerHTML = `
+    <div class="gestor-topo">
+      <div>
+        <h3>Equipe de ${esc(GESTOR_ATUAL)}</h3>
+        <p class="grafico-sub">${g ? `${esc(g.cargo)} · ${esc(g.setor)} · ` : ""}${r.pessoas} ${r.pessoas === 1 ? "pessoa" : "pessoas"} · situação em ${fmtData(DADOS.ref)}</p>
+      </div>
+    </div>
+    <div class="cartoes cartoes-gestor">
+      <div class="cartao ${r.vencidas ? "destaque" : ""}"><div class="rotulo">Férias vencidas</div><div class="valor">${r.vencidas}</div><div class="detalhe">${r.vencem} vencem em ${DIAS_ALERTA} dias</div></div>
+      <div class="cartao"><div class="rotulo">Pedidos de férias pendentes</div><div class="valor">${r.pedidos}</div><div class="detalhe">negados, remarcados ou sem resposta</div></div>
+      <div class="cartao"><div class="rotulo">Atenção à permanência</div><div class="valor">${r.risco}</div><div class="detalhe">${PONTOS_RISCO} ou mais sinais de risco de saída</div></div>
+      <div class="cartao"><div class="rotulo">Hora extra média</div><div class="valor">${r.heMedia == null ? "—" : r.heMedia.toFixed(0) + " h"}</div><div class="detalhe">por mês · ${r.heAcima} acima de 2 h/dia</div></div>
+      <div class="cartao"><div class="rotulo">Saídas da equipe</div><div class="valor">${r.saidas}</div><div class="detalhe">nos últimos 12 meses</div></div>
+    </div>
+
+    <div class="painel-grafico">
+      <h3>Mapa de situação</h3>
+      <p class="grafico-sub">Da situação mais urgente para a mais tranquila. Toque em uma pessoa para ver a ficha completa.</p>
+      <ul class="legenda legenda-mapa">
+        <li><span class="est est-critico">Vencida</span> férias passaram do prazo</li>
+        <li><span class="est est-atencao">Atenção</span> férias vencendo ou pedido pendente</li>
+        <li><span class="est est-alerta">Alerta</span> hora extra alta ou risco de saída</li>
+        <li><span class="est est-ok">Em dia</span> nada pendente</li>
+      </ul>
+      ${equipe.length ? `<div class="tabela-rolagem"><table class="tabela-mapa">
+        <thead><tr><th>Pessoa</th><th>Férias</th><th>Último pedido de férias</th><th>Hora extra (3 meses)</th><th>Permanência</th><th>O que fazer</th></tr></thead>
+        <tbody>${equipe.map(({ p, s }) => `
+          <tr class="pessoa" data-mat="${esc(p.matricula)}" tabindex="0">
+            <td class="nome">${esc(p.nome)}<small>${esc(p.cargo)} · ${esc(p.turno)} · ${tempoDeCasa(p.admissao, DADOS.ref)} de casa</small></td>
+            ${celula(s.ferias, "c-ferias")}${celula(s.pedido, "c-pedido")}${celula(s.horas, "c-horas")}${celula(s.permanencia, "c-perm")}
+            <td class="acoes"><ul>${s.acoes.map(a => `<li>${esc(a)}</li>`).join("")}</ul></td>
+          </tr>`).join("")}</tbody></table></div>` : '<p class="vazio">Nenhuma pessoa ativa com este gestor.</p>'}
+    </div>`;
+  document.getElementById("pdfStatus").textContent = "";
+}
+
+/* ---------- Relatório em PDF (jsPDF, desenhado à mão) ---------- */
+function textoPDF(s) {
+  // As fontes padrão do PDF cobrem o português (acentos, ç, º); trocamos só sinais fora dessa tabela.
+  return String(s ?? "").replace(/[–—]/g, "-").replace(/→/g, "->").replace(/…/g, "...").replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
+}
+
+async function gerarPDFGestor() {
+  const status = document.getElementById("pdfStatus");
+  const JsPDF = window.jspdf && window.jspdf.jsPDF;
+  if (!JsPDF) { status.textContent = "Não consegui carregar o gerador de PDF. Verifique a internet e tente de novo."; return; }
+  const incluirRisco = document.getElementById("pdfRisco").checked;
+  const equipe = equipeDo(GESTOR_ATUAL);
+  const r = resumoEquipe(GESTOR_ATUAL, equipe);
+  const doc = new JsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+  const W = 297, H = 210, M = 14;
+  const cor = { grafite: [34, 38, 43], areia: [241, 236, 227], laranja: [228, 87, 15], aco: [138, 148, 158], suave: [94, 103, 112], linha: [217, 210, 197],
+    critico: [180, 35, 24], atencao: [232, 185, 49], alerta: [235, 104, 52], ok: [46, 125, 91], neutro: [138, 148, 158] };
+  const T = textoPDF;
+
+  function cabecalho() {
+    doc.setFillColor(...cor.grafite); doc.rect(0, 0, W, 16, "F");
+    doc.setFillColor(...cor.laranja); doc.rect(M, 4, 8, 8, "F");
+    doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(11);
+    doc.text("F", M + 2.4, 9.6);
+    doc.text(T("FERRAZ USINAGEM E ESTAMPARIA · RELATÓRIO DA EQUIPE"), M + 12, 9.8);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(9);
+    doc.text(T(`Situação em ${fmtData(DADOS.ref)}`), W - M, 9.8, { align: "right" });
+  }
+  function rodape(n, total) {
+    doc.setDrawColor(...cor.linha); doc.line(M, H - 10, W - M, H - 10);
+    doc.setTextColor(...cor.suave); doc.setFont("helvetica", "normal"); doc.setFontSize(8);
+    doc.text(T("Uso interno · documento com dados pessoais da equipe. Não repasse."), M, H - 5.5);
+    doc.text(T(`Página ${n} de ${total}`), W - M, H - 5.5, { align: "right" });
+  }
+
+  cabecalho();
+  let y = 27;
+  doc.setTextColor(...cor.grafite); doc.setFont("helvetica", "bold"); doc.setFontSize(18);
+  doc.text(T(`Equipe de ${GESTOR_ATUAL}`), M, y);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(...cor.suave);
+  y += 6;
+  doc.text(T(`${r.pessoas} ${r.pessoas === 1 ? "pessoa" : "pessoas"} · férias recalculadas na data acima · hora extra = média dos últimos 3 meses`), M, y);
+
+  // Caixas de resumo
+  y += 6;
+  const caixas = [
+    ["Férias vencidas", String(r.vencidas), `${r.vencem} vencem em ${DIAS_ALERTA} dias`],
+    ["Pedidos de férias pendentes", String(r.pedidos), "negados, remarcados ou sem resposta"],
+    ...(incluirRisco ? [["Atenção à permanência", String(r.risco), "2 ou mais sinais de risco de saída"]] : []),
+    ["Hora extra média", r.heMedia == null ? "-" : `${r.heMedia.toFixed(0)} h/mês`, `${r.heAcima} acima de 2 h por dia`],
+    ["Saídas da equipe", String(r.saidas), "nos últimos 12 meses"],
+  ];
+  const gap = 4, bw = (W - 2 * M - gap * (caixas.length - 1)) / caixas.length, bh = 20;
+  caixas.forEach(([rot, val, det], i) => {
+    const x = M + i * (bw + gap);
+    doc.setDrawColor(...cor.grafite); doc.setLineWidth(0.3); doc.rect(x, y, bw, bh);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(...cor.suave);
+    doc.text(T(rot.toUpperCase()), x + 3, y + 5);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(15); doc.setTextColor(...cor.grafite);
+    doc.text(T(val), x + 3, y + 12.5);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(...cor.suave);
+    doc.text(T(det), x + 3, y + 17);
+  });
+  y += bh + 8;
+
+  // Tabela
+  const cols = incluirRisco
+    ? [["Pessoa", 58], ["Férias", 38], ["Último pedido de férias", 50], ["Hora extra", 27], ["Permanência", 40], ["O que fazer", 56]]
+    : [["Pessoa", 64], ["Férias", 42], ["Último pedido de férias", 58], ["Hora extra", 30], ["O que fazer", 75]];
+  const xs = []; cols.reduce((x, c) => { xs.push(x); return x + c[1]; }, M);
+  function cabecalhoTabela() {
+    doc.setFillColor(...cor.areia); doc.rect(M, y, W - 2 * M, 7, "F");
+    doc.setFont("helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(...cor.grafite);
+    cols.forEach((c, i) => doc.text(T(c[0].toUpperCase()), xs[i] + 2, y + 4.8));
+    y += 7;
+  }
+  cabecalhoTabela();
+  const pad = 2, lh = 3.6;
+  for (const { p, s } of equipe) {
+    const celulas = [
+      { forte: p.nome, fraco: `${p.cargo} · ${p.turno} · ${tempoDeCasa(p.admissao, DADOS.ref)} de casa` },
+      { st: s.ferias }, { st: s.pedido }, { st: s.horas },
+      ...(incluirRisco ? [{ st: s.permanencia }] : []),
+      { lista: s.acoes },
+    ];
+    // mede a altura da linha
+    const linhasDe = celulas.map((c, i) => {
+      const w = cols[i][1] - 2 * pad - (c.st ? 4 : 0);
+      doc.setFontSize(8.5);
+      if (c.lista) return c.lista.flatMap(a => doc.splitTextToSize(T("- " + a), w));
+      const a = doc.splitTextToSize(T(c.forte ?? c.st.texto), w);
+      doc.setFontSize(7.5);
+      const b = (c.fraco ?? c.st.extra) ? doc.splitTextToSize(T(c.fraco ?? c.st.extra), w) : [];
+      return [a, b];
+    });
+    const alturas = linhasDe.map((l, i) => celulas[i].lista ? l.length * lh : (l[0].length + l[1].length) * lh);
+    const altura = Math.max(...alturas) + 2 * pad + 1;
+    if (y + altura > H - 14) { doc.addPage(); cabecalho(); y = 24; cabecalhoTabela(); }
+    celulas.forEach((c, i) => {
+      const x = xs[i] + pad;
+      let ty = y + pad + 3;
+      if (c.lista) {
+        doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(...cor.grafite);
+        doc.text(linhasDe[i], x, ty, { lineHeightFactor: 1.2 });
+        return;
+      }
+      let xt = x;
+      if (c.st) {
+        doc.setFillColor(...(cor[c.st.nivel] || cor.neutro));
+        doc.circle(x + 1.3, ty - 1.1, 1.3, "F");
+        xt = x + 4;
+      }
+      doc.setFont("helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(...cor.grafite);
+      doc.text(linhasDe[i][0], xt, ty, { lineHeightFactor: 1.2 });
+      ty += linhasDe[i][0].length * lh;
+      if (linhasDe[i][1].length) {
+        doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(...cor.suave);
+        doc.text(linhasDe[i][1], xt, ty, { lineHeightFactor: 1.2 });
+      }
+    });
+    y += altura;
+    doc.setDrawColor(...cor.linha); doc.setLineWidth(0.2); doc.line(M, y, W - M, y);
+  }
+  if (!equipe.length) { doc.setFontSize(10); doc.text(T("Nenhuma pessoa ativa com este gestor."), M, y + 6); }
+
+  // Legenda e regras, no fim
+  if (y + 22 > H - 14) { doc.addPage(); cabecalho(); y = 24; }
+  y += 7;
+  doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(...cor.suave);
+  const legenda = [["critico", "férias vencidas"], ["atencao", "férias vencendo em 60 dias ou pedido pendente"], ["alerta", "hora extra acima de 20 h/mês" + (incluirRisco ? " ou atenção à permanência" : "")], ["ok", "em dia"]];
+  let lx = M;
+  legenda.forEach(([n, t]) => { doc.setFillColor(...cor[n]); doc.circle(lx + 1.3, y - 1.1, 1.3, "F"); doc.text(T(t), lx + 4, y); lx += doc.getTextWidth(T(t)) + 10; });
+  y += 5;
+  const regras = doc.splitTextToSize(T("Férias: pela CLT, as férias devem ser concedidas nos 12 meses após o período aquisitivo; depois disso são pagas em dobro (art. 137) e o aviso ao funcionário deve vir com 30 dias de antecedência (art. 135). Hora extra: o limite legal é de 2 horas por dia (art. 59)." + (incluirRisco ? " Permanência: sinais usados pelo RH são menos de 1 ano de casa, 2º ou 3º turno de Estamparia, Montagem ou Logística, hora extra acima de 20 h/mês e férias vencidas ou pedido negado/sem resposta. É um alerta para conversar, não uma previsão." : "")), W - 2 * M);
+  doc.text(regras, M, y, { lineHeightFactor: 1.3 });
+
+  const total = doc.getNumberOfPages();
+  for (let i = 1; i <= total; i++) { doc.setPage(i); rodape(i, total); }
+
+  const nome = `relatorio-equipe-${semAcento(GESTOR_ATUAL).replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}-${DADOS.ref.toISOString().slice(0, 10)}.pdf`;
+  const blob = doc.output("blob");
+  status.textContent = "Gerando o PDF…";
+  try {
+    const salvo = await salvarArquivo(nome, blob);
+    status.textContent = salvo === "recusado" ? "Download cancelado." : `PDF pronto: ${nome}`;
+  } catch (e) {
+    status.textContent = "Não consegui salvar o PDF aqui. " + (e && e.message ? e.message : "");
+  }
+}
+
+// No link do claude.ai o download passa pela confirmação do próprio site; no arquivo do computador, baixa direto.
+async function salvarArquivo(nome, blob) {
+  if (window.claude && typeof window.claude.use === "function") {
+    let dl = null;
+    try { dl = await window.claude.use("downloads"); } catch (e) { dl = null; }
+    if (dl) {
+      try { await dl.save({ filename: nome, data: blob }); return "salvo"; }
+      catch (e) { if (e && e.code === "declined") return "recusado"; throw e; }
+    }
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = nome; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+  return "salvo";
+}
+
 function mostrarPainel(nomeArquivo) {
   document.getElementById("abrir").classList.add("escondido");
   document.getElementById("painel").classList.remove("escondido");
@@ -1746,6 +2107,18 @@ document.getElementById("simFila").addEventListener("click", e => {
   const tr = e.target.closest("tr.pessoa"); if (tr) abrirFicha(tr.dataset.mat);
 });
 document.getElementById("simFila").addEventListener("keydown", e => {
+  const tr = e.target.closest("tr.pessoa"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); abrirFicha(tr.dataset.mat); }
+});
+
+// Visão do gestor
+document.getElementById("gestorEscolha").addEventListener("change", e => {
+  GESTOR_ATUAL = e.target.value; gravarPreferencia("painelRH.gestor", GESTOR_ATUAL); desenharGestor();
+});
+document.getElementById("gerarPDF").addEventListener("click", () => { gerarPDFGestor(); });
+document.getElementById("gestorConteudo").addEventListener("click", e => {
+  const tr = e.target.closest("tr.pessoa"); if (tr) abrirFicha(tr.dataset.mat);
+});
+document.getElementById("gestorConteudo").addEventListener("keydown", e => {
   const tr = e.target.closest("tr.pessoa"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); abrirFicha(tr.dataset.mat); }
 });
 

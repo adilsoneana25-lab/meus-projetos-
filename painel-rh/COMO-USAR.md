@@ -12,6 +12,15 @@ e **não precisa de internet** nem de instalar nada.
 
 Quando a planilha for atualizada, abra o painel de novo e escolha a planilha outra vez.
 
+## No celular (Android)
+
+1. Abra o link privado do painel no Chrome do celular: https://claude.ai/artifact/75iWRvC38GsAqnzk6mBPd5
+   (entre com a mesma conta do Claude; só você abre o link, a não ser que compartilhe pelo menu "Compartilhar").
+2. Toque em **Escolher planilha** e escolha o `.xlsx` (dos Downloads, do Google Drive ou de onde estiver salvo).
+3. A planilha é lida só no celular e não é enviada para lugar nenhum.
+
+O celular precisa de internet só para abrir a página.
+
 ## O que aparece
 
 - **Pessoas ativas:** quantas pessoas estão com status "Ativo".

@@ -1,0 +1,582 @@
+<title>Painel de RH Ferraz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+  /* Layout: cabeçalho grafite, números principais em cartões, áreas como blocos que abrem; no celular cada pessoa vira um cartão. */
+  :root {
+    --fundo: #F1ECE3;          /* Areia de Fundição */
+    --superficie: #FFFFFF;
+    --superficie-2: #FBF8F3;
+    --texto: #22262B;          /* Grafite Ferraz */
+    --suave: #5E6770;
+    --aco: #8A949E;            /* Aço Escovado */
+    --linha: #D9D2C5;
+    --linha-fraca: #EEE9DF;
+    --borda: #22262B;
+    --laranja: #E4570F;        /* Laranja Forno: destaque único */
+    --laranja-fundo: #FFF4EC;
+    --verde: #2E7D5B;          /* Verde Calibrado */
+    --verde-fundo: #DCEFE6;
+    --amarelo: #E8B931;        /* Amarelo Cavaco */
+    --amarelo-texto: #22262B;
+    --vermelho: #B42318;       /* Vermelho Rebarba */
+    --vermelho-texto: #FFFFFF;
+    --cinza-fundo: #E6E3DD;
+    --cabecalho: #22262B;
+    --cabecalho-texto: #FFFFFF;
+    --cabecalho-suave: #C9CED3;
+    --cabecalho-borda: #6B737B;
+    --sobreposicao: rgba(34, 38, 43, .55);
+    --titulo: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+    --corpo: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+    --mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --fundo: #15171A; --superficie: #1E2226; --superficie-2: #252A2F; --texto: #ECE7DD; --suave: #A3ABB3;
+      --aco: #8A949E; --linha: #353B41; --linha-fraca: #2A2F34; --borda: #4A5158; --laranja: #F2692A; --laranja-fundo: #2A1E17;
+      --verde: #7CCBA4; --verde-fundo: #1E3A2E; --amarelo: #E8B931; --amarelo-texto: #22262B; --vermelho: #C8382C; --vermelho-texto: #FFFFFF;
+      --cinza-fundo: #2C3136; --cabecalho: #0E1012; --cabecalho-texto: #FFFFFF; --cabecalho-suave: #A3ABB3; --cabecalho-borda: #4A5158;
+      --sobreposicao: rgba(0, 0, 0, .65); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --fundo: #15171A; --superficie: #1E2226; --superficie-2: #252A2F; --texto: #ECE7DD; --suave: #A3ABB3;
+    --aco: #8A949E; --linha: #353B41; --linha-fraca: #2A2F34; --borda: #4A5158; --laranja: #F2692A; --laranja-fundo: #2A1E17;
+    --verde: #7CCBA4; --verde-fundo: #1E3A2E; --amarelo: #E8B931; --amarelo-texto: #22262B; --vermelho: #C8382C; --vermelho-texto: #FFFFFF;
+    --cinza-fundo: #2C3136; --cabecalho: #0E1012; --cabecalho-texto: #FFFFFF; --cabecalho-suave: #A3ABB3; --cabecalho-borda: #4A5158;
+    --sobreposicao: rgba(0, 0, 0, .65); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fundo); color: var(--texto); font-family: var(--corpo); font-size: 15px; line-height: 1.45; }
+  .gutter { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  header { background: var(--cabecalho); color: var(--cabecalho-texto); padding-block: 14px; }
+  .cab { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .logo { width: 38px; height: 38px; background: var(--laranja); display: grid; place-items: center; font: 700 26px var(--titulo); color: #FFFFFF; border-radius: 2px; flex: none; }
+  .marca { min-width: 0; }
+  .marca b { display: block; font: 700 22px/1 var(--titulo); letter-spacing: .04em; }
+  .marca small { font: 11px var(--mono); color: var(--cabecalho-suave); letter-spacing: .08em; }
+  .cab .acoes { margin-left: auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .botao { background: var(--laranja); color: #FFFFFF; border: 0; padding: 10px 16px; font: 600 14px var(--corpo); cursor: pointer; border-radius: 2px; min-height: 44px; }
+  .botao.secundario { background: transparent; border: 1px solid var(--cabecalho-borda); color: var(--cabecalho-texto); }
+  .botao:focus-visible, .link:focus-visible, summary:focus-visible, tr.pessoa:focus-visible, .fechar:focus-visible, input:focus-visible { outline: 3px solid var(--laranja); outline-offset: 2px; }
+  .data-ref { font: 12px var(--mono); color: var(--cabecalho-suave); }
+  main { max-width: 1200px; margin: 0 auto; padding-block: 24px 60px; }
+
+  /* Tela de abrir planilha */
+  #abrir { background: var(--superficie); border: 2px dashed var(--aco); padding: 40px 20px; text-align: center; margin-top: 24px; }
+  #abrir.arrastando { border-color: var(--laranja); background: var(--laranja-fundo); }
+  #abrir h1 { font: 700 30px var(--titulo); text-transform: uppercase; margin: 0 0 8px; text-wrap: balance; }
+  #abrir p { color: var(--suave); margin: 6px auto 20px; max-width: 60ch; }
+  .previa { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 22px 0 0; padding: 0; list-style: none; font-size: 13px; color: var(--suave); }
+  .previa li { border: 1px solid var(--linha); padding: 6px 10px; }
+  #erro { color: var(--vermelho); font-weight: 600; margin-top: 16px; white-space: pre-line; }
+
+  /* Números principais */
+  h2 { font: 700 22px var(--titulo); text-transform: uppercase; letter-spacing: .03em; margin: 28px 0 12px; }
+  .cartoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .cartao { background: var(--superficie); border: 1px solid var(--borda); padding: 16px 18px; min-width: 0; }
+  .cartao .rotulo { font-size: 13px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+  .cartao .valor { font: 600 34px/1.15 var(--mono); margin: 6px 0 4px; font-variant-numeric: tabular-nums; }
+  .cartao .detalhe { font-size: 13px; color: var(--suave); }
+  .cartao.destaque { border-left: 6px solid var(--laranja); }
+  .cartao.destaque .valor { color: var(--laranja); }
+  .cartao.alerta { border-left: 6px solid var(--amarelo); }
+
+  /* Barra de busca */
+  .ferramentas { display: flex; gap: 8px 14px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .ferramentas input[type=search] { flex: 1 1 260px; min-width: 0; padding: 10px 12px; border: 1px solid var(--borda); font: 16px var(--corpo); background: var(--superficie); color: var(--texto); min-height: 44px; }
+  .ferramentas label { font-size: 14px; display: flex; gap: 6px; align-items: center; cursor: pointer; min-height: 44px; }
+  .link { background: none; border: 0; color: var(--texto); text-decoration: underline; cursor: pointer; font: 14px var(--corpo); padding: 4px; min-height: 44px; }
+
+  /* Áreas */
+  details.area { background: var(--superficie); border: 1px solid var(--borda); margin-bottom: 10px; }
+  details.area > summary { list-style: none; cursor: pointer; padding: 12px 16px; display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: center; }
+  details.area > summary::-webkit-details-marker { display: none; }
+  .area-nome { font: 700 19px var(--titulo); text-transform: uppercase; letter-spacing: .03em; min-width: 0; }
+  .area-nome::before { content: "▸ "; color: var(--aco); }
+  details[open] .area-nome::before { content: "▾ "; }
+  .area-info { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; font-size: 13px; }
+  .barra { grid-column: 1 / -1; height: 6px; background: var(--linha-fraca); }
+  .barra span { display: block; height: 100%; background: var(--aco); }
+  .tabela-rolagem { overflow-x: auto; border-top: 1px solid var(--linha); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--suave); padding: 8px 12px; border-bottom: 1px solid var(--linha); white-space: nowrap; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--linha-fraca); vertical-align: top; }
+  tr.pessoa { cursor: pointer; }
+  tr.pessoa:hover td { background: var(--superficie-2); }
+  td.num { font-family: var(--mono); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  td.nome { font-weight: 600; }
+  .desligado td { color: var(--aco); }
+
+  .chip { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .chip.vermelho { background: var(--vermelho); color: var(--vermelho-texto); }
+  .chip.amarelo { background: var(--amarelo); color: var(--amarelo-texto); }
+  .chip.verde { background: var(--verde-fundo); color: var(--verde); }
+  .chip.cinza { background: var(--cinza-fundo); color: var(--suave); }
+
+  /* Ficha da pessoa */
+  #ficha { position: fixed; inset: 0; background: var(--sobreposicao); display: none; align-items: flex-start; justify-content: center;
+           padding: calc(24px + env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+           overflow-y: auto; z-index: 10; }
+  #ficha.aberta { display: flex; }
+  .ficha-caixa { background: var(--superficie); border: 1px solid var(--borda); width: 100%; max-width: 980px; padding: 22px 24px; position: relative; min-width: 0; }
+  .ficha-caixa h3 { font: 700 26px var(--titulo); text-transform: uppercase; margin: 0 44px 2px 0; text-wrap: balance; }
+  .ficha-caixa h4 { font: 700 17px var(--titulo); text-transform: uppercase; margin: 22px 0 8px; letter-spacing: .03em; }
+  .fechar { position: absolute; top: 8px; right: 8px; background: none; border: 0; font-size: 30px; cursor: pointer; color: var(--texto); width: 44px; height: 44px; }
+  .dados { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px 18px; margin-top: 12px; }
+  .dados div span { display: block; font-size: 12px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+  .vazio { color: var(--suave); font-style: italic; }
+  footer { text-align: center; color: var(--suave); font-size: 12px; margin-top: 40px; }
+  .escondido { display: none !important; }
+
+  /* Celular: cada pessoa vira um cartão de duas linhas, sem rolagem lateral */
+  @media (max-width: 640px) {
+    .marca b { font-size: 19px; }
+    .cab .acoes { margin-left: 0; width: 100%; justify-content: space-between; }
+    details.area > summary { grid-template-columns: 1fr; padding: 12px 14px; }
+    .area-info { justify-content: flex-start; }
+    .cartao .valor { font-size: 28px; }
+    .tabela-pessoas thead { display: none; }
+    .tabela-pessoas, .tabela-pessoas tbody { display: block; }
+    .tabela-pessoas tr.pessoa { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; padding: 11px 14px; border-bottom: 1px solid var(--linha-fraca); }
+    .tabela-pessoas td { display: block; padding: 0; border: 0; background: none !important; font-size: 13px; color: var(--suave); }
+    .tabela-pessoas td.nome { order: 1; flex: 1 1 60%; font-size: 15px; color: var(--texto); }
+    .tabela-pessoas td.ferias { order: 2; }
+    .tabela-pessoas td.cargo { order: 3; flex-basis: 100%; }
+    .tabela-pessoas td.turno { order: 4; }
+    .tabela-pessoas td.gestor { order: 5; }
+    .tabela-pessoas td.gestor::before { content: "· Gestor: "; }
+    .tabela-pessoas td.tempo { order: 6; }
+    .tabela-pessoas td.tempo::before { content: "· "; }
+    .tabela-pessoas td.salario { order: 7; text-align: left; }
+    .tabela-pessoas td.salario::before { content: "· "; }
+    .desligado td.nome { color: var(--aco) !important; }
+    .ficha-caixa { padding: 18px 16px; }
+    .ficha-caixa h3 { font-size: 23px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+<header class="gutter">
+  <div class="cab">
+    <div class="logo">F</div>
+    <div class="marca"><b>FERRAZ · PAINEL DE RH</b><small>USINAGEM · ESTAMPARIA</small></div>
+    <div class="acoes">
+      <span class="data-ref" id="dataRef"></span>
+      <button class="botao secundario escondido" id="trocar">Abrir outra planilha</button>
+    </div>
+  </div>
+</header>
+
+<main class="gutter">
+  <!-- Tela 1: escolher a planilha -->
+  <section id="abrir">
+    <h1>Abra a planilha de RH</h1>
+    <p>Toque no botão e escolha o arquivo <b>.xlsx</b> (no computador, também dá para arrastar o arquivo para cá).
+       A planilha é lida só neste aparelho e não é enviada para lugar nenhum.</p>
+    <button class="botao" id="escolher">Escolher planilha</button>
+    <input type="file" id="arquivo" accept=".xlsx,.xlsm,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="escondido">
+    <div id="erro"></div>
+    <ul class="previa" aria-label="O que o painel mostra">
+      <li>Pessoas ativas</li>
+      <li>Custo de férias vencidas</li>
+      <li>Férias que vencem em 60 dias</li>
+      <li>A empresa por área, pessoa a pessoa</li>
+    </ul>
+  </section>
+
+  <!-- Tela 2: painel -->
+  <section id="painel" class="escondido">
+    <h2>Números principais</h2>
+    <div class="cartoes" id="cartoes"></div>
+
+    <h2>A empresa por área</h2>
+    <div class="ferramentas">
+      <input type="search" id="busca" placeholder="Procurar pessoa, cargo ou gestor…">
+      <label><input type="checkbox" id="verDesligados"> Mostrar quem saiu</label>
+      <button class="link" id="abrirTodas">Abrir todas</button>
+      <button class="link" id="fecharTodas">Fechar todas</button>
+    </div>
+    <div id="areas"></div>
+    <footer id="rodape"></footer>
+  </section>
+</main>
+
+<!-- Ficha de uma pessoa -->
+<div id="ficha" role="dialog" aria-modal="true">
+  <div class="ficha-caixa">
+    <button class="fechar" id="fecharFicha" aria-label="Fechar">×</button>
+    <div id="fichaConteudo"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.mini.min.js"></script>
+<script>
+"use strict";
+
+/* ===================== Configuração ===================== */
+const DIAS_ALERTA = 60;  // janela de "férias que vencem em breve"
+
+/* ===================== Utilidades ===================== */
+const DIA = 86400000;
+
+// Datas do Excel chegam como número de dias desde 30/12/1899. Trabalhamos em UTC para não "pular" um dia.
+function dataExcel(v) {
+  if (v === null || v === undefined || v === "") return null;
+  if (typeof v === "number") return new Date(Date.UTC(1899, 11, 30) + Math.round(v * DIA));
+  if (v instanceof Date) return new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate()));
+  const m = String(v).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (m) return new Date(Date.UTC(+m[3], +m[2] - 1, +m[1]));
+  const d = new Date(v);
+  return isNaN(d) ? null : new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+}
+function hojeUTC() { const h = new Date(); return new Date(Date.UTC(h.getFullYear(), h.getMonth(), h.getDate())); }
+function diasEntre(a, b) { return Math.round((b - a) / DIA); }
+function fmtData(d) {
+  if (!d) return "—";
+  return String(d.getUTCDate()).padStart(2, "0") + "/" + String(d.getUTCMonth() + 1).padStart(2, "0") + "/" + d.getUTCFullYear();
+}
+const moeda = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+const moedaCentavos = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+function fmtMoeda(v) { return moeda.format(v || 0); }
+function num(v) { const n = Number(v); return isNaN(n) ? 0 : n; }
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function tempoDeCasa(adm, ref) {
+  if (!adm) return "—";
+  let meses = (ref.getUTCFullYear() - adm.getUTCFullYear()) * 12 + (ref.getUTCMonth() - adm.getUTCMonth());
+  if (ref.getUTCDate() < adm.getUTCDate()) meses--;
+  if (meses < 0) meses = 0;
+  if (meses < 12) return meses + (meses === 1 ? " mês" : " meses");
+  const anos = Math.floor(meses / 12);
+  return anos + (anos === 1 ? " ano" : " anos");
+}
+function semAcento(s) { return String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+
+/* ===================== Leitura da planilha ===================== */
+function lerAba(wb, nome) {
+  const aba = wb.Sheets[nome];
+  if (!aba) return null;
+  return XLSX.utils.sheet_to_json(aba, { defval: null, raw: true });
+}
+
+function montarDados(wb) {
+  const faltando = ["Funcionarios", "Ferias_Periodos"].filter(n => !wb.Sheets[n]);
+  if (faltando.length) {
+    throw new Error("Não encontrei a(s) aba(s): " + faltando.join(", ") +
+      ".\nEsta tela espera a planilha de RH com as abas Funcionarios e Ferias_Periodos.");
+  }
+  const ref = hojeUTC();
+
+  const pessoas = lerAba(wb, "Funcionarios").filter(l => l["Matrícula"] != null).map(l => ({
+    matricula: l["Matrícula"],
+    nome: l["Nome"] || "(sem nome)",
+    sexo: l["Sexo"],
+    nascimento: dataExcel(l["Data de nascimento"]),
+    cidade: l["Cidade"],
+    escolaridade: l["Escolaridade"],
+    setor: l["Setor"] || "Sem área",
+    cargo: l["Cargo"] || "—",
+    turno: l["Turno"] || "—",
+    gestor: l["Gestor imediato"] || "—",
+    admissao: dataExcel(l["Data de admissão"]),
+    contrato: l["Tipo de contrato"] || "—",
+    salario: num(l["Salário base (R$)"]),
+    ativo: String(l["Status"] || "").trim().toLowerCase() === "ativo",
+    desligamento: dataExcel(l["Data de desligamento"]),
+    periodos: [],
+    pedidos: [],
+  }));
+  const porMatricula = new Map(pessoas.map(p => [p.matricula, p]));
+
+  // Períodos de férias: a situação é recalculada com a data de hoje.
+  for (const l of lerAba(wb, "Ferias_Periodos")) {
+    const p = porMatricula.get(l["Matrícula"]);
+    if (!p) continue;
+    const limite = dataExcel(l["Limite para conceder as férias"]);
+    const fimAquisitivo = dataExcel(l["Fim do período aquisitivo"]);
+    const saldo = num(l["Saldo de dias"]);
+    const per = {
+      n: l["Nº do período aquisitivo"],
+      inicio: dataExcel(l["Início do período aquisitivo"]),
+      fim: fimAquisitivo,
+      limite,
+      direito: num(l["Dias de direito"]),
+      gozados: num(l["Dias gozados"]),
+      saldo,
+      programacao: l["Programação"] || "",
+      diasAteLimite: limite ? diasEntre(ref, limite) : null,
+    };
+    // Custo da dobra (art. 137 da CLT), mesma fórmula do Leia-me: saldo ÷ 30 × salário × 4/3.
+    per.custoDobra = saldo / 30 * p.salario * 4 / 3;
+    if (saldo <= 0) per.situacao = "gozada";
+    else if (fimAquisitivo && fimAquisitivo >= ref) per.situacao = "aquisicao";
+    else if (per.diasAteLimite < 0) per.situacao = "vencida";
+    else if (per.diasAteLimite <= DIAS_ALERTA) per.situacao = "vence";
+    else per.situacao = "prazo";
+    p.periodos.push(per);
+  }
+
+  // Pedidos de férias (opcional)
+  const pedidos = lerAba(wb, "Ferias_Solicitacoes") || [];
+  for (const l of pedidos) {
+    const p = porMatricula.get(l["Matrícula"]);
+    if (!p) continue;
+    p.pedidos.push({
+      id: l["ID da solicitação"],
+      data: dataExcel(l["Data da solicitação"]),
+      inicio: dataExcel(l["Início pedido"]),
+      fim: dataExcel(l["Fim pedido"]),
+      dias: l["Dias pedidos"],
+      status: l["Status"] || "—",
+      motivo: l["Motivo da negativa ou remarcação"] || "",
+      decisor: l["Decisor (gestor)"] || "",
+    });
+  }
+
+  for (const p of pessoas) {
+    p.periodos.sort((a, b) => num(a.n) - num(b.n));
+    p.pedidos.sort((a, b) => (b.data || 0) - (a.data || 0));
+    const vencidas = p.periodos.filter(x => x.situacao === "vencida");
+    const vencendo = p.periodos.filter(x => x.situacao === "vence");
+    p.ferias = {
+      vencidas: vencidas.length,
+      custoVencidas: vencidas.reduce((s, x) => s + x.custoDobra, 0),
+      vencendo: vencendo.length,
+      custoVencendo: vencendo.reduce((s, x) => s + x.custoDobra, 0),
+      proximoLimite: vencendo.length ? Math.min(...vencendo.map(x => x.diasAteLimite)) : null,
+      pendentes: p.periodos.filter(x => x.situacao === "prazo").length,
+    };
+  }
+  return { pessoas, ref };
+}
+
+/* ===================== Desenho da tela ===================== */
+let DADOS = null;
+
+function chipFerias(p) {
+  if (!p.ativo) return '<span class="chip cinza">Saiu em ' + fmtData(p.desligamento) + "</span>";
+  const f = p.ferias;
+  if (f.vencidas) return '<span class="chip vermelho">Vencida' + (f.vencidas > 1 ? " (" + f.vencidas + ")" : "") + "</span>";
+  if (f.vencendo) return '<span class="chip amarelo">Vence em ' + f.proximoLimite + (f.proximoLimite === 1 ? " dia" : " dias") + "</span>";
+  return '<span class="chip verde">Em dia</span>';
+}
+
+function desenharCartoes() {
+  const ativos = DADOS.pessoas.filter(p => p.ativo);
+  const comVencida = ativos.filter(p => p.ferias.vencidas);
+  const comVencendo = ativos.filter(p => p.ferias.vencendo);
+  const custoVencidas = ativos.reduce((s, p) => s + p.ferias.custoVencidas, 0);
+  const custoVencendo = ativos.reduce((s, p) => s + p.ferias.custoVencendo, 0);
+  const periodosVencidos = ativos.reduce((s, p) => s + p.ferias.vencidas, 0);
+  const areas = new Set(ativos.map(p => p.setor)).size;
+
+  document.getElementById("cartoes").innerHTML = `
+    <div class="cartao">
+      <div class="rotulo">Pessoas ativas</div>
+      <div class="valor">${ativos.length}</div>
+      <div class="detalhe">em ${areas} áreas</div>
+    </div>
+    <div class="cartao destaque">
+      <div class="rotulo">Custo de férias vencidas</div>
+      <div class="valor">${fmtMoeda(custoVencidas)}</div>
+      <div class="detalhe">${comVencida.length} pessoas · ${periodosVencidos} períodos vencidos · pagamento em dobro (CLT art. 137)</div>
+    </div>
+    <div class="cartao alerta">
+      <div class="rotulo">Férias que vencem em ${DIAS_ALERTA} dias</div>
+      <div class="valor">${comVencendo.length} ${comVencendo.length === 1 ? "pessoa" : "pessoas"}</div>
+      <div class="detalhe">se não forem concedidas, custam mais ${fmtMoeda(custoVencendo)}</div>
+    </div>`;
+}
+
+function desenharAreas() {
+  const termo = semAcento(document.getElementById("busca").value.trim());
+  const verDesligados = document.getElementById("verDesligados").checked;
+  const abertasAntes = new Set([...document.querySelectorAll("details.area[open]")].map(d => d.dataset.area));
+  const buscando = termo.length > 0;
+
+  const grupos = new Map();
+  for (const p of DADOS.pessoas) {
+    if (!p.ativo && !verDesligados) continue;
+    if (buscando && !semAcento([p.nome, p.cargo, p.gestor, p.turno, p.matricula].join(" ")).includes(termo)) continue;
+    if (!grupos.has(p.setor)) grupos.set(p.setor, []);
+    grupos.get(p.setor).push(p);
+  }
+  // Áreas com mais pessoas ativas primeiro
+  const ativosPorArea = new Map();
+  for (const p of DADOS.pessoas) if (p.ativo) ativosPorArea.set(p.setor, (ativosPorArea.get(p.setor) || 0) + 1);
+  const maior = Math.max(1, ...ativosPorArea.values());
+  const ordem = [...grupos.keys()].sort((a, b) => (ativosPorArea.get(b) || 0) - (ativosPorArea.get(a) || 0) || a.localeCompare(b));
+
+  if (!ordem.length) {
+    document.getElementById("areas").innerHTML = '<p class="vazio">Ninguém encontrado com essa busca.</p>';
+    return;
+  }
+
+  document.getElementById("areas").innerHTML = ordem.map(setor => {
+    const lista = grupos.get(setor).sort((a, b) => (b.ativo - a.ativo) || a.nome.localeCompare(b.nome));
+    const qtdAtivos = ativosPorArea.get(setor) || 0;
+    const ativosArea = DADOS.pessoas.filter(p => p.ativo && p.setor === setor);
+    const venc = ativosArea.filter(p => p.ferias.vencidas).length;
+    const vence = ativosArea.filter(p => !p.ferias.vencidas && p.ferias.vencendo).length;
+    const custo = ativosArea.reduce((s, p) => s + p.ferias.custoVencidas, 0);
+    const aberta = buscando || abertasAntes.has(setor);
+    return `
+      <details class="area" data-area="${esc(setor)}" ${aberta ? "open" : ""}>
+        <summary>
+          <span class="area-nome">${esc(setor)}</span>
+          <span class="area-info">
+            <span class="chip cinza">${qtdAtivos} ${qtdAtivos === 1 ? "pessoa" : "pessoas"}</span>
+            ${venc ? `<span class="chip vermelho">${venc} com férias vencidas · ${fmtMoeda(custo)}</span>` : ""}
+            ${vence ? `<span class="chip amarelo">${vence} vencem em ${DIAS_ALERTA} dias</span>` : ""}
+          </span>
+          <span class="barra"><span style="width:${(qtdAtivos / maior * 100).toFixed(1)}%"></span></span>
+        </summary>
+        <div class="tabela-rolagem">
+          <table class="tabela-pessoas">
+            <thead><tr><th>Nome</th><th>Cargo</th><th>Turno</th><th>Gestor</th><th>Tempo de casa</th><th style="text-align:right">Salário</th><th>Férias</th></tr></thead>
+            <tbody>
+              ${lista.map(p => `
+                <tr class="pessoa ${p.ativo ? "" : "desligado"}" data-mat="${esc(p.matricula)}" tabindex="0" title="Toque para ver a ficha">
+                  <td class="nome">${esc(p.nome)}</td>
+                  <td class="cargo">${esc(p.cargo)}</td>
+                  <td class="turno">${esc(p.turno)}</td>
+                  <td class="gestor">${esc(p.gestor)}</td>
+                  <td class="tempo">${tempoDeCasa(p.admissao, p.ativo ? DADOS.ref : (p.desligamento || DADOS.ref))}</td>
+                  <td class="num salario">${fmtMoeda(p.salario)}</td>
+                  <td class="ferias">${chipFerias(p)}</td>
+                </tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </details>`;
+  }).join("");
+}
+
+function nomeSituacao(s) {
+  return {
+    gozada: '<span class="chip verde">Gozada</span>',
+    aquisicao: '<span class="chip cinza">Em aquisição</span>',
+    prazo: '<span class="chip verde">No prazo</span>',
+    vence: '<span class="chip amarelo">Vence em breve</span>',
+    vencida: '<span class="chip vermelho">Vencida</span>',
+  }[s] || esc(s);
+}
+
+function abrirFicha(matricula) {
+  const p = DADOS.pessoas.find(x => String(x.matricula) === String(matricula));
+  if (!p) return;
+  const periodosAbertos = p.periodos.filter(x => x.situacao !== "gozada");
+  const linhasPeriodos = periodosAbertos.length ? periodosAbertos.map(x => `
+      <tr>
+        <td>${esc(x.n)}º</td>
+        <td>${fmtData(x.inicio)} a ${fmtData(x.fim)}</td>
+        <td>${fmtData(x.limite)}</td>
+        <td class="num">${x.saldo}</td>
+        <td>${nomeSituacao(x.situacao)}${x.situacao === "vencida" ? " há " + (-x.diasAteLimite) + " dias" : x.situacao === "vence" ? " (" + x.diasAteLimite + " dias)" : ""}</td>
+        <td class="num">${x.situacao === "vencida" || x.situacao === "vence" ? moedaCentavos.format(x.custoDobra) : "—"}</td>
+        <td>${esc(x.programacao)}</td>
+      </tr>`).join("")
+    : "";
+  const gozados = p.periodos.filter(x => x.situacao === "gozada").length;
+  const pedidos = p.pedidos.slice(0, 8);
+
+  document.getElementById("fichaConteudo").innerHTML = `
+    <h3>${esc(p.nome)}</h3>
+    <div>${esc(p.cargo)} · ${esc(p.setor)} · ${chipFerias(p)}</div>
+    <div class="dados">
+      <div><span>Matrícula</span>${esc(p.matricula)}</div>
+      <div><span>Turno</span>${esc(p.turno)}</div>
+      <div><span>Gestor imediato</span>${esc(p.gestor)}</div>
+      <div><span>Admissão</span>${fmtData(p.admissao)} (${tempoDeCasa(p.admissao, p.ativo ? DADOS.ref : (p.desligamento || DADOS.ref))})</div>
+      <div><span>Contrato</span>${esc(p.contrato)}</div>
+      <div><span>Salário base</span>${moedaCentavos.format(p.salario)}</div>
+      <div><span>Cidade</span>${esc(p.cidade || "—")}</div>
+      <div><span>Escolaridade</span>${esc(p.escolaridade || "—")}</div>
+      ${p.ativo ? "" : `<div><span>Desligamento</span>${fmtData(p.desligamento)}</div>`}
+    </div>
+
+    <h4>Férias em aberto</h4>
+    ${p.periodos.length === 0 ? '<p class="vazio">A planilha não traz períodos de férias para esta pessoa (a aba de férias só cobre quem está ativo).</p>' :
+      linhasPeriodos ? `<div class="tabela-rolagem"><table>
+        <thead><tr><th>Período</th><th>Aquisitivo</th><th>Prazo para conceder</th><th style="text-align:right">Saldo (dias)</th><th>Situação</th><th style="text-align:right">Custo se dobrar</th><th>Programação</th></tr></thead>
+        <tbody>${linhasPeriodos}</tbody></table></div>` : '<p class="vazio">Nenhuma férias em aberto.</p>'}
+    ${gozados ? `<p class="vazio">${gozados} ${gozados === 1 ? "período já gozado" : "períodos já gozados"}.</p>` : ""}
+
+    <h4>Últimos pedidos de férias</h4>
+    ${pedidos.length ? `<div class="tabela-rolagem"><table>
+      <thead><tr><th>Pedido em</th><th>Férias pedidas</th><th style="text-align:right">Dias</th><th>Resultado</th><th>Motivo</th><th>Quem decidiu</th></tr></thead>
+      <tbody>${pedidos.map(x => `<tr>
+        <td>${fmtData(x.data)}</td><td>${fmtData(x.inicio)} a ${fmtData(x.fim)}</td><td class="num">${esc(x.dias)}</td>
+        <td>${esc(x.status)}</td><td>${esc(x.motivo)}</td><td>${esc(x.decisor)}</td></tr>`).join("")}</tbody></table></div>`
+      : '<p class="vazio">Nenhum pedido registrado.</p>'}
+  `;
+  document.getElementById("ficha").classList.add("aberta");
+  document.getElementById("fecharFicha").focus();
+}
+function fecharFicha() { document.getElementById("ficha").classList.remove("aberta"); }
+
+function mostrarPainel(nomeArquivo) {
+  document.getElementById("abrir").classList.add("escondido");
+  document.getElementById("painel").classList.remove("escondido");
+  document.getElementById("trocar").classList.remove("escondido");
+  document.getElementById("dataRef").textContent = "Calculado em " + fmtData(DADOS.ref);
+  document.getElementById("rodape").textContent =
+    "Planilha: " + nomeArquivo + " · Situação das férias recalculada com a data de hoje · Custo da dobra = saldo ÷ 30 × salário base × 4/3 (estimativa, sem encargos).";
+  desenharCartoes();
+  desenharAreas();
+}
+
+/* ===================== Abrir arquivo ===================== */
+function carregarArquivo(arquivo) {
+  const erro = document.getElementById("erro");
+  erro.textContent = "";
+  if (!arquivo) return;
+  const leitor = new FileReader();
+  leitor.onload = e => {
+    try {
+      const wb = XLSX.read(new Uint8Array(e.target.result), { type: "array" });
+      DADOS = montarDados(wb);
+      mostrarPainel(arquivo.name);
+    } catch (ex) {
+      console.error(ex);
+      erro.textContent = "Não consegui ler essa planilha.\n" + (ex.message || ex);
+    }
+  };
+  leitor.onerror = () => { erro.textContent = "Não consegui abrir o arquivo."; };
+  leitor.readAsArrayBuffer(arquivo);
+}
+
+const entrada = document.getElementById("arquivo");
+document.getElementById("escolher").onclick = () => entrada.click();
+entrada.onchange = () => carregarArquivo(entrada.files[0]);
+document.getElementById("trocar").onclick = () => {
+  entrada.value = "";
+  document.getElementById("painel").classList.add("escondido");
+  document.getElementById("abrir").classList.remove("escondido");
+  document.getElementById("trocar").classList.add("escondido");
+};
+const zona = document.getElementById("abrir");
+["dragenter", "dragover"].forEach(ev => zona.addEventListener(ev, e => { e.preventDefault(); zona.classList.add("arrastando"); }));
+["dragleave", "drop"].forEach(ev => zona.addEventListener(ev, e => { e.preventDefault(); zona.classList.remove("arrastando"); }));
+zona.addEventListener("drop", e => carregarArquivo(e.dataTransfer.files[0]));
+// Evita que o navegador abra o arquivo se ele for solto fora da área
+window.addEventListener("dragover", e => e.preventDefault());
+window.addEventListener("drop", e => e.preventDefault());
+
+document.getElementById("busca").addEventListener("input", desenharAreas);
+document.getElementById("verDesligados").addEventListener("change", desenharAreas);
+document.getElementById("abrirTodas").onclick = () => document.querySelectorAll("details.area").forEach(d => d.open = true);
+document.getElementById("fecharTodas").onclick = () => document.querySelectorAll("details.area").forEach(d => d.open = false);
+document.getElementById("areas").addEventListener("click", e => {
+  const tr = e.target.closest("tr.pessoa"); if (tr) abrirFicha(tr.dataset.mat);
+});
+document.getElementById("areas").addEventListener("keydown", e => {
+  const tr = e.target.closest("tr.pessoa"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); abrirFicha(tr.dataset.mat); }
+});
+document.getElementById("fecharFicha").onclick = fecharFicha;
+document.getElementById("ficha").addEventListener("click", e => { if (e.target.id === "ficha") fecharFicha(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") fecharFicha(); });
+</script>

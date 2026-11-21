@@ -1,9 +1,40 @@
-"""Junta a biblioteca SheetJS e o painel num único arquivo HTML que funciona offline.
-Uso: python3 montar.py   (gera ../Painel-RH.html)"""
+"""Gera as duas versões do painel a partir de painel.template.html.
+
+- ../Painel-RH.html : arquivo único para o computador, funciona sem internet
+                      (a biblioteca que lê o Excel vai embutida).
+- ../web/painel-rh.html : versão publicada como link privado, para abrir no celular
+                      (a biblioteca vem do CDN jsDelivr; a página é montada pelo claude.ai).
+
+Uso: python3 montar.py
+"""
 from pathlib import Path
+
+VERSAO_XLSX = "0.18.5"
 aqui = Path(__file__).resolve().parent
-modelo = (aqui / "painel.template.html").read_text(encoding="utf-8")
+conteudo = (aqui / "painel.template.html").read_text(encoding="utf-8")
+marcador = "<!--BIBLIOTECA_XLSX-->"
+assert conteudo.count(marcador) == 1
+
+# 1) Versão offline: documento completo com a biblioteca embutida.
 lib = (aqui / "xlsx.mini.min.js").read_text(encoding="utf-8").replace("</script", "<\\/script")
-saida = aqui.parent / "Painel-RH.html"
-saida.write_text(modelo.replace("/*__BIBLIOTECA_XLSX__*/", lib, 1), encoding="utf-8")
-print("Gerado:", saida, f"({saida.stat().st_size // 1024} KB)")
+offline = (
+    '<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n'
+    '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+    + conteudo.replace(marcador, "<script>\n" + lib + "\n</script>", 1)
+    + "</html>\n"
+)
+saida1 = aqui.parent / "Painel-RH.html"
+saida1.write_text(offline, encoding="utf-8")
+
+# 2) Versão para link (celular): só o conteúdo, biblioteca carregada do CDN.
+web = conteudo.replace(
+    marcador,
+    f'<script src="https://cdn.jsdelivr.net/npm/xlsx@{VERSAO_XLSX}/dist/xlsx.mini.min.js"></script>',
+    1,
+)
+saida2 = aqui.parent / "web" / "painel-rh.html"
+saida2.parent.mkdir(exist_ok=True)
+saida2.write_text(web, encoding="utf-8")
+
+for s in (saida1, saida2):
+    print("Gerado:", s, f"({s.stat().st_size // 1024} KB)")

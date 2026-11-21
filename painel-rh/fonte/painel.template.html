@@ -666,7 +666,7 @@ function desenharCartoes() {
 function desenharAreas() {
   const termo = semAcento(document.getElementById("busca").value.trim());
   const verDesligados = document.getElementById("verDesligados").checked;
-  const abertasAntes = new Set([...document.querySelectorAll("details.area[open]")].map(d => d.dataset.area));
+  const abertasAntes = new Set([...document.querySelectorAll("#areas details.area[open]")].map(d => d.dataset.area));
   const buscando = termo.length > 0;
 
   const grupos = new Map();
@@ -1393,8 +1393,8 @@ window.addEventListener("drop", e => e.preventDefault());
 
 document.getElementById("busca").addEventListener("input", desenharAreas);
 document.getElementById("verDesligados").addEventListener("change", desenharAreas);
-document.getElementById("abrirTodas").onclick = () => document.querySelectorAll("details.area").forEach(d => d.open = true);
-document.getElementById("fecharTodas").onclick = () => document.querySelectorAll("details.area").forEach(d => d.open = false);
+document.getElementById("abrirTodas").onclick = () => document.querySelectorAll("#areas details.area").forEach(d => d.open = true);
+document.getElementById("fecharTodas").onclick = () => document.querySelectorAll("#areas details.area").forEach(d => d.open = false);
 document.getElementById("precisa").addEventListener("click", e => {
   const b = e.target.closest(".item-precisa"); if (b) abrirFicha(b.dataset.mat);
 });

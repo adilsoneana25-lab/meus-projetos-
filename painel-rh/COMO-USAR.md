@@ -67,6 +67,37 @@ No topo do painel há duas abas: **Visão geral** e **Análises**. A aba Anális
   não uma previsão.
 - **Quem saiu:** a lista completa por trás do gráfico.
 
+### Aba "E se..." (simulação de promoções)
+
+Escolha quanto a empresa pode investir por mês em promoções, pela barra ou digitando o valor.
+A tela se atualiza na hora e mostra:
+
+- **Números:**
+  - quantas pessoas são promovidas;
+  - quantas pessoas em risco ficam na empresa (retidas);
+  - o custo das promoções em 12 meses;
+  - a reposição evitada, isto é, quanto custaria repor quem ficou.
+- **Resumo em uma frase:** se as promoções saem mais baratas ou mais caras do que repor essas pessoas.
+- **Gráfico:** custo das promoções × reposição evitada conforme o valor sobe. Ele mostra até onde investir
+  compensa. Depois que todas as pessoas em risco são promovidas, a reposição evitada para de subir.
+- **Ordem de prioridade:**
+  - Primeiro vem quem está em risco, com mais sinais primeiro. No empate, entra antes a promoção mais barata.
+  - Depois vêm os demais ativos.
+  - Quem não cabe no valor que sobra é pulado.
+  - Ficam fora da fila quem está em contrato de experiência, diretores e gerentes.
+
+**Premissas** (ajustáveis em "Ajustar premissas"):
+
+| Premissa | Padrão | De onde vem |
+|---|---|---|
+| Aumento por promoção | 15% | Pedido da direção do RH |
+| Fator de encargos sobre o aumento | 1,00 (sem encargos) | Informe o fator do seu Departamento Pessoal |
+| Promovidos em risco que ficam | 100% | A planilha não tem esse dado; ajuste conforme sua experiência |
+| Reposição | rescisão + 21% do salário anual | [Center for American Progress](https://www.americanprogress.org/article/there-are-significant-business-costs-to-replacing-employees/), mediana de 30 estudos para cargos operacionais e técnicos. O [SHRM](https://www.shrm.org/executive-network/insights/myth-replaceability-preparing-loss-key-employees) cita de 50% a 200% para cargos mais altos |
+| Rescisão de cada pessoa | salário × 1,81 | Mediana dos pedidos de demissão da própria planilha |
+
+Promoções de quem não está em risco entram no custo, mas não contam como reposição evitada.
+
 A situação das férias é recalculada **com a data do dia em que você abre o painel**.
 
 ## O que a planilha precisa ter

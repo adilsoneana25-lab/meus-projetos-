@@ -282,6 +282,53 @@
     .tabela-saidas td.gestor::before { content: "· "; }
   }
 
+  /* Simulação */
+  .sim-controle { background: var(--superficie); border: 1px solid var(--borda); padding: 16px; margin: 10px 0 14px; }
+  .sim-rotulo { font: 700 17px var(--titulo); text-transform: uppercase; letter-spacing: .04em; }
+  .sim-linha { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+  .sim-linha input[type=range] { flex: 1 1 260px; min-width: 0; accent-color: var(--laranja); height: 32px; }
+  .sim-campo { font: 600 20px var(--mono); display: flex; align-items: center; gap: 6px; }
+  .sim-campo input { width: 8.5em; font: 600 20px var(--mono); padding: 6px 8px; border: 1px solid var(--borda); background: var(--superficie); color: var(--texto); min-height: 44px; }
+  .sim-escala { display: flex; justify-content: space-between; font: 12px var(--mono); color: var(--suave); margin: 2px 0 10px; }
+  .sim-premissas-caixa { margin-top: 4px; }
+  .sim-premissas-caixa summary { cursor: pointer; font-weight: 600; min-height: 32px; display: flex; align-items: center; }
+  .sim-ajustes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px 18px; margin-top: 8px; }
+  .sim-ajustes label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+  .sim-ajustes label > span { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .sim-ajustes input { width: 6em; padding: 6px 8px; font: 15px var(--mono); border: 1px solid var(--borda); background: var(--superficie); color: var(--texto); min-height: 40px; }
+  .sim-ajustes small { color: var(--suave); font-size: 12px; }
+  .sim-ajustes a { color: var(--texto); }
+  .veredito { margin: 14px 0; padding: 12px 14px; border-left: 6px solid var(--aco); background: var(--superficie); font-size: 15px; }
+  .veredito.positivo { border-left-color: var(--verde); }
+  .veredito.negativo { border-left-color: var(--vermelho); }
+  .painel-grafico h3 { font: 700 19px var(--titulo); text-transform: uppercase; letter-spacing: .03em; margin: 0 0 6px; }
+  .linha-custo { fill: none; stroke: var(--serie-risco); stroke-width: 2.5; }
+  .linha-evitado { fill: none; stroke: var(--serie-1); stroke-width: 2.5; }
+  .marca-atual { stroke: var(--texto); stroke-width: 1.5; }
+  .ponto-custo { fill: var(--serie-risco); stroke: var(--superficie); stroke-width: 2; }
+  .ponto-evitado { fill: var(--serie-1); stroke: var(--superficie); stroke-width: 2; }
+  .rotulo-linha { fill: var(--texto); font: 12px var(--corpo); }
+  .sim-vertudo { display: flex; gap: 6px; align-items: center; font-size: 14px; min-height: 44px; cursor: pointer; }
+  .tabela-fila td small { display: block; font-weight: 400; color: var(--suave); font-size: 12px; }
+  .tabela-fila tr.fora td { color: var(--aco); }
+  .tabela-fila tr.fora td.nome { font-weight: 400; }
+  .tabela-fila tr.dentro td.ordem { color: var(--texto); font-weight: 600; }
+  @media (max-width: 640px) {
+    .sim-campo input { width: 7em; }
+    .tabela-fila thead { display: none; }
+    .tabela-fila, .tabela-fila tbody { display: block; }
+    .tabela-fila tr.pessoa { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 10px; padding: 10px 6px; border-bottom: 1px solid var(--linha-fraca); }
+    .tabela-fila td { display: block; padding: 0; border: 0; }
+    .tabela-fila td.ordem { grid-row: 1 / span 3; text-align: left; }
+    .tabela-fila td.nome { grid-column: 2; }
+    .tabela-fila td.situacao { grid-column: 3; grid-row: 1; }
+    .tabela-fila td.sinais-cel { grid-column: 2 / -1; }
+    .tabela-fila td.num:not(.ordem) { grid-column: 2 / -1; text-align: left; font-size: 13px; }
+    .tabela-fila td.num:nth-child(4)::before { content: "Salário "; font-family: var(--corpo); color: var(--suave); }
+    .tabela-fila td.num:nth-child(5)::before { content: "Custo da promoção "; font-family: var(--corpo); color: var(--suave); }
+    .tabela-fila td.num:nth-child(6)::before { content: "Reposição "; font-family: var(--corpo); color: var(--suave); }
+  }
+
   /* Celular: cada pessoa vira um cartão de duas linhas, sem rolagem lateral */
   @media (max-width: 640px) {
     .marca b { font-size: 19px; }
@@ -348,6 +395,7 @@
     <div class="abas" role="tablist" aria-label="Telas do painel">
       <button type="button" class="aba ativa" role="tab" data-aba="geral" aria-selected="true" id="abaGeral">Visão geral</button>
       <button type="button" class="aba" role="tab" data-aba="analises" aria-selected="false" id="abaAnalises">Análises</button>
+      <button type="button" class="aba" role="tab" data-aba="simulacao" aria-selected="false" id="abaSimulacao">E se...</button>
     </div>
 
     <section id="vistaAnalises" hidden aria-labelledby="abaAnalises">
@@ -392,6 +440,60 @@
         <summary><span class="area-nome">Quem saiu <span class="chip cinza" id="qtdSaidas"></span></span><span class="area-info">lista completa, com o mesmo dado do gráfico</span></summary>
         <div class="tabela-rolagem" id="tabelaSaidas"></div>
       </details>
+    </section>
+
+    <section id="vistaSimulacao" hidden aria-labelledby="abaSimulacao">
+      <h2>E se a empresa promover?</h2>
+      <p class="nota">Escolha quanto dá para investir por mês em promoções. A tela mostra quem promover primeiro, quantas pessoas em risco ficam e se isso sai mais barato do que repor quem sairia. Horizonte: 12 meses.</p>
+
+      <div class="sim-controle">
+        <label for="simValor" class="sim-rotulo">Investimento por mês</label>
+        <div class="sim-linha">
+          <input type="range" id="simValor" min="0" step="100" value="0">
+          <span class="sim-campo">R$ <input type="number" id="simValorNum" min="0" step="100" inputmode="numeric" aria-label="Investimento por mês em reais"></span>
+        </div>
+        <div class="sim-escala"><span>R$ 0</span><span id="simMax"></span></div>
+        <div class="filtros-area" id="simAtalhos"></div>
+        <details class="sim-premissas-caixa">
+          <summary>Ajustar premissas</summary>
+          <div class="sim-ajustes">
+            <label>Aumento por promoção <span><input type="number" id="simAumento" min="1" max="100" step="1" value="15"> %</span></label>
+            <label>Fator de encargos sobre o aumento <span><input type="number" id="simEncargos" min="1" max="3" step="0.01" value="1.00"></span>
+              <small>1,00 = sem encargos. Use o fator do seu Departamento Pessoal (INSS patronal, FGTS, 13º e férias).</small></label>
+            <label>Promovidos em risco que ficam <span><input type="number" id="simRetencao" min="0" max="100" step="5" value="100"> %</span>
+              <small>A planilha não mostra quem ficou depois de promovido; ajuste conforme sua experiência.</small></label>
+            <label>Reposição: rescisão + <span><input type="number" id="simReposicao" min="0" max="300" step="1" value="21"> % do salário anual</span>
+              <small>21% é a mediana de 30 estudos do <a href="https://www.americanprogress.org/article/there-are-significant-business-costs-to-replacing-employees/" target="_blank" rel="noopener">Center for American Progress</a> para cargos operacionais e técnicos. O <a href="https://www.shrm.org/executive-network/insights/myth-replaceability-preparing-loss-key-employees" target="_blank" rel="noopener">SHRM</a> cita de 50% a 200% para cargos mais altos.</small></label>
+          </div>
+        </details>
+      </div>
+
+      <div class="cartoes" id="simNumeros"></div>
+      <p class="veredito" id="simVeredito"></p>
+
+      <div class="painel-grafico">
+        <h3>Custo das promoções × reposição evitada (12 meses)</h3>
+        <ul class="legenda">
+          <li><svg width="22" height="10" aria-hidden="true"><line x1="0" x2="22" y1="5" y2="5" class="linha-custo"/></svg>Custo das promoções</li>
+          <li><svg width="22" height="10" aria-hidden="true"><line x1="0" x2="22" y1="5" y2="5" class="linha-evitado"/></svg>Reposição evitada</li>
+          <li><svg width="10" height="16" aria-hidden="true"><line x1="5" x2="5" y1="0" y2="16" class="marca-atual"/></svg>Valor escolhido</li>
+        </ul>
+        <div class="dispersao" id="simCurva"></div>
+        <p class="nota">A reposição evitada para de subir quando todas as pessoas em risco já foram promovidas. Daí em diante, cada promoção só aumenta o custo.</p>
+      </div>
+
+      <div class="painel-grafico">
+        <div class="grafico-topo">
+          <div>
+            <h3>Ordem de prioridade</h3>
+            <p class="grafico-sub">Primeiro quem está em risco (mais sinais primeiro). No empate, a promoção mais barata, para caber mais gente no mesmo valor. Quem não cabe no valor que sobra é pulado.</p>
+          </div>
+          <label class="sim-vertudo"><input type="checkbox" id="simVerTudo"> Mostrar a fila inteira</label>
+        </div>
+        <div class="tabela-rolagem" id="simFila"></div>
+        <p class="nota" id="simFilaInfo"></p>
+      </div>
+      <p class="nota" id="simPremissas"></p>
     </section>
 
     <section id="vistaGeral" aria-labelledby="abaGeral">
@@ -595,6 +697,7 @@ function montarDados(wb) {
       real: l["Motivo real (entrevista ou chefia)"] || "",
       data: dataExcel(l["Data do desligamento"]),
       meses: l["Tempo de casa (meses)"] == null ? null : num(l["Tempo de casa (meses)"]),
+      custo: num(l["Custo estimado da rescisão (R$)"]),
     };
   }
 
@@ -1327,16 +1430,200 @@ function desenharAnalises() {
 }
 
 /* ---------- Abas ---------- */
+const ABAS = { geral: "vistaGeral", analises: "vistaAnalises", simulacao: "vistaSimulacao" };
+function abaDoHash() { const h = location.hash.replace("#", ""); return ABAS[h] ? h : "geral"; }
 function mostrarAba(aba) {
-  const analises = aba === "analises";
-  document.getElementById("vistaGeral").hidden = analises;
-  document.getElementById("vistaAnalises").hidden = !analises;
+  if (!ABAS[aba]) aba = "geral";
+  for (const [nome, id] of Object.entries(ABAS)) document.getElementById(id).hidden = nome !== aba;
   document.querySelectorAll(".aba").forEach(b => {
     const ativa = b.dataset.aba === aba;
     b.classList.toggle("ativa", ativa);
     b.setAttribute("aria-selected", ativa);
   });
-  if (analises && DADOS) desenharAnalises();
+  if (!DADOS) return;
+  if (aba === "analises") desenharAnalises();
+  if (aba === "simulacao") desenharSimulacao();
+}
+
+/* ===================== Simulação "E se..." ===================== */
+const SIM = {
+  investimento: null,   // R$ por mês (definido na primeira vez a partir do custo de quem está em risco)
+  aumento: 15,          // % de aumento por promoção
+  encargos: 1.0,        // fator sobre o aumento (1,00 = sem encargos)
+  retencao: 100,        // % dos promovidos em risco que ficam
+  reposicao: 21,        // % do salário anual somado à rescisão (Center for American Progress, mediana)
+};
+
+// Rescisão estimada de quem pede demissão = salário × (mediana de rescisão ÷ salário nos pedidos de demissão da planilha).
+function razaoRescisao() {
+  const r = DADOS.pessoas
+    .filter(p => !p.ativo && p.saida && semAcento(p.saida.tipo).startsWith("pedido") && p.salario > 0 && p.saida.custo > 0)
+    .map(p => p.saida.custo / p.salario).sort((a, b) => a - b);
+  if (!r.length) return 1;
+  return r.length % 2 ? r[(r.length - 1) / 2] : (r[r.length / 2 - 1] + r[r.length / 2]) / 2;
+}
+
+function elegivelPromocao(p) {
+  return p.ativo && p.salario > 0
+    && !/experi/i.test(semAcento(p.contrato))
+    && !/diretor|gerente/i.test(semAcento(p.cargo));
+}
+
+function filaPromocao() {
+  const razao = razaoRescisao();
+  const fila = DADOS.pessoas.filter(elegivelPromocao).map(p => {
+    const custoMensal = p.salario * SIM.aumento / 100 * SIM.encargos;
+    const rescisao = p.salario * razao;
+    const reposicao = rescisao + p.salario * 12 * SIM.reposicao / 100;
+    return { p, custoMensal, rescisao, reposicao };
+  });
+  // Em risco primeiro; mais sinais primeiro; no empate, o menor custo (cabe mais gente no mesmo valor).
+  fila.sort((a, b) => (b.p.risco - a.p.risco) || (b.p.sinais.length - a.p.sinais.length) || (a.custoMensal - b.custoMensal) || a.p.nome.localeCompare(b.p.nome));
+  return { fila, razao };
+}
+
+// Percorre a fila na ordem; quem não cabe no valor que sobra é pulado e a fila continua.
+function simular(fila, investimento) {
+  let sobra = investimento;
+  const promovidos = new Set();
+  for (const f of fila) {
+    if (f.custoMensal <= sobra + 0.005) { promovidos.add(f); sobra -= f.custoMensal; }
+  }
+  let custo12 = 0, emRisco = 0, evitado = 0;
+  for (const f of promovidos) {
+    custo12 += f.custoMensal * 12;
+    if (f.p.risco) { emRisco++; evitado += f.reposicao * SIM.retencao / 100; }
+  }
+  return { promovidos, sobra, custo12, emRisco, retidas: emRisco * SIM.retencao / 100, evitado, saldo: evitado - custo12, usado: investimento - sobra };
+}
+
+function fmtNum(v, casas = 0) { return v.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas }); }
+
+function desenharSimulacao() {
+  const { fila, razao } = filaPromocao();
+  const totalRisco = fila.filter(f => f.p.risco);
+  const foraFila = DADOS.pessoas.filter(p => p.risco).length - totalRisco.length;
+  const custoTodosRisco = totalRisco.reduce((s, f) => s + f.custoMensal, 0);
+  const custoTodos = fila.reduce((s, f) => s + f.custoMensal, 0);
+  const passo = 100;
+  const maximo = Math.max(passo, Math.ceil(custoTodos / passo) * passo);
+  if (SIM.investimento == null) SIM.investimento = Math.min(maximo, Math.ceil(custoTodosRisco / 2 / passo) * passo);
+  SIM.investimento = Math.min(SIM.investimento, maximo);
+
+  const faixa = document.getElementById("simValor");
+  faixa.max = maximo; faixa.step = passo; faixa.value = SIM.investimento;
+  document.getElementById("simValorNum").value = Math.round(SIM.investimento);
+  document.getElementById("simMax").textContent = fmtMoeda(maximo);
+  document.getElementById("simAtalhos").innerHTML = `
+    <button type="button" class="filtro" data-valor="${Math.ceil(custoTodosRisco / passo) * passo}">Cobrir todos em risco · ${fmtMoeda(Math.ceil(custoTodosRisco / passo) * passo)}/mês</button>
+    <button type="button" class="filtro" data-valor="${maximo}">Promover todos · ${fmtMoeda(maximo)}/mês</button>`;
+
+  const r = simular(fila, SIM.investimento);
+  const nProm = r.promovidos.size;
+  const compensa = r.saldo >= 0;
+
+  document.getElementById("simNumeros").innerHTML = `
+    <div class="cartao"><div class="rotulo">Promoções</div><div class="valor">${nProm}</div>
+      <div class="detalhe">${r.emRisco} em risco · ${nProm - r.emRisco} sem risco · usa ${fmtMoeda(r.usado)}/mês</div></div>
+    <div class="cartao destaque"><div class="rotulo">Pessoas em risco retidas</div><div class="valor">${fmtNum(r.retidas, Number.isInteger(r.retidas) ? 0 : 1)}</div>
+      <div class="detalhe">de ${totalRisco.length} em risco que podem ser promovidas${foraFila ? ` (${foraFila} em contrato de experiência ou gerência ficam fora)` : ""} · retenção de ${SIM.retencao}%</div></div>
+    <div class="cartao"><div class="rotulo">Custo das promoções em 12 meses</div><div class="valor">${fmtMoeda(r.custo12)}</div>
+      <div class="detalhe">${fmtMoeda(r.usado)} por mês × 12</div></div>
+    <div class="cartao"><div class="rotulo">Reposição evitada</div><div class="valor">${fmtMoeda(r.evitado)}</div>
+      <div class="detalhe">o que custaria repor quem ficou</div></div>`;
+
+  document.getElementById("simVeredito").className = "veredito " + (r.promovidos.size === 0 ? "neutro" : compensa ? "positivo" : "negativo");
+  document.getElementById("simVeredito").innerHTML = nProm === 0
+    ? `Com ${fmtMoeda(SIM.investimento)} por mês não dá para promover ninguém. A promoção mais barata da fila custa ${fmtMoeda(Math.min(...fila.map(f => f.custoMensal)))} por mês.`
+    : `Com <b>${fmtMoeda(SIM.investimento)} por mês</b>, você promove <b>${nProm} ${nProm === 1 ? "pessoa" : "pessoas"}</b> (${r.emRisco} em risco).
+       Em 12 meses, as promoções custam <b>${fmtMoeda(r.custo12)}</b>; repor quem ficaria custaria <b>${fmtMoeda(r.evitado)}</b>.
+       ${compensa ? `Saldo a favor das promoções: <b>${fmtMoeda(r.saldo)}</b>.` : `As promoções custam <b>${fmtMoeda(-r.saldo)}</b> a mais do que a reposição evitada.`}
+       ${nProm > r.emRisco ? " Promoções de quem não está em risco entram no custo, mas não contam como reposição evitada." : ""}`;
+
+  desenharCurvaSimulacao(fila, maximo, totalRisco.length ? custoTodosRisco : 0);
+  desenharFilaSimulacao(fila, r);
+  document.getElementById("simPremissas").innerHTML = `
+    Rescisão estimada de cada pessoa: salário × ${fmtNum(razao, 2)} (mediana dos pedidos de demissão da planilha).
+    Reposição = rescisão + ${SIM.reposicao}% do salário anual (salário × 12).
+    Custo da promoção = salário × ${SIM.aumento}% × fator ${fmtNum(SIM.encargos, 2)}.
+    Fora da fila: contrato de experiência, diretores e gerentes.`;
+}
+
+function desenharCurvaSimulacao(fila, maximo, marcaRisco) {
+  const caixa = document.getElementById("simCurva");
+  const largura = Math.max(300, caixa.clientWidth || 700);
+  const estreito = largura < 560;
+  const altura = estreito ? 240 : 280;
+  const m = { esq: estreito ? 66 : 84, dir: estreito ? 14 : 150, topo: 14, base: 40 };
+  const L = largura - m.esq - m.dir, A = altura - m.topo - m.base;
+  const N = 80;
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const v = maximo * i / N;
+    const r = simular(fila, v);
+    pts.push({ v, custo: r.custo12, evitado: r.evitado });
+  }
+  const atual = simular(fila, SIM.investimento);
+  const maxY = Math.max(1, ...pts.map(p => Math.max(p.custo, p.evitado)));
+  const passoY = Math.pow(10, Math.floor(Math.log10(maxY))) * (maxY / Math.pow(10, Math.floor(Math.log10(maxY))) > 5 ? 2 : maxY / Math.pow(10, Math.floor(Math.log10(maxY))) > 2 ? 1 : 0.5);
+  const topoY = Math.ceil(maxY / passoY) * passoY;
+  const sx = v => m.esq + v / maximo * L;
+  const sy = v => m.topo + A - v / topoY * A;
+  const linha = k => pts.map((p, i) => `${i ? "L" : "M"}${sx(p.v).toFixed(1)} ${sy(p[k]).toFixed(1)}`).join(" ");
+  const curto = v => v >= 1e6 ? "R$ " + fmtNum(v / 1e6, 1) + " mi" : v >= 1e3 ? "R$ " + fmtNum(v / 1e3, 0) + " mil" : "R$ " + fmtNum(v, 0);
+  const marcasY = []; for (let v = 0; v <= topoY + 1; v += passoY) marcasY.push(v);
+  const nX = estreito ? 3 : 5;
+  const marcasX = []; for (let i = 0; i <= nX; i++) marcasX.push(maximo * i / nX);
+  const fim = pts[pts.length - 1];
+
+  caixa.innerHTML = `
+    <svg width="${largura}" height="${altura}" viewBox="0 0 ${largura} ${altura}" role="img"
+         aria-label="Custo das promoções e reposição evitada em 12 meses, conforme o investimento mensal">
+      ${marcasY.map(v => `<line class="grade" x1="${m.esq}" x2="${m.esq + L}" y1="${sy(v)}" y2="${sy(v)}"/>
+        <text class="eixo" x="${m.esq - 8}" y="${sy(v) + 4}" text-anchor="end">${curto(v)}</text>`).join("")}
+      ${marcasX.map(v => `<text class="eixo" x="${sx(v)}" y="${m.topo + A + 18}" text-anchor="middle">${curto(v)}</text>`).join("")}
+      <line class="eixo-linha" x1="${m.esq}" x2="${m.esq + L}" y1="${m.topo + A}" y2="${m.topo + A}"/>
+      ${marcaRisco > 0 && marcaRisco < maximo ? `<line class="ref" x1="${sx(marcaRisco)}" x2="${sx(marcaRisco)}" y1="${m.topo}" y2="${m.topo + A}"/>
+        <text class="ref-texto" x="${sx(marcaRisco) + 5}" y="${m.topo + 12}">todos em risco cobertos</text>` : ""}
+      <path class="linha-custo" d="${linha("custo")}"/>
+      <path class="linha-evitado" d="${linha("evitado")}"/>
+      ${estreito ? "" : `<text class="rotulo-linha" x="${sx(fim.v) + 8}" y="${sy(fim.custo) + 4}">Custo das promoções</text>
+      <text class="rotulo-linha" x="${sx(fim.v) + 8}" y="${sy(fim.evitado) + 4}">Reposição evitada</text>`}
+      <line class="marca-atual" x1="${sx(SIM.investimento)}" x2="${sx(SIM.investimento)}" y1="${m.topo}" y2="${m.topo + A}"/>
+      <circle class="ponto-custo" cx="${sx(SIM.investimento)}" cy="${sy(atual.custo12)}" r="5"/>
+      <circle class="ponto-evitado" cx="${sx(SIM.investimento)}" cy="${sy(atual.evitado)}" r="5"/>
+      <text class="eixo-titulo" x="${m.esq + L / 2}" y="${altura - 4}" text-anchor="middle">Investimento por mês</text>
+    </svg>`;
+}
+
+function desenharFilaSimulacao(fila, r) {
+  const verTudo = document.getElementById("simVerTudo").checked;
+  let ultimoDentro = -1;
+  fila.forEach((f, i) => { if (r.promovidos.has(f)) ultimoDentro = i; });
+  const limite = verTudo ? fila.length : Math.min(fila.length, Math.max(ultimoDentro + 1, 0) + 8);
+  let acumulado = 0;
+  const linhas = fila.slice(0, limite).map((f, i) => {
+    const dentro = r.promovidos.has(f);
+    if (dentro) acumulado += f.custoMensal;
+    return `
+      <tr class="pessoa ${dentro ? "dentro" : "fora"}" data-mat="${esc(f.p.matricula)}" tabindex="0">
+        <td class="num ordem">${i + 1}º</td>
+        <td class="nome">${esc(f.p.nome)}<small>${esc(f.p.cargo)} · ${esc(f.p.setor)} · ${esc(f.p.turno)}</small></td>
+        <td class="sinais-cel">${f.p.risco ? `<span class="chip laranja">Risco · ${f.p.sinais.length}</span>` : f.p.sinais.length ? `<span class="chip cinza">${f.p.sinais.length} sinal</span>` : `<span class="chip cinza">Sem sinais</span>`}</td>
+        <td class="num">${fmtMoeda(f.p.salario)}</td>
+        <td class="num">+${fmtMoeda(f.custoMensal)}</td>
+        <td class="num">${f.p.risco ? fmtMoeda(f.reposicao) : "—"}</td>
+        <td class="situacao">${dentro ? `<span class="chip verde">Promovida</span>` : `<span class="chip cinza">Fora do valor</span>`}</td>
+      </tr>`;
+  }).join("");
+  document.getElementById("simFila").innerHTML = `
+    <table class="tabela-fila">
+      <thead><tr><th>#</th><th>Pessoa</th><th>Situação</th><th style="text-align:right">Salário</th><th style="text-align:right">Custo/mês</th><th style="text-align:right">Reposição</th><th></th></tr></thead>
+      <tbody>${linhas}</tbody>
+    </table>`;
+  document.getElementById("simFilaInfo").textContent = verTudo
+    ? `${fila.length} pessoas na fila.`
+    : `Mostrando ${limite} de ${fila.length} pessoas na fila.`;
 }
 
 function mostrarPainel(nomeArquivo) {
@@ -1351,7 +1638,8 @@ function mostrarPainel(nomeArquivo) {
   desenharPrecisa();
   desenharAreas();
   FILTRO_AREA = ""; EIXO_Y = "he";
-  mostrarAba(location.hash === "#analises" ? "analises" : "geral");
+  SIM.investimento = null;
+  mostrarAba(abaDoHash());
 }
 
 /* ===================== Abrir arquivo ===================== */
@@ -1412,7 +1700,7 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") fecharFicha(
 document.querySelectorAll(".aba").forEach(b => b.addEventListener("click", () => {
   if (location.hash === "#" + b.dataset.aba) mostrarAba(b.dataset.aba); else location.hash = b.dataset.aba;
 }));
-window.addEventListener("hashchange", () => { if (DADOS) mostrarAba(location.hash === "#analises" ? "analises" : "geral"); });
+window.addEventListener("hashchange", () => { if (DADOS) mostrarAba(abaDoHash()); });
 document.getElementById("filtroArea").addEventListener("click", e => {
   const b = e.target.closest(".filtro"); if (!b) return;
   FILTRO_AREA = b.dataset.area; desenharAnalises();
@@ -1434,9 +1722,40 @@ document.getElementById("tabelaSaidas").addEventListener("click", e => {
 document.getElementById("tabelaSaidas").addEventListener("keydown", e => {
   const tr = e.target.closest("tr.pessoa"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); abrirFicha(tr.dataset.mat); }
 });
+// Simulação
+function numeroDe(id, min, max, padrao) {
+  const v = parseFloat(String(document.getElementById(id).value).replace(",", "."));
+  return isNaN(v) ? padrao : Math.min(max, Math.max(min, v));
+}
+document.getElementById("simValor").addEventListener("input", e => { SIM.investimento = Number(e.target.value); desenharSimulacao(); });
+document.getElementById("simValorNum").addEventListener("change", e => {
+  SIM.investimento = numeroDe("simValorNum", 0, Number(document.getElementById("simValor").max), SIM.investimento); desenharSimulacao();
+});
+document.getElementById("simAtalhos").addEventListener("click", e => {
+  const b = e.target.closest("[data-valor]"); if (!b) return;
+  SIM.investimento = Number(b.dataset.valor); desenharSimulacao();
+});
+[["simAumento", "aumento", 1, 100, 15], ["simEncargos", "encargos", 1, 3, 1], ["simRetencao", "retencao", 0, 100, 100], ["simReposicao", "reposicao", 0, 300, 21]]
+  .forEach(([id, chave, min, max, padrao]) => document.getElementById(id).addEventListener("change", () => {
+    SIM[chave] = numeroDe(id, min, max, padrao);
+    document.getElementById(id).value = SIM[chave];
+    desenharSimulacao();
+  }));
+document.getElementById("simVerTudo").addEventListener("change", desenharSimulacao);
+document.getElementById("simFila").addEventListener("click", e => {
+  const tr = e.target.closest("tr.pessoa"); if (tr) abrirFicha(tr.dataset.mat);
+});
+document.getElementById("simFila").addEventListener("keydown", e => {
+  const tr = e.target.closest("tr.pessoa"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); abrirFicha(tr.dataset.mat); }
+});
+
 let esperaRedesenho = null;
 window.addEventListener("resize", () => {
   clearTimeout(esperaRedesenho);
-  esperaRedesenho = setTimeout(() => { if (DADOS && !document.getElementById("vistaAnalises").hidden) desenharDispersao(); }, 150);
+  esperaRedesenho = setTimeout(() => {
+    if (!DADOS) return;
+    if (!document.getElementById("vistaAnalises").hidden) desenharDispersao();
+    if (!document.getElementById("vistaSimulacao").hidden) desenharSimulacao();
+  }, 150);
 });
 </script>

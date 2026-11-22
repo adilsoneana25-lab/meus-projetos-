@@ -1,0 +1,26 @@
+GUIA DE VOZ — Nike: de um porta-malas a um império (vertical, alvo 2:50 de fala)
+- Voz masculina ou feminina grave, tom de documentário com suspense, português do Brasil.
+- Ritmo: rápido e firme, cerca de 160 palavras por minuto (se a IA ficar lenta, acelere 1,15x a 1,2x sem mudar o tom).
+- Na introdução, cada frase curta ("Um porta-malas cheio de tênis.") com pausa curta depois.
+- Pausas dramáticas (meio segundo) antes de: "O porta-malas do carro de Knight", "Nike, a deusa grega", "e estraga o presente de casamento", "Só que pesquisadores", "Nasce o Just Do It", "A gente compra a sensação de vencer".
+- Ênfase em: vencer, porta-malas, trinta e cinco dólares, sonhou, estraga, proibido/expulsou, nunca, cem milhões, Just, salários de escravo (tom neutro, é citação), sensação de vencer.
+- Pronúncias: Nike = "Náiki" · Phil Knight = "Fil Náit" · Bill Bowerman = "Bil Báuerman" · Onitsuka Tiger = "Onitsúca Táiguer" · Blue Ribbon Sports = "Blu Ríbon Spórts" · Dimension Six = "Daiménshon Síks" · Jeff Johnson = "Djéf Djónson" · Carolyn Davidson = "Kérolin Dêividson" · Michael Jordan = "Máicol Djórdan" · Air Jordan = "Ér Djórdan" · Converse = "Cônverse" · Dan Wieden = "Dén Uáiden" · Gary Gilmore = "Guéri Gílmor" · "Let's do it" = "Léts du ít" · "Just" = "Djâst" · Just Do It = "Djâst du ít" · NBA = "ene-bê-á" · ONG = "ôngui".
+- Pode gerar tudo num arquivo só; eu divido por capítulo depois.
+
+[INTRODUÇÃO]
+Você nunca comprou só um tênis da Nike. Você comprou uma promessa: vencer. Mas por trás dele existe uma história que quase ninguém conta. Um porta-malas cheio de tênis. Uma máquina de waffle destruída. Um logo de trinta e cinco dólares. E as últimas palavras de um condenado à morte. Então amarra o cadarço: em três minutos, você vai entender como mil dólares viraram um império.
+
+[CAPÍTULO 1 — O porta-malas]
+Oregon, mil novecentos e sessenta e quatro. Phil Knight, ex-corredor, aposta que tênis japoneses podem ser bons e baratos. Ele vira distribuidor da Onitsuka Tiger e chama seu antigo treinador, Bill Bowerman, para sócio. Quinhentos dólares cada. Nasce a Blue Ribbon Sports. A loja? O porta-malas do carro de Knight.
+
+[CAPÍTULO 2 — A deusa e o waffle]
+Mil novecentos e setenta e um. A parceria com os japoneses está no fim, e a empresa precisa de marca própria. Knight queria Dimension Six. No dia do prazo, o funcionário Jeff Johnson diz que sonhou com um nome: Nike, a deusa grega da vitória. O logo? Trinta e cinco dólares, de uma estudante, Carolyn Davidson. Knight: "Não amei. Mas vou me acostumar." E Bowerman quer uma sola que agarre na pista. Despeja plástico líquido na máquina de waffle da família… e estraga o presente de casamento. Virou um dos primeiros sucessos da Nike.
+
+[CAPÍTULO 3 — O tênis proibido]
+Mil novecentos e oitenta e quatro. No basquete, a Nike está atrás da Converse e da Adidas. Então aposta pesado num novato: Michael Jordan. Nasce o Air Jordan. E a Nike faz do problema propaganda: um comercial diz que a NBA expulsou o tênis do jogo. Virou lenda a multa de cinco mil dólares por partida. Só que pesquisadores nunca acharam registro dela, e o tênis da carta da liga era outro modelo. Segundo relatos, a Nike esperava três milhões de dólares em quatro anos. No primeiro ano, passou de cem milhões em vendas.
+
+[CAPÍTULO 4 — Just Do It]
+Mil novecentos e oitenta e oito. Dan Wieden lembra das últimas palavras de Gary Gilmore, condenado por assassinato: "Let's do it." Ele troca o "Let's" por "Just". Nasce o Just Do It. Em dez anos, as vendas saltam de oitocentos e setenta e sete milhões para mais de nove bilhões de dólares. Mas veio a sombra: ativistas acusaram a Nike de explorar trabalhadores em fábricas terceirizadas na Ásia. Em mil novecentos e noventa e oito, Phil Knight reconheceu que a marca tinha virado sinônimo de salários de escravo, negou abusos e prometeu mudanças. Em dois mil e um, o relatório de uma ONG disse que não bastou.
+
+[FECHAMENTO]
+Hoje, a Nike fatura mais de quarenta e seis bilhões por ano. Tudo começou com mil dólares e um porta-malas… e com uma lição que ela nunca esqueceu: ninguém compra tênis. A gente compra a sensação de vencer.

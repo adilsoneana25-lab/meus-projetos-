@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raiz Viva — Suplementos Naturais</title>
+  <meta name="description" content="Suplementos naturais com informação baseada em fontes oficiais (NIH, NCCIH e ANVISA). Monte seu pedido e envie pelo WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a href="#" class="logo" aria-label="Raiz Viva, início">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29V14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M16 15C16 8 21 4 28 4c0 7-5 11-12 11Z" fill="currentColor"/><path d="M16 19c0-5-4-8-10-8 0 5 4 8 10 8Z" fill="currentColor" opacity=".6"/></svg>
+        <span>Raiz Viva</span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#produtos">Produtos</a>
+        <a href="#ciencia">Ciência</a>
+        <a href="#como-comprar">Como comprar</a>
+      </nav>
+      <button class="cart-btn" id="openCart" aria-label="Abrir carrinho">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="20" r="1.4" fill="currentColor"/><circle cx="17" cy="20" r="1.4" fill="currentColor"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero__grid">
+        <div>
+          <p class="eyebrow">Suplementos naturais · Informação honesta</p>
+          <h1>Cuidado que vem da natureza, <em>explicado pela ciência.</em></h1>
+          <p class="lead">Cada produto traz o que as agências oficiais de saúde realmente dizem — benefícios, limites e cuidados. Sem promessas milagrosas.</p>
+          <div class="hero__cta">
+            <a href="#produtos" class="btn btn--primary">Ver produtos</a>
+            <a href="#ciencia" class="btn btn--ghost">Nossas fontes</a>
+          </div>
+          <ul class="trust">
+            <li>Fontes: NIH · NCCIH · ANVISA</li>
+            <li>Pedido direto pelo WhatsApp</li>
+          </ul>
+        </div>
+        <div class="hero__art" aria-hidden="true">
+          <svg viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="170" fill="var(--leaf-100)"/>
+            <rect x="130" y="110" width="140" height="200" rx="28" fill="var(--surface)" stroke="var(--leaf-700)" stroke-width="4"/>
+            <rect x="150" y="80" width="100" height="40" rx="10" fill="var(--leaf-700)"/>
+            <rect x="150" y="170" width="100" height="70" rx="10" fill="var(--sun-200)"/>
+            <path d="M200 228v-38" stroke="var(--leaf-700)" stroke-width="4" stroke-linecap="round"/>
+            <path d="M200 200c0-14 10-22 24-22 0 14-10 22-24 22Z" fill="var(--leaf-500)"/>
+            <path d="M200 212c0-11-8-17-19-17 0 11 8 17 19 17Z" fill="var(--leaf-700)"/>
+            <rect x="160" y="258" width="80" height="8" rx="4" fill="var(--leaf-100)"/>
+            <rect x="172" y="274" width="56" height="8" rx="4" fill="var(--leaf-100)"/>
+            <path d="M70 300c30-60 80-60 90-120-60 10-100 60-90 120Z" fill="var(--leaf-500)" opacity=".85"/>
+            <path d="M330 120c-10 50-50 70-90 60 10-45 50-70 90-60Z" fill="var(--leaf-700)" opacity=".8"/>
+            <circle cx="320" cy="290" r="16" fill="var(--sun-400)"/>
+            <circle cx="292" cy="318" r="10" fill="var(--sun-200)"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="produtos" class="section">
+      <div class="container">
+        <div class="section__head">
+          <h2>Produtos</h2>
+          <label class="search">
+            <span class="sr-only">Buscar produto</span>
+            <input type="search" id="search" placeholder="Buscar: magnésio, cúrcuma…" autocomplete="off">
+          </label>
+        </div>
+        <div class="filters" id="filters" role="tablist" aria-label="Categorias"></div>
+        <div class="grid" id="grid" aria-live="polite"></div>
+        <p class="empty" id="empty" hidden>Nenhum produto encontrado.</p>
+      </div>
+    </section>
+
+    <section id="ciencia" class="section section--tint">
+      <div class="container science">
+        <div>
+          <h2>Por que confiar no que dizemos</h2>
+          <p>Todas as informações dos produtos foram retiradas de fichas técnicas de órgãos públicos de saúde. Quando a evidência é fraca, dizemos que é fraca.</p>
+        </div>
+        <ul class="sources">
+          <li><strong>NIH — Office of Dietary Supplements</strong><span>Fichas de vitaminas e minerais (EUA).</span><a href="https://ods.od.nih.gov/factsheets/list-all/" target="_blank" rel="noopener">ods.od.nih.gov ↗</a></li>
+          <li><strong>NCCIH — National Center for Complementary and Integrative Health</strong><span>Utilidade e segurança de plantas e probióticos.</span><a href="https://www.nccih.nih.gov/health/herbsataglance" target="_blank" rel="noopener">nccih.nih.gov ↗</a></li>
+          <li><strong>ANVISA — RDC 243/2018 e IN 28/2018</strong><span>Regras brasileiras para suplementos alimentares e alegações permitidas.</span><a href="https://www.gov.br/anvisa/pt-br/centraisdeconteudo/publicacoes/alimentos/perguntas-e-respostas-arquivos/suplementos-alimentares.pdf/@@download/file" target="_blank" rel="noopener">gov.br/anvisa ↗</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="como-comprar" class="section">
+      <div class="container">
+        <h2>Como comprar</h2>
+        <ol class="steps">
+          <li><span>1</span><h3>Escolha</h3><p>Adicione os produtos ao carrinho e ajuste as quantidades.</p></li>
+          <li><span>2</span><h3>Envie</h3><p>Clique em “Finalizar pelo WhatsApp”. A mensagem com o pedido já vai pronta.</p></li>
+          <li><span>3</span><h3>Receba</h3><p>Combinamos pagamento e entrega diretamente com você.</p></li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="disclaimer"><strong>Aviso importante:</strong> suplementos alimentares não são medicamentos e não se destinam a diagnosticar, tratar, curar ou prevenir doenças. Gestantes, lactantes, crianças, pessoas com doenças crônicas ou que usam medicamentos devem consultar um profissional de saúde antes de usar.</p>
+      <p class="small">© <span id="year"></span> Raiz Viva · Loja demonstrativa — nomes, preços e contato são fictícios.</p>
+    </div>
+  </footer>
+
+  <!-- Detalhe do produto -->
+  <dialog class="modal" id="productModal" aria-labelledby="modalTitle">
+    <div class="modal__body" id="modalBody"></div>
+  </dialog>
+
+  <!-- Carrinho -->
+  <div class="drawer-backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="Carrinho" aria-hidden="true">
+    <div class="drawer__head">
+      <h2>Seu pedido</h2>
+      <button class="icon-btn" id="closeCart" aria-label="Fechar carrinho">✕</button>
+    </div>
+    <ul class="cart-list" id="cartList"></ul>
+    <p class="empty" id="cartEmpty">Seu carrinho está vazio.</p>
+    <div class="drawer__foot">
+      <label class="field">Seu nome
+        <input type="text" id="customerName" placeholder="Opcional" autocomplete="name">
+      </label>
+      <div class="total"><span>Total</span><strong id="cartTotal">R$ 0,00</strong></div>
+      <button class="btn btn--whats" id="checkout" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3a.5.5 0 0 0 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>
+        Finalizar pelo WhatsApp
+      </button>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

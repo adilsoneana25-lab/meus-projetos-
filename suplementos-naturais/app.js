@@ -46,7 +46,7 @@
     );
     $("#empty").hidden = list.length > 0;
     $("#grid").innerHTML = list.map((p) => `
-      <article class="card">
+      <article class="card" style="--tint:${p.color}">
         <div class="card__art"><img src="${p.image}" alt="${escapeHtml(p.imageAlt)}" loading="lazy" width="900" height="675"></div>
         <div class="card__body">
           <div class="card__tags">${p.categories.map((c) => `<span class="tag">${catLabel[c]}</span>`).join(" · ")}</div>
@@ -62,11 +62,18 @@
           </div>
         </div>
       </article>`).join("");
+    observe($("#grid").querySelectorAll(".card"));
   }
   $("#grid").addEventListener("click", (e) => {
     const add = e.target.closest("[data-add]");
     const info = e.target.closest("[data-info]");
-    if (add) addToCart(add.dataset.add);
+    if (add) {
+      addToCart(add.dataset.add);
+      const label = add.textContent;
+      add.classList.add("done");
+      add.textContent = "✓";
+      setTimeout(() => { add.classList.remove("done"); add.textContent = label; }, 900);
+    }
     if (info) openProduct(info.dataset.info);
   });
 
@@ -181,6 +188,40 @@
     el.classList.add("show");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove("show"), 1800);
+  }
+
+  /* ---------- Movimento ---------- */
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.documentElement.classList.toggle("js", !reduce);
+  const io = "IntersectionObserver" in window && !reduce
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          const siblings = [...el.parentElement.children];
+          el.style.transitionDelay = `${Math.min(siblings.indexOf(el), 6) * 70}ms`;
+          el.classList.add("in");
+          io.unobserve(el);
+        });
+      }, { rootMargin: "0px 0px -8% 0px" })
+    : null;
+  function observe(nodes) {
+    nodes.forEach((n) => (io ? io.observe(n) : n.classList.add("in")));
+  }
+  observe(document.querySelectorAll(".reveal"));
+
+  // Cena de destaque: a foto da capa abre conforme a rolagem
+  const stage = $("#heroStage");
+  if (stage && !reduce) {
+    let ticking = false;
+    const update = () => {
+      const r = stage.getBoundingClientRect();
+      const progress = Math.min(Math.max((innerHeight - r.top) / (innerHeight * 0.9), 0), 1);
+      stage.style.setProperty("--hero-scale", (0.86 + progress * 0.14).toFixed(4));
+      ticking = false;
+    };
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
   }
 
   $("#year").textContent = new Date().getFullYear();

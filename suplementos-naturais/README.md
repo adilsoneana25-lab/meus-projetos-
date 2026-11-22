@@ -16,3 +16,8 @@ Funciona em GitHub Pages, Netlify ou Vercel: basta publicar a pasta `suplementos
 - ANVISA, RDC 243/2018 e IN 28/2018 (regras para suplementos alimentares)
 
 > Antes de vender de verdade, confira se os rótulos e textos de marketing seguem a IN 28/2018 da ANVISA (só alegações permitidas, nenhuma promessa de tratar doenças).
+
+## Fotos
+Todas as fotos estão em `img/` e vêm do [Unsplash](https://unsplash.com/license) (uso comercial gratuito, sem necessidade de permissão). Os créditos de cada foto estão em `products.js` (campo `credit`) e no rodapé do site.
+A foto da ashwagandha é ilustrativa (pilão com ervas), pois o Unsplash não tem foto da raiz real.
+Para trocar uma foto, substitua o arquivo em `img/` mantendo o mesmo nome.

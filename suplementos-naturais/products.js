@@ -2,6 +2,7 @@
  * Catálogo da loja.
  * - Para editar preços, nomes ou adicionar produtos, altere apenas este arquivo.
  * - WHATSAPP_NUMBER: DDI + DDD + número, só dígitos (ex.: 5511987654321).
+ * - Fotos: Unsplash (licença gratuita para uso comercial). Créditos em "credit".
  * - Textos de "evidência" e "cuidados" resumem as fichas oficiais citadas em "fonte".
  *   Alegações de rótulo no Brasil devem seguir a IN 28/2018 da ANVISA.
  */
@@ -19,6 +20,9 @@ const CATEGORIES = [
 const PRODUCTS = [
   {
     id: "vitamina-c",
+    image: "img/vitamina-c.jpg",
+    imageAlt: "Laranjas fatiadas",
+    credit: { name: "Sheraz Shaikh", url: "https://unsplash.com/@sheraz154", photo: "https://unsplash.com/photos/Zx3kcU2Kw9E" },
     name: "Vitamina C 500 mg",
     form: "60 cápsulas",
     price: 39.9,
@@ -33,6 +37,9 @@ const PRODUCTS = [
   },
   {
     id: "vitamina-d",
+    image: "img/vitamina-d.jpg",
+    imageAlt: "Luz do sol entre folhas",
+    credit: { name: "Akhilesh Sharma", url: "https://unsplash.com/@fotonium", photo: "https://unsplash.com/photos/Hsjak-F8n3A" },
     name: "Vitamina D3 2.000 UI",
     form: "60 cápsulas softgel",
     price: 44.9,
@@ -47,6 +54,9 @@ const PRODUCTS = [
   },
   {
     id: "magnesio",
+    image: "img/magnesio.jpg",
+    imageAlt: "Sementes de abóbora",
+    credit: { name: "Sebastian Schuster", url: "https://unsplash.com/@sschusterphotoart", photo: "https://unsplash.com/photos/2QI2u5uQjto" },
     name: "Magnésio Dimalato 300 mg",
     form: "90 cápsulas",
     price: 54.9,
@@ -61,6 +71,9 @@ const PRODUCTS = [
   },
   {
     id: "omega-3",
+    image: "img/omega-3.jpg",
+    imageAlt: "Peixe cru em tábua de madeira",
+    credit: { name: "Caroline Attwood", url: "https://unsplash.com/@_carolineattwood", photo: "https://unsplash.com/photos/kC9KUtSiflw" },
     name: "Ômega-3 EPA/DHA 1.000 mg",
     form: "60 cápsulas softgel",
     price: 69.9,
@@ -75,6 +88,9 @@ const PRODUCTS = [
   },
   {
     id: "probiotico",
+    image: "img/probiotico.jpg",
+    imageAlt: "Iogurte natural em pote de vidro",
+    credit: { name: "Michu Đăng Quang", url: "https://unsplash.com/@michu_dangquang", photo: "https://unsplash.com/photos/47uH_XnIIhU" },
     name: "Probiótico 10 bilhões UFC",
     form: "30 cápsulas",
     price: 79.9,
@@ -89,6 +105,9 @@ const PRODUCTS = [
   },
   {
     id: "curcuma",
+    image: "img/curcuma.jpg",
+    imageAlt: "Raiz e pó de cúrcuma",
+    credit: { name: "iKshana Productions", url: "https://unsplash.com/@ikshanaproductions", photo: "https://unsplash.com/photos/X9OFBvUxW78" },
     name: "Cúrcuma com Pimenta-preta",
     form: "60 cápsulas",
     price: 49.9,
@@ -103,6 +122,9 @@ const PRODUCTS = [
   },
   {
     id: "ashwagandha",
+    image: "img/ashwagandha.jpg",
+    imageAlt: "Pilão com ervas secas (imagem ilustrativa)",
+    credit: { name: "Katherine Hanlon", url: "https://unsplash.com/@tinymountain", photo: "https://unsplash.com/photos/9-Hgi9w9bDM" },
     name: "Ashwagandha 500 mg",
     form: "60 cápsulas",
     price: 64.9,
@@ -117,6 +139,9 @@ const PRODUCTS = [
   },
   {
     id: "gengibre",
+    image: "img/gengibre.jpg",
+    imageAlt: "Raízes de gengibre fresco",
+    credit: { name: "engin akyurt", url: "https://unsplash.com/@enginakyurt", photo: "https://unsplash.com/photos/Pj8qDxCuMTs" },
     name: "Gengibre 400 mg",
     form: "60 cápsulas",
     price: 34.9,

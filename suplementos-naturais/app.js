@@ -17,17 +17,6 @@
     try { localStorage.setItem("raizviva-cart", JSON.stringify(state.cart)); } catch {}
   }
 
-  // Ilustração de frasco gerada por produto (sem dependência de imagens externas)
-  const bottle = (color) => `
-    <svg viewBox="0 0 100 120" aria-hidden="true">
-      <rect x="28" y="6" width="44" height="18" rx="5" fill="var(--leaf-700)"/>
-      <rect x="18" y="22" width="64" height="92" rx="16" fill="var(--surface)" stroke="var(--leaf-700)" stroke-width="2.5"/>
-      <rect x="26" y="48" width="48" height="38" rx="6" fill="${color}"/>
-      <path d="M50 80V62" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M50 66c0-7 5-11 12-11 0 7-5 11-12 11Z" fill="#fff"/>
-      <path d="M50 72c0-6-4-9-10-9 0 6 4 9 10 9Z" fill="#fff" opacity=".75"/>
-    </svg>`;
-
   /* ---------- Filtros ---------- */
   function renderFilters() {
     $("#filters").innerHTML = CATEGORIES.map((c) =>
@@ -58,7 +47,7 @@
     $("#empty").hidden = list.length > 0;
     $("#grid").innerHTML = list.map((p) => `
       <article class="card">
-        <div class="card__art">${bottle(p.color)}</div>
+        <div class="card__art"><img src="${p.image}" alt="${escapeHtml(p.imageAlt)}" loading="lazy" width="900" height="675"></div>
         <div class="card__body">
           <div class="card__tags">${p.categories.map((c) => `<span class="tag">${catLabel[c]}</span>`).join(" · ")}</div>
           <h3>${escapeHtml(p.name)}</h3>
@@ -87,6 +76,7 @@
     const p = byId[id];
     $("#modalBody").innerHTML = `
       <button class="icon-btn modal__close" data-close aria-label="Fechar">✕</button>
+      <figure class="modal__img"><img src="${p.image}" alt="${escapeHtml(p.imageAlt)}"><figcaption>Foto: <a href="${p.credit.photo}" target="_blank" rel="noopener">${escapeHtml(p.credit.name)}</a> / Unsplash</figcaption></figure>
       <p class="tag">${p.categories.map((c) => catLabel[c]).join(" · ")}</p>
       <h2 id="modalTitle">${escapeHtml(p.name)}</h2>
       <p class="card__form">${escapeHtml(p.form)}</p>

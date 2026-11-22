@@ -224,6 +224,28 @@
     update();
   }
 
+  // Produto em destaque na foto da capa
+  const heroLabel = $("#heroLabel");
+  const featured = heroLabel && byId[heroLabel.dataset.product];
+  if (featured) {
+    heroLabel.innerHTML = `
+      <div><small>Em destaque</small><strong>${escapeHtml(featured.name)}</strong><span class="price">${brl(featured.price)}</span></div>
+      <div class="hero__label-actions">
+        <button class="link-btn" data-info="${featured.id}">Detalhes</button>
+        <button class="add-btn" data-add="${featured.id}">Adicionar</button>
+      </div>`;
+    heroLabel.addEventListener("click", (e) => {
+      const add = e.target.closest("[data-add]");
+      const info = e.target.closest("[data-info]");
+      if (add) {
+        addToCart(add.dataset.add);
+        add.classList.add("done"); add.textContent = "✓";
+        setTimeout(() => { add.classList.remove("done"); add.textContent = "Adicionar"; }, 900);
+      }
+      if (info) openProduct(info.dataset.info);
+    });
+  }
+
   $("#year").textContent = new Date().getFullYear();
   renderFilters();
   renderGrid();

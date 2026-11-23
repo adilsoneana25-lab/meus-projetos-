@@ -1,0 +1,317 @@
+<title>Focinho Feliz Pet Shop</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: cartão-herói com foto em forma de "blob" que respira e patinhas subindo; serviços com foto; calculadora de banho e tosa; veterinário; clientes da semana; avaliações; horários */
+:root{
+  --band:#0f4f52; --band-ink:#fdfbf4;
+  --bg:#fbf8f0; --card:#ffffff; --ink:#173236; --muted:#5d6f71; --line:#ebe5d6;
+  --teal:#0f6b6f; --teal-soft:#dcefee; --sun:#f6b821; --sun-soft:#fff1cc; --coral:#ef6b4a;
+  --shadow:0 30px 60px -30px rgba(15,60,62,.35);
+  --display:"Fredoka",ui-rounded,system-ui,sans-serif; --body:"Nunito Sans",ui-sans-serif,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --band:#163a3c; --band-ink:#fdfbf4;
+  --bg:#0f1718; --card:#172224; --ink:#eef5f3; --muted:#a3b5b4; --line:#26383a;
+  --teal:#5cc2bd; --teal-soft:#16302f; --sun:#f6c24a; --sun-soft:#3a3016; --coral:#ff8a6b;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.75); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --band:#163a3c; --band-ink:#fdfbf4;
+  --bg:#0f1718; --card:#172224; --ink:#eef5f3; --muted:#a3b5b4; --line:#26383a;
+  --teal:#5cc2bd; --teal-soft:#16302f; --sun:#f6c24a; --sun-soft:#3a3016; --coral:#ff8a6b;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.75); color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.6;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.05;margin:0;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:12px 22px;font:700 .92rem var(--body);text-decoration:none;border:2px solid var(--ink);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px) rotate(-1deg);box-shadow:0 12px 22px -12px rgba(0,0,0,.45)}
+.btn-ink{background:var(--ink);color:var(--card)}
+.btn-sun{background:var(--sun);border-color:var(--sun);color:#1d2b1f}
+.btn-ghost{background:transparent;color:var(--ink)}
+
+.top{padding-block:36px 0}
+.hero{position:relative;background:var(--card);border-radius:34px;box-shadow:var(--shadow);overflow:hidden;animation:cardIn .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cardIn{from{transform:translateY(40px) scale(.97);opacity:.3}}
+nav{position:relative;z-index:2;display:flex;align-items:center;gap:22px;padding:22px 36px}
+.logo{display:flex;align-items:center;gap:10px;font:700 1.35rem var(--display);text-decoration:none}
+.logo span{width:38px;height:38px;border-radius:12px;background:var(--sun);display:grid;place-items:center;color:#1d2b1f}
+.links{display:flex;gap:24px;margin:0 auto;list-style:none;padding:0;font-size:.95rem;color:var(--muted);font-weight:600}
+.links a{text-decoration:none}
+.links a[aria-current]{color:var(--ink)}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:center;padding:8px 36px 56px 64px}
+.hero-copy{min-width:0}
+.tag{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.82rem;color:var(--teal);background:var(--teal-soft);padding:7px 14px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.6rem,6vw,4.6rem);letter-spacing:-.01em}
+.hero h1 .hl{position:relative;display:inline-block;color:var(--teal)}
+.hero h1 .hl::after{content:"";position:absolute;left:-4%;right:-4%;bottom:.06em;height:.32em;background:var(--sun);border-radius:8px;z-index:-1;transform-origin:left;animation:mark .7s .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes mark{from{transform:scaleX(0)}}
+.word{display:inline-block;animation:bounce .8s cubic-bezier(.3,1.6,.5,1) both}
+.word:nth-child(2){animation-delay:.08s}.word:nth-child(3){animation-delay:.16s}.word:nth-child(4){animation-delay:.24s}.word:nth-child(5){animation-delay:.32s}.word:nth-child(6){animation-delay:.4s}
+@keyframes bounce{from{transform:translateY(40px) scale(.9);opacity:.15}}
+.lead{color:var(--muted);font-size:1.06rem;max-width:44ch;margin:20px 0 28px;animation:rise .8s .6s both}
+.actions{display:flex;flex-wrap:wrap;gap:12px;animation:rise .8s .75s both}
+@keyframes rise{from{opacity:.2;transform:translateY(18px)}}
+
+.stage{position:relative;min-width:0;min-height:460px;display:grid;place-items:center}
+.blob{width:min(400px,92%);aspect-ratio:1;max-width:100%;overflow:hidden;background:var(--sun-soft);box-shadow:var(--shadow);border-radius:58% 42% 48% 52% / 50% 56% 44% 50%;animation:pop 1s .2s cubic-bezier(.3,1.5,.5,1) both,morph 9s 1.2s ease-in-out infinite alternate}
+.blob img{width:100%;height:100%;object-fit:cover;display:block}
+@keyframes pop{from{transform:scale(.6) rotate(-8deg);opacity:.2}}
+@keyframes morph{50%{border-radius:44% 56% 60% 40% / 56% 42% 58% 44%}100%{border-radius:52% 48% 40% 60% / 44% 58% 42% 56%}}
+.paws{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.paw{position:absolute;bottom:-40px;width:26px;height:26px;color:var(--sun);opacity:0;animation:pawUp 9s linear infinite}
+@keyframes pawUp{0%{transform:translateY(0) rotate(-15deg);opacity:0}10%{opacity:.55}90%{opacity:.35}100%{transform:translateY(-620px) rotate(15deg);opacity:0}}
+.sticker{position:absolute;z-index:2;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:10px 14px;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center;font-size:.82rem;font-weight:600}
+.sticker strong{display:block;font:600 1.1rem var(--display)}
+.sticker small{color:var(--muted);font-weight:600}
+.s1{top:8%;right:2%;transform:rotate(4deg);animation:drop .7s 1.1s cubic-bezier(.3,1.6,.5,1) both}
+.s2{bottom:10%;left:0;transform:rotate(-4deg);animation:drop .7s 1.3s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes drop{from{transform:translateY(-30px) scale(.6);opacity:.2}}
+.ic{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;flex:none}
+.ic-sun{background:var(--sun-soft);color:#b07d00}
+.ic-teal{background:var(--teal-soft);color:var(--teal)}
+
+section{padding-block:84px 0}
+.head{max-width:640px;margin-bottom:32px}
+.kicker{font:600 1rem var(--display);color:var(--coral)}
+.head h2{font-size:clamp(2rem,4vw,3rem);margin-top:4px}
+.head p{color:var(--muted);margin:10px 0 0}
+
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.svc{background:var(--card);border:2px solid var(--line);border-radius:26px;padding:12px 12px 22px;transition:transform .25s,box-shadow .25s}
+.svc:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:var(--shadow)}
+.svc img{display:block;width:100%;height:auto;aspect-ratio:64/52;object-fit:cover;border-radius:18px}
+.svc h3{font-size:1.45rem;margin:16px 8px 4px}
+.svc p{margin:0 8px;color:var(--muted)}
+.svc .from{display:inline-block;margin:12px 8px 0;font-weight:700;color:var(--teal);background:var(--teal-soft);padding:4px 12px;border-radius:999px;font-size:.85rem}
+
+.calc{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:start}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:26px;padding:26px;display:grid;gap:20px;min-width:0}
+.q h3{font:700 .78rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;line-height:1.4}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:16px;padding:10px 16px;font:600 .92rem var(--body);cursor:pointer;text-align:left;line-height:1.25}
+.opt small{display:block;color:var(--muted);font-weight:600;font-size:.75rem}
+.opt[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.opt[aria-pressed="true"] small{color:rgba(255,255,255,.85)}
+.result{position:sticky;top:20px;background:var(--band);color:var(--band-ink);border-radius:26px;padding:28px;display:grid;gap:12px}
+.result h3{font-size:1.5rem}
+.result .price{font:700 3rem var(--display);color:var(--sun);line-height:1;font-variant-numeric:tabular-nums}
+.result ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.92rem}
+.result li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed rgba(255,255,255,.15);padding-bottom:6px}
+.result li span:last-child{font-variant-numeric:tabular-nums}
+.result .note{font-size:.85rem;opacity:.8;margin:0}
+.result .msg{font-size:.85rem;background:rgba(255,255,255,.08);border-radius:14px;padding:12px;min-height:1.4em;margin:0}
+
+.vet{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+.vet > div{min-width:0}
+.vet figure{margin:0;border-radius:30px;overflow:hidden;aspect-ratio:9/7;max-width:100%;box-shadow:var(--shadow)}
+.vet figure img{width:100%;height:100%;object-fit:cover;display:block}
+.checks{list-style:none;padding:0;margin:18px 0 22px;display:grid;gap:10px}
+.checks li{display:flex;gap:12px;align-items:flex-start}
+.checks li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--teal-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f6b6f' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/13px no-repeat}
+.vet-mini{display:flex;gap:14px;align-items:center;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:10px;max-width:420px}
+.vet-mini img{width:84px;height:68px;object-fit:cover;border-radius:12px;flex:none}
+.vet-mini p{margin:0;font-size:.9rem;color:var(--muted)}
+.vet-mini b{color:var(--ink);display:block}
+
+.pets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.pet{margin:0;background:var(--card);border:2px solid var(--line);border-radius:26px;padding:12px;transition:transform .3s}
+.pet:nth-child(1){transform:rotate(-1.5deg)}.pet:nth-child(3){transform:rotate(1.5deg)}
+.pet:hover{transform:rotate(0) scale(1.03)}
+.pet img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:18px}
+.pet figcaption{padding:12px 6px 4px;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.pet figcaption b{font:600 1.2rem var(--display)}
+.pet figcaption span{color:var(--muted);font-size:.85rem}
+
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+blockquote{margin:0;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:12px}
+blockquote p{margin:0}
+.stars{color:var(--sun);letter-spacing:2px}
+blockquote footer{font-size:.9rem;margin-top:auto;font-weight:700}
+blockquote footer small{display:block;color:var(--muted);font-weight:600}
+
+.info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;background:var(--band);color:var(--band-ink);border-radius:28px;padding:36px 40px}
+.info div{min-width:0}
+.info h3{font:700 .8rem var(--body);letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.info p{margin:6px 0 0}
+.info .sel{user-select:all}
+
+footer.site{padding-block:52px 36px;color:var(--muted);font-size:.85rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+footer.site .credits{flex-basis:100%;opacity:.8}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;padding:6px 24px 44px}
+  .links{display:none}
+  nav{padding:18px 24px;justify-content:space-between}
+  .services,.pets,.quotes{grid-template-columns:1fr 1fr}
+  .calc,.vet{grid-template-columns:1fr}
+  .result{position:static}
+  .info{grid-template-columns:1fr;padding:28px}
+}
+@media (max-width:560px){
+  .services,.pets,.quotes{grid-template-columns:1fr}
+  .stage{min-height:380px}
+  nav .btn-ghost{display:none}
+  .s1{right:-4px}.s2{left:-4px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.paw{display:none}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="paw" viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="12" cy="16" rx="5.2" ry="4.4"/><ellipse cx="5.2" cy="10" rx="2.2" ry="2.8"/><ellipse cx="9.3" cy="6" rx="2.2" ry="2.9"/><ellipse cx="14.7" cy="6" rx="2.2" ry="2.9"/><ellipse cx="18.8" cy="10" rx="2.2" ry="2.8"/></g></symbol></svg>
+
+<div class="wrap top">
+  <header class="hero">
+    <div class="paws" id="paws" aria-hidden="true"></div>
+    <nav aria-label="Principal">
+      <a class="logo" href="#inicio"><span><svg width="22" height="22"><use href="#paw"/></svg></span>Focinho Feliz</a>
+      <ul class="links">
+        <li><a href="#inicio" aria-current="page">Início</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#orcamento">Orçamento</a></li>
+        <li><a href="#veterinario">Veterinário</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a class="btn btn-ghost" href="#orcamento">Preços</a>
+      <a class="btn btn-ink" href="#orcamento">Agendar banho</a>
+    </nav>
+    <div class="hero-grid" id="inicio">
+      <div class="hero-copy">
+        <span class="tag"><svg width="16" height="16"><use href="#paw"/></svg>Banho, tosa e veterinário</span>
+        <h1><span class="word">Seu</span> <span class="word">pet</span> <span class="word">volta</span> <span class="word">pra</span> <span class="word">casa</span> <span class="word hl">cheiroso.</span></h1>
+        <p class="lead">Banho com produtos hipoalergênicos, tosa na tesoura e veterinário no mesmo lugar. A gente busca e leva o seu pet de táxi dog.</p>
+        <div class="actions">
+          <a class="btn btn-sun" href="#orcamento">Calcular preço do banho</a>
+          <a class="btn btn-ghost" href="#veterinario">Consulta veterinária</a>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="blob"><img src="img/hero.jpg" alt="Cachorro de pelo cacheado sorrindo com a língua de fora" width="760" height="760"></div>
+        <div class="sticker s1"><span class="ic ic-sun"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 13h13l3 3v3H3z"/><circle cx="7" cy="19" r="2"/><circle cx="16" cy="19" r="2"/><path d="M5 13V8h7l3 5"/></svg></span><div><strong>Táxi dog grátis</strong><small>até 3 km da loja</small></div></div>
+        <div class="sticker s2"><span class="ic ic-teal"><svg width="20" height="20"><use href="#paw"/></svg></span><div><strong>2.300 pets</strong><small>atendidos este ano</small></div></div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<main class="wrap">
+  <section id="servicos">
+    <div class="head"><span class="kicker">serviços</span><h2>Cuidado do focinho ao rabinho</h2><p>Atendimento com hora marcada, sem gaiola apertada e sem pressa.</p></div>
+    <div class="services">
+      <article class="svc"><img src="img/banho.jpg" alt="Cachorrinho molhado na banheira durante o banho" width="640" height="520" loading="lazy"><h3>Banho</h3><p>Shampoo neutro, condicionador, secagem e perfume suave.</p><span class="from">a partir de R$ 50</span></article>
+      <article class="svc"><img src="img/tosa.jpg" alt="Tosadora secando o pelo longo de um cachorro" width="640" height="520" loading="lazy"><h3>Banho e tosa</h3><p>Tosa na máquina ou na tesoura, conforme a raça e o seu gosto.</p><span class="from">a partir de R$ 80</span></article>
+      <article class="svc"><img src="img/vet.jpg" alt="Veterinário examinando um dachshund preto" width="640" height="520" loading="lazy"><h3>Veterinário</h3><p>Consulta, vacinas e exames simples com a Dra. Paula.</p><span class="from">consulta R$ 120</span></article>
+    </div>
+  </section>
+
+  <section id="orcamento">
+    <div class="head"><span class="kicker">orçamento na hora</span><h2>Quanto fica o banho do seu pet?</h2><p>Escolha as opções e veja o preço e o tempo antes de agendar.</p></div>
+    <div class="calc">
+      <div class="panel">
+        <div class="q"><h3>Porte</h3><div class="opts" data-group="porte"></div></div>
+        <div class="q"><h3>Pelagem</h3><div class="opts" data-group="pelo"></div></div>
+        <div class="q"><h3>Serviço</h3><div class="opts" data-group="servico"></div></div>
+        <div class="q"><h3>Extras <span style="text-transform:none;letter-spacing:0;font-weight:600">(pode marcar vários)</span></h3><div class="opts" data-group="extras"></div></div>
+      </div>
+      <aside class="result" aria-live="polite">
+        <h3>Seu orçamento</h3>
+        <div class="price" id="total">R$ 0</div>
+        <ul id="itens"></ul>
+        <p class="note" id="tempo">Tempo estimado: –</p>
+        <button class="btn btn-sun" type="button" id="agendar">Agendar pelo WhatsApp</button>
+        <p class="msg" id="msg">Valores de exemplo para esta demonstração.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="veterinario">
+    <div class="vet">
+      <figure><img src="img/vacina.jpg" alt="Chihuahua sendo examinado com carinho na clínica veterinária" width="900" height="700" loading="lazy"></figure>
+      <div>
+        <div class="head" style="margin-bottom:0"><span class="kicker">veterinário</span><h2>Consulta sem sair do bairro</h2></div>
+        <ul class="checks">
+          <li>Vacinas V10, antirrábica e gripe canina com carteirinha</li>
+          <li>Vermífugo e antipulgas aplicados na hora</li>
+          <li>Lembrete de reforço da vacina pelo WhatsApp</li>
+          <li>Atendimento para cães e gatos</li>
+        </ul>
+        <a class="btn btn-ink" href="#contato">Marcar consulta</a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Clientes da semana">
+    <div class="head"><span class="kicker">clientes da semana</span><h2>Saíram daqui assim</h2></div>
+    <div class="pets">
+      <figure class="pet"><img src="img/cliente-pom.jpg" alt="Lulu da Pomerânia penteado e sorridente" width="520" height="520" loading="lazy"><figcaption><b>Mel</b><span>banho + tosa bebê</span></figcaption></figure>
+      <figure class="pet"><img src="img/cliente-samoieda.jpg" alt="Samoieda branco e fofo sorrindo" width="520" height="520" loading="lazy"><figcaption><b>Floco</b><span>banho + hidratação</span></figcaption></figure>
+      <figure class="pet"><img src="img/cliente-gato.jpg" alt="Gato laranja e branco sentado" width="520" height="520" loading="lazy"><figcaption><b>Nino</b><span>vacina anual</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section aria-label="Avaliações">
+    <div class="head"><span class="kicker">avaliações</span><h2>Os tutores aprovam</h2></div>
+    <div class="quotes">
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"A Mel volta cheirosa e calma. Adoro receber a foto dela pronta no WhatsApp."</p><footer>Renata Alves<small>tutora da Mel</small></footer></blockquote>
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"O táxi dog salvou minha rotina. Buscam e devolvem no horário certinho."</p><footer>Carlos Mendes<small>tutor do Floco</small></footer></blockquote>
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"A Dra. Paula é atenciosa e explicou tudo da vacina do Nino."</p><footer>Juliana Costa<small>tutora do Nino</small></footer></blockquote>
+    </div>
+  </section>
+
+  <section id="contato">
+    <div class="info">
+      <div><h3>Horário</h3><p>Seg a sex · 8h às 19h<br>Sábado · 8h às 16h</p></div>
+      <div><h3>Endereço</h3><p class="sel">Av. dos Ipês, 1.020 · Jardim das Flores</p></div>
+      <div><h3>WhatsApp</h3><p class="sel">(11) 90000-0000</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site wrap">
+  <span>© 2026 Focinho Feliz Pet Shop</span>
+  <span>Site de demonstração: nomes, preços e contatos são fictícios. Criado por <a href="https://www.instagram.com/vertice.digital.sp/" target="_blank" rel="noopener">Vértice Digital</a> · WhatsApp (11) 94254-7938</span>
+  <small class="credits">Fotos: Unsplash (Ben Stones, benjamin lehman, J. Balla Photography, Alexander Mass, Anya Prygunova, JIWON KANG, Haberdoedas, Kabo).</small>
+</footer>
+
+<script>
+// patinhas subindo no herói
+(function(){ const box=document.getElementById('paws'); for(let i=0;i<10;i++){ const s=document.createElementNS('http://www.w3.org/2000/svg','svg'); s.setAttribute('class','paw'); s.innerHTML='<use href="#paw"/>'; s.style.left=(52+Math.random()*44)+'%'; s.style.animationDelay=(-Math.random()*9)+'s'; s.style.animationDuration=(7+Math.random()*5)+'s'; const z=(.7+Math.random()*.8); s.style.width=s.style.height=(26*z)+'px'; box.append(s);} })();
+
+const DATA={
+  porte:[{id:'p',nome:'Pequeno',sub:'até 10 kg'},{id:'m',nome:'Médio',sub:'10 a 25 kg'},{id:'g',nome:'Grande',sub:'acima de 25 kg'}],
+  pelo:[{id:'curto',nome:'Curto',sub:'sem acréscimo'},{id:'longo',nome:'Longo',sub:'+ R$ 15'}],
+  servico:[{id:'banho',nome:'Banho',sub:'1h a 1h30'},{id:'tosa',nome:'Banho e tosa',sub:'2h a 2h30'},{id:'hig',nome:'Banho + tosa higiênica',sub:'1h30'}],
+  extras:[{id:'hidra',nome:'Hidratação',sub:'+ R$ 20',v:20},{id:'unha',nome:'Corte de unhas',sub:'+ R$ 10',v:10},{id:'dente',nome:'Escovação de dentes',sub:'+ R$ 12',v:12},{id:'taxi',nome:'Táxi dog',sub:'grátis até 3 km',v:0}]
+};
+const BASE={banho:{p:50,m:65,g:85,t:[60,90]},tosa:{p:80,m:100,g:130,t:[120,150]},hig:{p:60,m:75,g:95,t:[90,90]}};
+const st={porte:'p',pelo:'curto',servico:'banho',extras:new Set()};
+document.querySelectorAll('.opts').forEach(box=>{
+  const g=box.dataset.group;
+  DATA[g].forEach(o=>{ const b=document.createElement('button'); b.type='button'; b.className='opt'; b.innerHTML=`${o.nome}<small>${o.sub}</small>`;
+    const on=()=> g==='extras'? st.extras.has(o.id) : st[g]===o.id;
+    b.setAttribute('aria-pressed',on());
+    b.addEventListener('click',()=>{ if(g==='extras'){ st.extras.has(o.id)?st.extras.delete(o.id):st.extras.add(o.id); } else st[g]=o.id;
+      box.querySelectorAll('.opt').forEach((x,i)=>x.setAttribute('aria-pressed', g==='extras'? st.extras.has(DATA[g][i].id) : st[g]===DATA[g][i].id)); calc(); });
+    box.append(b); });
+});
+const brl=v=>'R$ '+v.toLocaleString('pt-BR');
+function calc(){
+  const s=BASE[st.servico], porte=DATA.porte.find(x=>x.id===st.porte), serv=DATA.servico.find(x=>x.id===st.servico);
+  const itens=[[`${serv.nome} · ${porte.nome.toLowerCase()}`, s[st.porte]]];
+  if(st.pelo==='longo') itens.push(['Pelo longo',15]);
+  DATA.extras.filter(e=>st.extras.has(e.id)).forEach(e=>itens.push([e.nome,e.v]));
+  const total=itens.reduce((a,b)=>a+b[1],0);
+  document.getElementById('total').textContent=brl(total);
+  document.getElementById('itens').innerHTML=itens.map(([n,v])=>`<li><span>${n}</span><span>${v?brl(v):'grátis'}</span></li>`).join('');
+  const [a,b]=s.t, extra=(st.pelo==='longo'?15:0)+(st.extras.has('hidra')?15:0), fmt=m=>m>=60?`${Math.floor(m/60)}h${m%60?String(m%60).padStart(2,'0'):''}`:`${m} min`;
+  document.getElementById('tempo').textContent='Tempo estimado: '+(a===b?fmt(a+extra):`${fmt(a+extra)} a ${fmt(b+extra)}`);
+  return {itens,total};
+}
+calc();
+document.getElementById('agendar').addEventListener('click',()=>{ const {itens,total}=calc();
+  document.getElementById('msg').textContent=`Mensagem que seria enviada: "Olá! Quero agendar ${itens.map(i=>i[0]).join(', ')} (total ${brl(total)})." Demonstração: no site real, abre o WhatsApp do pet shop.`; });
+</script>

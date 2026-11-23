@@ -45,6 +45,12 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
 .intro h1 em{font-style:normal;color:var(--accent)}
 .intro p{color:var(--muted);font-size:1.08rem;margin:0;max-width:56ch}
 
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.jump a{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font-weight:600;font-size:.88rem;text-decoration:none;transition:background .2s,color .2s}
+.jump a:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.sample{scroll-margin-top:20px}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .samples{display:grid;gap:40px;padding-block:40px}
 .sample{display:grid;grid-template-columns:1.35fr 1fr;gap:36px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:30px;padding:28px}
 .sample:nth-child(even) .shots{order:2}
@@ -107,11 +113,14 @@ footer{color:var(--muted);font-size:.85rem;padding-block:0 40px}
   <section class="intro">
     <span class="tag">Portfólio · modelos de demonstração</span>
     <h1>Sites que fazem o cliente <em>chamar no WhatsApp</em>.</h1>
-    <p>Abaixo estão dois modelos que criei. Toque em "Ver site de amostra" para navegar como se fosse o seu cliente. Eu adapto o modelo com o nome, as fotos, os preços e as cores do seu negócio.</p>
+    <p>Abaixo estão oito modelos que criei, um para cada tipo de comércio. Toque em "Ver site de amostra" para navegar como se fosse o seu cliente. Eu adapto o modelo com o nome, as fotos, os preços e as cores do seu negócio.</p>
+    <nav class="jump" aria-label="Escolha o segmento">
+      <a href="#restaurante">Restaurante</a><a href="#transportadora">Transportadora</a><a href="#barbearia">Barbearia</a><a href="#petshop">Pet shop</a><a href="#oficina">Oficina</a><a href="#clinica">Dentista</a><a href="#hortifruti">Hortifruti</a><a href="#pizzaria">Pizzaria</a>
+    </nav>
   </section>
 
   <section class="samples" aria-label="Sites de amostra">
-    <article class="sample">
+    <article class="sample" id="restaurante">
       <div class="shots">
         <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="img/restaurante-desk.jpg" alt="Página inicial do site de amostra do restaurante Brasa & Horta no computador" width="1200" height="750"></div>
         <div class="mobile"><img src="img/restaurante-mob.jpg" alt="O mesmo site de restaurante aberto no celular" width="520" height="1125"></div>
@@ -131,7 +140,7 @@ footer{color:var(--muted);font-size:.85rem;padding-block:0 40px}
       </div>
     </article>
 
-    <article class="sample">
+    <article class="sample" id="transportadora">
       <div class="shots">
         <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="img/rota-leve-desk.jpg" alt="Página inicial do site de amostra da transportadora Rota Leve no computador" width="1200" height="750"></div>
         <div class="mobile"><img src="img/rota-leve-mob.jpg" alt="O mesmo site de transportadora aberto no celular" width="520" height="1125"></div>
@@ -147,6 +156,126 @@ footer{color:var(--muted);font-size:.85rem;padding-block:0 40px}
         </ul>
         <div class="actions">
           <a class="btn btn-accent" href="https://claude.ai/artifact/6DR3eWiu6xPQYhWLu5pSx7" target="_blank" rel="noopener">Ver site de amostra</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="sample" id="barbearia">
+      <div class="shots">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="img/barbearia-desk.jpg" alt="Página inicial do site de amostra da barbearia Dom Navalha no computador" width="1200" height="750" loading="lazy"></div>
+        <div class="mobile"><img src="img/barbearia-mob.jpg" alt="O mesmo site da barbearia Dom Navalha aberto no celular" width="520" height="1125" loading="lazy"></div>
+      </div>
+      <div class="info">
+        <span class="seg">Barbearia · Salão</span>
+        <h2>Dom Navalha</h2>
+        <p>Visual clássico com poste de barbeiro animado e agenda online.</p>
+        <ul class="feats">
+          <li>Tabela de preços de corte, barba e combos</li>
+          <li>Agendamento escolhendo barbeiro, dia e horário</li>
+          <li>Galeria de estilos e avaliações</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-accent" href="https://claude.ai/artifact/CZFmvnyEAmgQ1AmieLLqDe" target="_blank" rel="noopener">Ver site de amostra</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="sample" id="petshop">
+      <div class="shots">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="img/petshop-desk.jpg" alt="Página inicial do site de amostra da pet shop Focinho Feliz no computador" width="1200" height="750" loading="lazy"></div>
+        <div class="mobile"><img src="img/petshop-mob.jpg" alt="O mesmo site da pet shop Focinho Feliz aberto no celular" width="520" height="1125" loading="lazy"></div>
+      </div>
+      <div class="info">
+        <span class="seg">Pet shop · Veterinário</span>
+        <h2>Focinho Feliz</h2>
+        <p>Site alegre para banho e tosa, com orçamento na hora pelo porte do pet.</p>
+        <ul class="feats">
+          <li>Calculadora de banho e tosa por porte e pelagem</li>
+          <li>Táxi dog e consulta veterinária</li>
+          <li>Pedido de agendamento pelo WhatsApp</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-accent" href="https://claude.ai/artifact/WkbVZ7Az1WSMrJVmG54ac5" target="_blank" rel="noopener">Ver site de amostra</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="sample" id="oficina">
+      <div class="shots">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="img/oficina-desk.jpg" alt="Página inicial do site de amostra da oficina Torque Auto Center no computador" width="1200" height="750" loading="lazy"></div>
+        <div class="mobile"><img src="img/oficina-mob.jpg" alt="O mesmo site da oficina Torque Auto Center aberto no celular" width="520" height="1125" loading="lazy"></div>
+      </div>
+      <div class="info">
+        <span class="seg">Oficina mecânica · Auto center</span>
+        <h2>Torque Auto Center</h2>
+        <p>Passa confiança: orçamento com foto, garantia e revisão por quilometragem.</p>
+        <ul class="feats">
+          <li>Revisão sugerida conforme a quilometragem do carro</li>
+          <li>Serviços com prazo e faixa de preço</li>
+          <li>Pedido de orçamento com placa e modelo</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-accent" href="https://claude.ai/artifact/1NQ4Dxmt6NxVqbuiXhPWBk" target="_blank" rel="noopener">Ver site de amostra</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="sample" id="clinica">
+      <div class="shots">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="img/clinica-desk.jpg" alt="Página inicial do site de amostra da clínica Odonto Aurora no computador" width="1200" height="750" loading="lazy"></div>
+        <div class="mobile"><img src="img/clinica-mob.jpg" alt="O mesmo site da clínica Odonto Aurora aberto no celular" width="520" height="1125" loading="lazy"></div>
+      </div>
+      <div class="info">
+        <span class="seg">Clínica · Dentista</span>
+        <h2>Odonto Aurora</h2>
+        <p>Tom acolhedor para quem tem medo de dentista, com números que dão confiança.</p>
+        <ul class="feats">
+          <li>Simulador de parcelamento dos tratamentos</li>
+          <li>Busca de convênios aceitos</li>
+          <li>Agendamento da primeira avaliação</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-accent" href="https://claude.ai/artifact/5ktnto2ijLtxd5F4gfSTYT" target="_blank" rel="noopener">Ver site de amostra</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="sample" id="hortifruti">
+      <div class="shots">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="img/hortifruti-desk.jpg" alt="Página inicial do site de amostra da quitanda Verde Vivo no computador" width="1200" height="750" loading="lazy"></div>
+        <div class="mobile"><img src="img/hortifruti-mob.jpg" alt="O mesmo site da quitanda Verde Vivo aberto no celular" width="520" height="1125" loading="lazy"></div>
+      </div>
+      <div class="info">
+        <span class="seg">Mercadinho · Hortifruti</span>
+        <h2>Verde Vivo</h2>
+        <p>Etiquetas de preço balançando e sacola de compras com taxa de entrega.</p>
+        <ul class="feats">
+          <li>Ofertas da semana com carrinho</li>
+          <li>Cestas por assinatura</li>
+          <li>Pedido enviado pronto pelo WhatsApp</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-accent" href="https://claude.ai/artifact/EG1tA3q4xjE1hbaKqAwx3G" target="_blank" rel="noopener">Ver site de amostra</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="sample" id="pizzaria">
+      <div class="shots">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><img src="img/pizzaria-desk.jpg" alt="Página inicial do site de amostra da pizzaria Forno da Vila no computador" width="1200" height="750" loading="lazy"></div>
+        <div class="mobile"><img src="img/pizzaria-mob.jpg" alt="O mesmo site da pizzaria Forno da Vila aberto no celular" width="520" height="1125" loading="lazy"></div>
+      </div>
+      <div class="info">
+        <span class="seg">Pizzaria · Lanchonete</span>
+        <h2>Forno da Vila</h2>
+        <p>Forno a lenha com brasa pulsando, pizza girando e pedido acompanhado.</p>
+        <ul class="feats">
+          <li>Monte sua pizza: tamanho, meio a meio, borda e bebida</li>
+          <li>Cardápio de pizzas e hambúrgueres com fotos</li>
+          <li>Total calculado e mensagem pronta para o WhatsApp</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-accent" href="https://claude.ai/artifact/EeFcMSLK4pYUPU5kiNzbkm" target="_blank" rel="noopener">Ver site de amostra</a>
         </div>
       </div>
     </article>

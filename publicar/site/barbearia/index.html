@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Barbearia Dom Navalha</title>
+</head>
+<body>
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: cartão-herói (título de letreiro à esquerda, foto em arco + poste de barbeiro girando à direita), serviços com foto, tabela de preços, estilos, agendamento interativo, o espaço, horários */
+:root{
+  --band:#16201c; --band-ink:#f3f1ea;
+  --bg:#efefea; --card:#ffffff; --ink:#16201c; --muted:#5f6a64; --line:#e0e2dc;
+  --green:#1f4d3f; --green-soft:#e3ede8; --brass:#a87a32; --brass-soft:#f4ead8;
+  --shadow:0 30px 60px -30px rgba(15,35,28,.4);
+  --display:"Bebas Neue","Impact",ui-sans-serif,sans-serif; --body:"Inter",ui-sans-serif,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --band:#1c2622; --band-ink:#f3f1ea;
+  --bg:#0f1412; --card:#171f1b; --ink:#eef1ec; --muted:#a4aea8; --line:#28322d;
+  --green:#5fae8f; --green-soft:#1b2c25; --brass:#d8ab5f; --brass-soft:#2e2618;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.75); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --band:#1c2622; --band-ink:#f3f1ea;
+  --bg:#0f1412; --card:#171f1b; --ink:#eef1ec; --muted:#a4aea8; --line:#28322d;
+  --green:#5fae8f; --green-soft:#1b2c25; --brass:#d8ab5f; --brass-soft:#2e2618;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.75); color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.6;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:.95;letter-spacing:.01em;margin:0;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--brass);outline-offset:3px;border-radius:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:12px 22px;font:600 .9rem var(--body);text-decoration:none;border:1.5px solid var(--ink);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 22px -12px rgba(0,0,0,.5)}
+.btn-dark{background:var(--ink);color:var(--card)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-brass{background:var(--brass);border-color:var(--brass);color:#fff}
+
+/* herói */
+.top{padding-block:36px 0}
+.hero{background:var(--card);border-radius:30px;box-shadow:var(--shadow);overflow:hidden;animation:cardIn .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cardIn{from{transform:translateY(40px) scale(.97);opacity:.3}}
+nav{display:flex;align-items:center;gap:24px;padding:22px 36px}
+.logo{display:flex;align-items:center;gap:10px;font:400 1.6rem var(--display);letter-spacing:.04em;text-decoration:none}
+.links{display:flex;gap:26px;margin:0 auto;list-style:none;padding:0;font-size:.9rem;color:var(--muted)}
+.links a{text-decoration:none}
+.links a[aria-current]{color:var(--ink);font-weight:600}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;padding:12px 36px 52px 64px}
+.hero-copy{min-width:0}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);background:var(--green-soft);padding:6px 12px;border-radius:999px;margin-bottom:20px}
+.hero h1{font-size:clamp(3.4rem,8vw,6.4rem)}
+.line{display:block;overflow:hidden}
+.line span{display:inline-block;animation:up .9s cubic-bezier(.2,.9,.2,1) both}
+.line:nth-child(2) span{animation-delay:.12s}.line:nth-child(3) span{animation-delay:.24s}
+@keyframes up{from{transform:translateY(105%)}}
+.hero h1 em{font-style:normal;color:var(--brass)}
+.lead{color:var(--muted);max-width:44ch;margin:22px 0 28px;animation:rise .8s .5s both}
+.actions{display:flex;flex-wrap:wrap;gap:12px;animation:rise .8s .65s both}
+.quick{display:flex;flex-wrap:wrap;gap:22px;margin-top:28px;font-size:.88rem;color:var(--muted);animation:rise .8s .8s both}
+.quick b{display:block;font:400 1.7rem var(--display);color:var(--ink);letter-spacing:.02em}
+@keyframes rise{from{opacity:.2;transform:translateY(18px)}}
+
+.stage{position:relative;min-width:0;display:flex;justify-content:center;align-items:flex-end;gap:18px;min-height:480px}
+.arch{position:relative;width:min(340px,78%);aspect-ratio:4/5;max-width:100%;border-radius:200px 200px 26px 26px;overflow:hidden;box-shadow:var(--shadow);animation:wipe 1.2s .25s cubic-bezier(.7,0,.2,1) both}
+.arch img{width:100%;height:100%;object-fit:cover;display:block;animation:zoom 1.6s .25s ease-out both}
+@keyframes wipe{from{clip-path:inset(100% 0 0 0 round 200px 200px 26px 26px)}to{clip-path:inset(0 0 0 0 round 200px 200px 26px 26px)}}
+@keyframes zoom{from{transform:scale(1.18)}}
+.pole{width:30px;height:260px;border-radius:16px;background:#fff;border:4px solid #c9cfcb;position:relative;overflow:hidden;align-self:center;flex:none;box-shadow:0 18px 30px -18px rgba(0,0,0,.5);animation:rise .8s .9s both}
+.pole::before{content:"";position:absolute;inset:-40px 0;background:repeating-linear-gradient(-40deg,#c8102e 0 14px,#fff 14px 28px,#1d4f9c 28px 42px,#fff 42px 56px);animation:pole 2.4s linear infinite}
+.pole::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 40%,rgba(255,255,255,.35) 60%,rgba(0,0,0,.12))}
+@keyframes pole{to{transform:translateY(74px)}}
+.badge{position:absolute;z-index:2;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 14px;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center;font-size:.8rem}
+.badge strong{display:block;font:400 1.3rem var(--display);letter-spacing:.03em;line-height:1}
+.badge small{color:var(--muted)}
+.b1{top:12%;left:0;animation:pop .6s 1.2s cubic-bezier(.2,.9,.3,1.4) both}
+.b2{bottom:8%;right:0;animation:pop .6s 1.4s cubic-bezier(.2,.9,.3,1.4) both}
+@keyframes pop{from{transform:scale(.4);opacity:.2}}
+.dot{width:10px;height:10px;border-radius:50%;background:#2fb36b;flex:none;box-shadow:0 0 0 0 rgba(47,179,107,.6);animation:ping 1.8s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 8px rgba(47,179,107,0)}}
+.star{width:32px;height:32px;border-radius:10px;background:var(--brass-soft);color:var(--brass);display:grid;place-items:center;font-weight:700}
+
+/* seções */
+section{padding-block:84px 0}
+.head{max-width:640px;margin-bottom:34px}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
+.head h2{font-size:clamp(2.4rem,5vw,3.6rem);margin-top:6px}
+.head p{color:var(--muted);margin:10px 0 0}
+
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.svc:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.svc img{display:block;width:100%;height:auto;aspect-ratio:64/52;object-fit:cover;transition:transform .6s}
+.svc:hover img{transform:scale(1.05)}
+.svc .txt{padding:18px 20px 22px;display:grid;gap:6px}
+.svc h3{font-size:1.9rem}
+.svc p{margin:0;color:var(--muted);font-size:.93rem}
+.svc .price{font:400 1.5rem var(--display);color:var(--green);letter-spacing:.03em}
+
+.board{margin-top:28px;background:var(--band);color:var(--band-ink);border-radius:26px;padding:34px 40px;display:grid;grid-template-columns:1fr 1fr;gap:6px 48px}
+.board h3{grid-column:1/-1;font-size:2rem;color:#d8ab5f;margin-bottom:10px}
+.row{display:flex;align-items:baseline;gap:10px;padding-block:9px;border-bottom:1px solid rgba(255,255,255,.08);min-width:0}
+.row span{white-space:nowrap}
+.row i{flex:1;border-bottom:2px dotted rgba(216,171,95,.45);transform:translateY(-4px);min-width:16px}
+.row small{opacity:.6;font-size:.78rem;white-space:nowrap}
+.row b{font:400 1.35rem var(--display);letter-spacing:.03em;color:#d8ab5f;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.styles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.style{margin:0;position:relative;border-radius:22px;overflow:hidden;aspect-ratio:4/5;max-width:100%}
+.style img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s}
+.style:hover img{transform:scale(1.06)}
+.style figcaption{position:absolute;left:14px;bottom:14px;background:rgba(10,14,12,.72);color:#fff;padding:8px 14px;border-radius:999px;font-size:.85rem;font-weight:600;backdrop-filter:blur(4px)}
+
+.booking{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:28px;display:grid;gap:22px;min-width:0}
+.step h3{font:700 .8rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;line-height:1.4}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:14px;padding:9px 14px;font:500 .9rem var(--body);cursor:pointer;text-align:left;line-height:1.25}
+.chip small{display:block;color:var(--muted);font-size:.75rem}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip[aria-pressed="true"] small{color:rgba(255,255,255,.8)}
+.chip:disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.summary{position:sticky;top:20px;background:var(--band);color:var(--band-ink);border-radius:26px;padding:28px;display:grid;gap:14px}
+.summary h3{font-size:2rem;color:#d8ab5f}
+.summary dl{margin:0;display:grid;gap:8px}
+.summary div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:8px}
+.summary dt{opacity:.65}
+.summary dd{margin:0;font-weight:600;text-align:right}
+.total{font:400 2.2rem var(--display);color:#d8ab5f;letter-spacing:.03em}
+.preview{font-size:.85rem;background:rgba(255,255,255,.06);border-radius:14px;padding:12px 14px;min-height:1.4em;margin:0}
+
+.space{position:relative;margin:0;border-radius:28px;overflow:hidden;aspect-ratio:12/7;max-width:100%;box-shadow:var(--shadow)}
+.space img{width:100%;height:100%;object-fit:cover;display:block}
+.space figcaption{position:absolute;left:24px;bottom:24px;right:24px;max-width:460px;background:rgba(10,14,12,.75);color:#fff;border-radius:18px;padding:18px 22px;backdrop-filter:blur(6px)}
+.space figcaption strong{display:block;font:400 1.7rem var(--display);letter-spacing:.03em}
+.space figcaption span{opacity:.85;font-size:.92rem}
+
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+blockquote{margin:0;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:14px}
+blockquote p{margin:0}
+.stars{color:var(--brass);letter-spacing:2px}
+blockquote footer{font-size:.88rem;margin-top:auto}
+blockquote footer small{display:block;color:var(--muted)}
+
+.info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;background:var(--band);color:var(--band-ink);border-radius:26px;padding:36px 40px}
+.info div{min-width:0}
+.info h3{font:600 .8rem var(--body);letter-spacing:.12em;text-transform:uppercase;opacity:.65}
+.info p{margin:6px 0 0;font-size:1.02rem}
+.info .sel{user-select:all}
+
+footer.site{padding-block:52px 36px;color:var(--muted);font-size:.85rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+footer.site .credits{flex-basis:100%;opacity:.8}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;padding:8px 24px 44px}
+  .links{display:none}
+  nav{padding:18px 24px;justify-content:space-between}
+  .services,.styles,.quotes{grid-template-columns:1fr 1fr}
+  .booking{grid-template-columns:1fr}
+  .summary{position:static}
+  .board{grid-template-columns:1fr;padding:28px}
+  .info{grid-template-columns:1fr;padding:28px}
+}
+@media (max-width:560px){
+  .services,.styles,.quotes{grid-template-columns:1fr}
+  .stage{min-height:400px}
+  .pole{height:200px;width:24px}
+  nav .btn-ghost{display:none}
+  .space{aspect-ratio:4/5}
+  .space figcaption{left:12px;right:12px;bottom:12px}
+  .b1{left:-4px}.b2{right:-4px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap top">
+  <header class="hero">
+    <nav aria-label="Principal">
+      <a class="logo" href="#inicio">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg>
+        Dom Navalha
+      </a>
+      <ul class="links">
+        <li><a href="#inicio" aria-current="page">Início</a></li>
+        <li><a href="#servicos">Serviços e preços</a></li>
+        <li><a href="#estilos">Estilos</a></li>
+        <li><a href="#espaco">O espaço</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a class="btn btn-ghost" href="#servicos">Preços</a>
+      <a class="btn btn-dark" href="#agendar">Agendar</a>
+    </nav>
+
+    <div class="hero-grid" id="inicio">
+      <div class="hero-copy">
+        <span class="eyebrow">Barbearia · desde 2015</span>
+        <h1><span class="line"><span>Corte na régua,</span></span><span class="line"><span>barba no</span></span><span class="line"><span><em>capricho.</em></span></span></h1>
+        <p class="lead">Degradê, navalha e barba com toalha quente. Escolha o barbeiro e o horário pelo site, sem esperar na fila.</p>
+        <div class="actions">
+          <a class="btn btn-brass" href="#agendar">Agendar meu horário</a>
+          <a class="btn btn-ghost" href="#servicos">Ver serviços e preços</a>
+        </div>
+        <div class="quick">
+          <div><b>R$ 45</b>corte</div>
+          <div><b>R$ 70</b>corte + barba</div>
+          <div><b>3</b>barbeiros</div>
+        </div>
+      </div>
+      <div class="stage" aria-label="Foto do barbeiro e indicadores">
+        <div class="pole" aria-hidden="true"></div>
+        <div class="arch"><img src="img/hero.jpg" alt="Barbeiro de chapéu fazendo um degradê no cliente" width="720" height="900"></div>
+        <div class="badge b1"><span class="dot"></span><div><strong id="proximo">Hoje 16:30</strong><small>próximo horário livre</small></div></div>
+        <div class="badge b2"><span class="star">★</span><div><strong>4,9</strong><small>870 avaliações</small></div></div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<main class="wrap">
+  <section id="servicos">
+    <div class="head">
+      <span class="kicker">Serviços</span>
+      <h2>O que fazemos na cadeira</h2>
+      <p>Todos os serviços incluem lavagem e finalização com pomada.</p>
+    </div>
+    <div class="services">
+      <article class="svc"><img src="img/corte.jpg" alt="Barbeiro aparando o cabelo com pente e tesoura" width="640" height="520" loading="lazy"><div class="txt"><h3>Corte</h3><p>Degradê, social ou tesoura, do jeito que você pedir.</p><span class="price">R$ 45 · 40 min</span></div></article>
+      <article class="svc"><img src="img/barba.jpg" alt="Barbeiro modelando a barba do cliente com tesoura" width="640" height="520" loading="lazy"><div class="txt"><h3>Barba</h3><p>Toalha quente, navalha e óleo hidratante no final.</p><span class="price">R$ 35 · 30 min</span></div></article>
+      <article class="svc"><img src="img/tesoura.jpg" alt="Acabamento com tesoura de desbaste e pente" width="640" height="520" loading="lazy"><div class="txt"><h3>Acabamento</h3><p>Pezinho, contorno e sobrancelha entre um corte e outro.</p><span class="price">R$ 15 · 10 min</span></div></article>
+    </div>
+
+    <div class="board" aria-label="Tabela de preços">
+      <h3>Tabela de preços</h3>
+      <div class="row"><span>Corte</span><i></i><small>40 min</small><b>R$ 45</b></div>
+      <div class="row"><span>Corte + barba</span><i></i><small>70 min</small><b>R$ 70</b></div>
+      <div class="row"><span>Barba</span><i></i><small>30 min</small><b>R$ 35</b></div>
+      <div class="row"><span>Corte infantil</span><i></i><small>30 min</small><b>R$ 40</b></div>
+      <div class="row"><span>Pezinho</span><i></i><small>10 min</small><b>R$ 15</b></div>
+      <div class="row"><span>Sobrancelha</span><i></i><small>10 min</small><b>R$ 15</b></div>
+      <div class="row"><span>Pigmentação</span><i></i><small>20 min</small><b>R$ 30</b></div>
+      <div class="row"><span>Platinado</span><i></i><small>2 h</small><b>R$ 150</b></div>
+    </div>
+  </section>
+
+  <section id="estilos">
+    <div class="head">
+      <span class="kicker">Estilos</span>
+      <h2>Os cortes mais pedidos</h2>
+    </div>
+    <div class="styles">
+      <figure class="style"><img src="img/estilo-degrade.jpg" alt="Homem com degradê baixo e topete curto" width="560" height="700" loading="lazy"><figcaption>Degradê baixo</figcaption></figure>
+      <figure class="style"><img src="img/estilo-desenho.jpg" alt="Degradê com risco desenhado na lateral da cabeça" width="560" height="700" loading="lazy"><figcaption>Degradê com risco</figcaption></figure>
+      <figure class="style"><img src="img/estilo-barba.jpg" alt="Homem de perfil com barba cheia bem desenhada" width="560" height="700" loading="lazy"><figcaption>Barba cheia desenhada</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="agendar">
+    <div class="head">
+      <span class="kicker">Agendamento</span>
+      <h2>Escolha seu horário</h2>
+      <p>Em três toques: serviço, barbeiro e horário.</p>
+    </div>
+    <div class="booking">
+      <div class="panel">
+        <div class="step"><h3>1. Serviço</h3><div class="chips" id="svc-chips"></div></div>
+        <div class="step"><h3>2. Barbeiro</h3><div class="chips" id="barber-chips"></div></div>
+        <div class="step"><h3>3. Dia</h3><div class="chips" id="day-chips"></div></div>
+        <div class="step"><h3>4. Horário</h3><div class="chips" id="time-chips"></div></div>
+      </div>
+      <aside class="summary" aria-live="polite">
+        <h3>Seu agendamento</h3>
+        <dl>
+          <div><dt>Serviço</dt><dd id="s-svc">–</dd></div>
+          <div><dt>Barbeiro</dt><dd id="s-barber">–</dd></div>
+          <div><dt>Dia</dt><dd id="s-day">–</dd></div>
+          <div><dt>Horário</dt><dd id="s-time">–</dd></div>
+        </dl>
+        <div class="total" id="s-total">R$ 0</div>
+        <button class="btn btn-brass" type="button" id="confirmar">Confirmar pelo WhatsApp</button>
+        <p class="preview" id="preview">Escolha o serviço, o barbeiro, o dia e o horário.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="espaco">
+    <figure class="space">
+      <img src="img/espaco.jpg" alt="Interior da barbearia com cadeira de couro preta e parede de tijolos" width="1200" height="700" loading="lazy">
+      <figcaption><strong>Café, ar-condicionado e futebol na TV</strong><span>Três cadeiras, ambiente climatizado e estacionamento na porta.</span></figcaption>
+    </figure>
+  </section>
+
+  <section aria-label="Avaliações">
+    <div class="head"><span class="kicker">Avaliações</span><h2>Quem senta na cadeira volta</h2></div>
+    <div class="quotes">
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"Agendei pelo site, cheguei e já fui atendido. O degradê do Rafa é outro nível."</p><footer>Lucas Andrade<small>via Google</small></footer></blockquote>
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"Barba com toalha quente, sem pressa. Saí outro homem."</p><footer>Marcos Vieira<small>via Google</small></footer></blockquote>
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"Levo meu filho no corte infantil, ele adora. Atendimento nota dez."</p><footer>Thiago Rocha<small>via Instagram</small></footer></blockquote>
+    </div>
+  </section>
+
+  <section id="contato">
+    <div class="info">
+      <div><h3>Horário</h3><p>Ter a sex · 9h às 20h<br>Sábado · 8h às 18h<br>Fechado domingo e segunda</p></div>
+      <div><h3>Endereço</h3><p class="sel">Rua das Acácias, 410 · Centro</p></div>
+      <div><h3>WhatsApp</h3><p class="sel">(11) 90000-0000</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site wrap">
+  <span>© 2026 Barbearia Dom Navalha</span>
+  <span>Site de demonstração: nomes, preços e contatos são fictícios. Criado por <a href="https://www.instagram.com/vertice.digital.sp/" target="_blank" rel="noopener">Vértice Digital</a> · WhatsApp (11) 94254-7938</span>
+  <small class="credits">Fotos: Unsplash (Salah Regouane, Nate Johnston, Mr Shave, Gulom Nazarov, Stephan Louis, Amritpal Singh, Ahmad Ebadi, Nathon Oski).</small>
+</footer>
+
+<script>
+const SERVICOS = [
+  {nome:'Corte', preco:45, min:40}, {nome:'Corte + barba', preco:70, min:70},
+  {nome:'Barba', preco:35, min:30}, {nome:'Corte infantil', preco:40, min:30}
+];
+const BARBEIROS = [{nome:'Rafa', esp:'degradê'}, {nome:'Diego', esp:'barba'}, {nome:'Léo', esp:'tesoura'}];
+const HORAS = ['09:00','10:00','11:00','13:30','14:30','15:30','16:30','17:30','18:30'];
+const DIAS = ['dom','seg','ter','qua','qui','sex','sáb'];
+const st = {svc:null, barber:null, day:null, time:null};
+
+function chip(label, sub, on){ const b=document.createElement('button'); b.type='button'; b.className='chip'; b.setAttribute('aria-pressed','false'); b.innerHTML=label+(sub?`<small>${sub}</small>`:''); b.addEventListener('click',on); return b; }
+function selectIn(box, btn){ box.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed', c===btn)); }
+
+const svcBox=document.getElementById('svc-chips'), barberBox=document.getElementById('barber-chips'), dayBox=document.getElementById('day-chips'), timeBox=document.getElementById('time-chips');
+SERVICOS.forEach(s=>{ const b=chip(s.nome, `R$ ${s.preco} · ${s.min} min`, ()=>{st.svc=s; selectIn(svcBox,b); update();}); svcBox.append(b); });
+BARBEIROS.forEach(p=>{ const b=chip(p.nome, p.esp, ()=>{st.barber=p; selectIn(barberBox,b); renderTimes(); update();}); barberBox.append(b); });
+
+// próximos 6 dias de funcionamento (fecha domingo e segunda)
+const dias=[]; for(let d=new Date(), n=0; dias.length<6 && n<14; n++){ const x=new Date(d); x.setDate(d.getDate()+n); if(x.getDay()!==0 && x.getDay()!==1) dias.push(x); }
+dias.forEach((x,i)=>{ const lbl=i===0 && x.toDateString()===new Date().toDateString() ? 'Hoje' : DIAS[x.getDay()]; const b=chip(lbl, x.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}), ()=>{st.day=x; selectIn(dayBox,b); renderTimes(); update();}); dayBox.append(b); });
+
+function ocupado(h){ // horários ocupados de exemplo, variam por dia e barbeiro
+  const seed=(st.day?st.day.getDate():1)+(st.barber?st.barber.nome.length:0);
+  return (HORAS.indexOf(h)*7+seed)%4===0;
+}
+function passou(h){ if(!st.day || st.day.toDateString()!==new Date().toDateString()) return false; const [hh,mm]=h.split(':').map(Number); const n=new Date(); return hh*60+mm <= n.getHours()*60+n.getMinutes(); }
+function renderTimes(){
+  timeBox.innerHTML=''; st.time=null;
+  HORAS.forEach(h=>{ const b=chip(h,'',()=>{st.time=h; selectIn(timeBox,b); update();}); if(ocupado(h)||passou(h)){ b.disabled=true; b.setAttribute('aria-label',h+' indisponível'); } timeBox.append(b); });
+}
+renderTimes();
+
+function update(){
+  document.getElementById('s-svc').textContent = st.svc ? st.svc.nome : '–';
+  document.getElementById('s-barber').textContent = st.barber ? st.barber.nome : '–';
+  document.getElementById('s-day').textContent = st.day ? st.day.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'}) : '–';
+  document.getElementById('s-time').textContent = st.time || '–';
+  document.getElementById('s-total').textContent = 'R$ ' + (st.svc ? st.svc.preco : 0);
+}
+document.getElementById('confirmar').addEventListener('click',()=>{
+  const p=document.getElementById('preview');
+  if(!(st.svc&&st.barber&&st.day&&st.time)){ p.textContent='Falta escolher: '+[!st.svc&&'serviço',!st.barber&&'barbeiro',!st.day&&'dia',!st.time&&'horário'].filter(Boolean).join(', ')+'.'; return; }
+  p.textContent=`Mensagem que seria enviada: "Olá! Quero agendar ${st.svc.nome} com o ${st.barber.nome}, ${st.day.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit'})} às ${st.time}." (Demonstração: no site real, abre o WhatsApp da barbearia.)`;
+});
+
+// próximo horário livre de hoje para o selo do topo
+(function(){ const n=new Date(), min=n.getHours()*60+n.getMinutes(); const aberto=n.getDay()!==0&&n.getDay()!==1;
+  const h=HORAS.find(x=>{const [a,b]=x.split(':').map(Number); return a*60+b>min+20;});
+  document.getElementById('proximo').textContent = aberto && h ? 'Hoje '+h : (dias.find(d=>d.toDateString()!==n.toDateString())||dias[0]).toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','')+' 09:00'; })();
+</script>
+
+</body>
+</html>

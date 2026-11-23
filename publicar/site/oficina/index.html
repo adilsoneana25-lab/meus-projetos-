@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Torque Auto Center</title>
+</head>
+<body>
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: cartão-herói com faixa zebrada, título condensado, foto do mecânico e marcador de painel girando; serviços; revisão por quilometragem interativa; passo a passo; espaço; avaliações; contato */
+:root{
+  --band:#17191c; --band-ink:#f1f2f3;
+  --bg:#e9ebee; --card:#ffffff; --ink:#15171a; --muted:#5b6169; --line:#d9dde2;
+  --orange:#f06414; --orange-soft:#fde8da; --steel:#2b3138;
+  --shadow:0 30px 60px -30px rgba(10,14,20,.45);
+  --display:"Barlow Condensed","Arial Narrow",ui-sans-serif,sans-serif; --body:"Barlow",ui-sans-serif,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --band:#1d2126; --band-ink:#f1f2f3;
+  --bg:#0f1113; --card:#181b1f; --ink:#eef0f2; --muted:#a2a8b0; --line:#2a2f35;
+  --orange:#ff7a30; --orange-soft:#3a2214; --steel:#cfd5dc;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.8); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --band:#1d2126; --band-ink:#f1f2f3;
+  --bg:#0f1113; --card:#181b1f; --ink:#eef0f2; --muted:#a2a8b0; --line:#2a2f35;
+  --orange:#ff7a30; --orange-soft:#3a2214; --steel:#cfd5dc;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.8); color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.6;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.95;text-transform:uppercase;margin:0;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:6px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 22px;font:700 1rem var(--display);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:2px solid var(--ink);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 22px -12px rgba(0,0,0,.5)}
+.btn-orange{background:var(--orange);border-color:var(--orange);color:#fff}
+.btn-ink{background:var(--ink);color:var(--card)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.hazard{height:10px;background:repeating-linear-gradient(-45deg,var(--orange) 0 16px,#15171a 16px 32px);animation:slide 1.2s linear infinite;background-size:45px 45px}
+@keyframes slide{to{background-position:45px 0}}
+
+.top{padding-block:36px 0}
+.hero{background:var(--card);border-radius:26px;box-shadow:var(--shadow);overflow:hidden;animation:cardIn .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cardIn{from{transform:translateY(40px);opacity:.3}}
+nav{display:flex;align-items:center;gap:22px;padding:20px 36px}
+.logo{display:flex;align-items:center;gap:10px;font:800 1.6rem var(--display);text-transform:uppercase;letter-spacing:.02em;text-decoration:none}
+.logo svg{color:var(--orange)}
+.links{display:flex;gap:24px;margin:0 auto;list-style:none;padding:0;font-weight:600;color:var(--muted)}
+.links a{text-decoration:none}
+.links a[aria-current]{color:var(--ink)}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;padding:10px 36px 50px 60px}
+.hero-copy{min-width:0}
+.tag{display:inline-block;font:700 .85rem var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.hero h1{font-size:clamp(3.2rem,7.5vw,6rem);letter-spacing:-.005em}
+.slam{display:block;animation:slam .6s cubic-bezier(.2,1.4,.4,1) both}
+.slam:nth-child(2){animation-delay:.12s}.slam:nth-child(3){animation-delay:.24s;color:var(--orange)}
+@keyframes slam{from{transform:translateX(-60px) skewX(-12deg);opacity:.1}}
+.lead{color:var(--muted);font-size:1.08rem;max-width:46ch;margin:20px 0 26px;animation:rise .7s .5s both}
+.actions{display:flex;flex-wrap:wrap;gap:12px;animation:rise .7s .65s both}
+.trust{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:24px;font-weight:600;font-size:.92rem;animation:rise .7s .8s both}
+.trust span{display:flex;align-items:center;gap:6px}
+.trust svg{color:var(--orange)}
+@keyframes rise{from{opacity:.2;transform:translateY(16px)}}
+
+.stage{position:relative;min-width:0;min-height:480px;display:flex;justify-content:flex-end;align-items:center}
+.photo{width:min(360px,82%);aspect-ratio:72/88;max-width:100%;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);position:relative;animation:shutter 1s .2s cubic-bezier(.7,0,.2,1) both}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+@keyframes shutter{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.gauge{position:absolute;left:0;bottom:8%;width:190px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px 16px 12px;box-shadow:var(--shadow);animation:rise .7s 1s both}
+.gauge svg{display:block;width:100%;height:auto}
+.gauge .needle{transform-origin:100px 100px;animation:sweep 1.8s 1.2s cubic-bezier(.3,1.3,.5,1) both}
+@keyframes sweep{from{transform:rotate(-90deg)}to{transform:rotate(68deg)}}
+.gauge p{margin:2px 0 0;text-align:center;font-size:.8rem;color:var(--muted)}
+.gauge b{display:block;font:800 1.6rem var(--display);color:var(--ink);line-height:1}
+.chip{position:absolute;top:10%;left:6%;background:var(--ink);color:var(--card);border-radius:12px;padding:10px 14px;font-weight:600;font-size:.85rem;box-shadow:var(--shadow);animation:rise .7s 1.2s both}
+.chip b{display:block;font:800 1.15rem var(--display);text-transform:uppercase;letter-spacing:.03em;color:var(--orange)}
+
+section{padding-block:84px 0}
+.head{max-width:680px;margin-bottom:32px}
+.kicker{font:700 .85rem var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.head h2{font-size:clamp(2.4rem,5vw,3.6rem);margin-top:4px}
+.head p{color:var(--muted);margin:10px 0 0}
+
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.svc:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.svc img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;filter:saturate(.9) contrast(1.05)}
+.svc .t{padding:18px 20px 22px;border-top:4px solid var(--orange)}
+.svc h3{font-size:1.7rem}
+.svc p{margin:6px 0 0;color:var(--muted)}
+.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.mini div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:center;font-weight:600}
+.mini svg{color:var(--orange);flex:none}
+
+.rev{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;display:grid;gap:18px;min-width:0}
+.panel label{display:grid;gap:8px;font-weight:600}
+.km{font:800 3rem var(--display);line-height:1;color:var(--orange);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--orange)}
+.scale{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 14px;font:600 .92rem var(--body);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.list{background:var(--band);color:var(--band-ink);border-radius:20px;padding:26px;display:grid;gap:12px}
+.list h3{font-size:1.8rem}
+.list ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.list li{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:8px}
+.list li span{display:flex;gap:10px}
+.list li span::before{content:"";flex:none;width:10px;height:10px;margin-top:7px;border-radius:2px;background:#ff7a30}
+.list li small{opacity:.6;white-space:nowrap}
+.list .sum{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:4px}
+.list .sum b{font:800 2rem var(--display);color:#ff7a30;font-variant-numeric:tabular-nums}
+.list .msg{font-size:.85rem;background:rgba(255,255,255,.07);border-radius:12px;padding:12px;margin:0;min-height:1.4em}
+
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:0;margin:0;list-style:none;counter-reset:s}
+.steps li{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;position:relative}
+.steps li::before{counter-increment:s;content:"0" counter(s);font:800 2.6rem var(--display);color:var(--orange);line-height:1;display:block;margin-bottom:8px}
+.steps h3{font-size:1.35rem}
+.steps p{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+
+.space{position:relative;margin:0;border-radius:22px;overflow:hidden;aspect-ratio:15/8;max-width:100%;box-shadow:var(--shadow)}
+.space img{width:100%;height:100%;object-fit:cover;display:block}
+.space figcaption{position:absolute;left:24px;bottom:24px;right:24px;max-width:480px;background:rgba(15,17,19,.8);color:#fff;border-left:4px solid #ff7a30;border-radius:12px;padding:16px 20px;backdrop-filter:blur(6px)}
+.space figcaption b{display:block;font:800 1.6rem var(--display);text-transform:uppercase}
+.space figcaption span{opacity:.85}
+
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+blockquote{margin:0;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:12px}
+blockquote p{margin:0}
+.stars{color:var(--orange);letter-spacing:2px}
+blockquote footer{font-weight:600;margin-top:auto}
+blockquote footer small{display:block;color:var(--muted);font-weight:500}
+
+.contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:36px;align-items:start}
+.contact > div{min-width:0}
+.contact ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:12px}
+.contact li b{display:block;font:700 .8rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.contact .sel{user-select:all}
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form label{display:grid;gap:6px;font-weight:600;font-size:.9rem}
+form .full{grid-column:1/-1}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%}
+textarea{min-height:90px;resize:vertical}
+.fmsg{grid-column:1/-1;margin:0;font-size:.9rem;color:var(--orange);min-height:1.4em}
+
+footer.site{padding-block:52px 36px;color:var(--muted);font-size:.85rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+footer.site .credits{flex-basis:100%;opacity:.8}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;padding:6px 24px 44px}
+  .links{display:none}
+  nav{padding:16px 24px;justify-content:space-between}
+  .services,.quotes{grid-template-columns:1fr 1fr}
+  .mini{grid-template-columns:1fr 1fr}
+  .rev,.contact{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .contact{padding:24px}
+}
+@media (max-width:560px){
+  .services,.quotes,.steps,.mini{grid-template-columns:1fr}
+  form{grid-template-columns:1fr}
+  nav .btn-ghost{display:none}
+  .stage{min-height:420px;justify-content:center}
+  .gauge{width:160px;left:-4px}
+  .chip{left:-4px}
+  .space{aspect-ratio:4/5}
+  .space figcaption{left:12px;right:12px;bottom:12px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.gauge .needle{transform:rotate(68deg)}}
+</style>
+
+<div class="wrap top">
+  <header class="hero">
+    <div class="hazard" aria-hidden="true"></div>
+    <nav aria-label="Principal">
+      <a class="logo" href="#inicio"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>Torque</a>
+      <ul class="links">
+        <li><a href="#inicio" aria-current="page">Início</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#revisao">Revisão</a></li>
+        <li><a href="#como">Como funciona</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a class="btn btn-ghost" href="#revisao">Revisão</a>
+      <a class="btn btn-ink" href="#contato">Orçamento</a>
+    </nav>
+    <div class="hero-grid" id="inicio">
+      <div class="hero-copy">
+        <span class="tag">Auto center · mecânica geral</span>
+        <h1><span class="slam">Seu carro</span><span class="slam">em boas mãos,</span><span class="slam">sem enrolação.</span></h1>
+        <p class="lead">Diagnóstico com foto de cada peça, orçamento aprovado por você antes de qualquer serviço e garantia de 90 dias.</p>
+        <div class="actions">
+          <a class="btn btn-orange" href="#contato">Pedir orçamento</a>
+          <a class="btn btn-ghost" href="#revisao">Ver o que revisar</a>
+        </div>
+        <div class="trust">
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Garantia de 90 dias</span>
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Peças com nota fiscal</span>
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Leva e traz no bairro</span>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="photo"><img src="img/hero.jpg" alt="Mecânico de luvas trabalhando no motor de um carro" width="720" height="880"></div>
+        <div class="chip"><b>Orçamento em 30 min</b>pelo WhatsApp</div>
+        <div class="gauge" aria-label="Nota 4,9 de 5 em 640 avaliações">
+          <svg viewBox="0 0 200 112" aria-hidden="true">
+            <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--line)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--orange)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"><animate attributeName="stroke-dashoffset" from="251" to="18" dur="1.8s" begin="1.2s" fill="freeze" calcMode="spline" keySplines=".3 0 .2 1"/></path>
+            <g class="needle"><path d="M100 100 L100 34" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/></g>
+            <circle cx="100" cy="100" r="9" fill="var(--ink)"/>
+          </svg>
+          <p><b>4,9 / 5</b>640 avaliações</p>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<main class="wrap">
+  <section id="servicos">
+    <div class="head"><span class="kicker">Serviços</span><h2>Do barulho estranho ao carro novo de novo</h2></div>
+    <div class="services">
+      <article class="svc"><img src="img/motor.jpg" alt="Mecânico inspecionando o motor com o capô aberto" width="640" height="480" loading="lazy"><div class="t"><h3>Motor e diagnóstico</h3><p>Scanner, injeção eletrônica, correia dentada e retífica.</p></div></article>
+      <article class="svc"><img src="img/pneus.jpg" alt="Mecânico montando um pneu na roda com a máquina" width="640" height="480" loading="lazy"><div class="t"><h3>Pneus e alinhamento</h3><p>Montagem, balanceamento, alinhamento 3D e geometria.</p></div></article>
+      <article class="svc"><img src="img/oleo.jpg" alt="Óleo escorrendo do filtro durante a troca de óleo" width="640" height="480" loading="lazy"><div class="t"><h3>Troca de óleo</h3><p>Óleo e filtros certos para o seu motor, em 30 minutos.</p></div></article>
+    </div>
+    <div class="mini">
+      <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>Freios e pastilhas</div>
+      <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M5 8h14M5 16h14"/></svg>Suspensão e amortecedor</div>
+      <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v6M8 6l4 2 4-2M4 14a8 8 0 0 0 16 0"/></svg>Ar-condicionado</div>
+      <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M7 7V5M17 7V5M8 13h3M14 13h2"/></svg>Bateria e elétrica</div>
+      <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Embreagem e câmbio</div>
+      <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20h16M6 20V9l6-5 6 5v11"/></svg>Revisão para viagem</div>
+    </div>
+  </section>
+
+  <section id="revisao">
+    <div class="head"><span class="kicker">Revisão por quilometragem</span><h2>O que o seu carro precisa agora?</h2><p>Arraste até a quilometragem do seu carro e veja os itens recomendados para essa revisão.</p></div>
+    <div class="rev">
+      <div class="panel">
+        <label for="km">Quilometragem atual</label>
+        <div class="km" id="kmv">40.000 km</div>
+        <input id="km" type="range" min="10000" max="100000" step="10000" value="40000">
+        <div class="scale"><span>10 mil</span><span>50 mil</span><span>100 mil</span></div>
+        <label>Tipo de carro</label>
+        <div class="seg" id="tipo">
+          <button type="button" aria-pressed="true" data-k="1">Popular</button>
+          <button type="button" aria-pressed="false" data-k="1.25">Sedã / SUV</button>
+          <button type="button" aria-pressed="false" data-k="1.4">Picape diesel</button>
+        </div>
+      </div>
+      <aside class="list" aria-live="polite">
+        <h3 id="rev-title">Revisão de 40 mil km</h3>
+        <ul id="rev-items"></ul>
+        <div class="sum"><span>Estimativa</span><b id="rev-total">R$ 0</b></div>
+        <button class="btn btn-orange" type="button" id="rev-btn">Agendar esta revisão</button>
+        <p class="msg" id="rev-msg">Valores de exemplo, com mão de obra. O preço final depende do modelo.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="como">
+    <div class="head"><span class="kicker">Como funciona</span><h2>Você aprova tudo antes</h2></div>
+    <ol class="steps">
+      <li><h3>Agende</h3><p>Pelo WhatsApp ou pelo site. Se precisar, buscamos o carro.</p></li>
+      <li><h3>Diagnóstico</h3><p>Enviamos fotos e vídeo das peças com desgaste.</p></li>
+      <li><h3>Aprovação</h3><p>Você recebe o orçamento detalhado e decide o que fazer.</p></li>
+      <li><h3>Entrega</h3><p>Carro lavado, peças antigas devolvidas e 90 dias de garantia.</p></li>
+    </ol>
+  </section>
+
+  <section aria-label="Nossa oficina">
+    <figure class="space">
+      <img src="img/oficina.jpg" alt="Oficina com carros no elevador e capô aberto para inspeção" width="1200" height="640" loading="lazy">
+      <figcaption><b>6 elevadores, 1 sala de espera</b><span>Café, Wi-Fi e TV enquanto o seu carro fica pronto.</span></figcaption>
+    </figure>
+  </section>
+
+  <section aria-label="Avaliações">
+    <div class="head"><span class="kicker">Avaliações</span><h2>Clientes que voltam</h2></div>
+    <div class="quotes">
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"Mandaram foto da pastilha gasta antes de trocar. Primeira oficina em que confio de verdade."</p><footer>Fernanda Lima<small>via Google</small></footer></blockquote>
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"Revisão de 60 mil feita no mesmo dia e mais barata que na concessionária."</p><footer>Roberto Nunes<small>via Google</small></footer></blockquote>
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"Buscaram o carro no meu trabalho e devolveram no fim do dia. Muito prático."</p><footer>André Souza<small>via WhatsApp</small></footer></blockquote>
+    </div>
+  </section>
+
+  <section id="contato">
+    <div class="contact">
+      <div>
+        <div class="head" style="margin-bottom:0"><span class="kicker">Orçamento</span><h2>Conte o problema</h2><p>Respondemos em até 30 minutos em horário comercial.</p></div>
+        <ul>
+          <li><b>Endereço</b><span class="sel">Rua dos Mecânicos, 77 · Vila Industrial</span></li>
+          <li><b>Horário</b>Seg a sex 7h30 às 18h · Sáb 8h às 12h</li>
+          <li><b>WhatsApp</b><span class="sel">(11) 90000-0000</span></li>
+        </ul>
+      </div>
+      <form id="orc" novalidate>
+        <label>Nome<input id="nome" placeholder="Seu nome"></label>
+        <label>Telefone<input id="tel" inputmode="tel" placeholder="(11) 90000-0000"></label>
+        <label>Carro<input id="carro" placeholder="Ex.: Onix 2019"></label>
+        <label>Placa<input id="placa" placeholder="ABC1D23" maxlength="7" style="text-transform:uppercase"></label>
+        <label class="full">O que está acontecendo?<textarea id="prob" placeholder="Barulho ao frear, luz da injeção acesa, revisão..."></textarea></label>
+        <button class="btn btn-orange full" type="submit">Enviar pelo WhatsApp</button>
+        <p class="fmsg" id="fmsg" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site wrap">
+  <span>© 2026 Torque Auto Center</span>
+  <span>Site de demonstração: nomes, preços e contatos são fictícios. Criado por <a href="https://www.instagram.com/vertice.digital.sp/" target="_blank" rel="noopener">Vértice Digital</a> · WhatsApp (11) 94254-7938</span>
+  <small class="credits">Fotos: Unsplash (Sten Rademaker, Kate Ibragimova, Enis Yavuz, Jimmy Nilsson Masth, Christian Buehner, Mustafa Sheikhmouss).</small>
+</footer>
+
+<script>
+const ITENS=[
+  {n:'Troca de óleo e filtro de óleo',a:10000,v:220},
+  {n:'Filtro de ar e de cabine',a:20000,v:120},
+  {n:'Alinhamento e balanceamento',a:10000,v:140},
+  {n:'Fluido de freio',a:40000,v:150},
+  {n:'Pastilhas de freio',a:30000,v:260},
+  {n:'Velas de ignição',a:40000,v:180},
+  {n:'Filtro de combustível',a:20000,v:110},
+  {n:'Correia dentada e tensor',a:50000,v:780},
+  {n:'Líquido de arrefecimento',a:50000,v:160},
+  {n:'Amortecedores (inspeção)',a:60000,v:90},
+  {n:'Discos de freio',a:60000,v:420}
+];
+let k=1;
+const brl=v=>'R$ '+Math.round(v).toLocaleString('pt-BR');
+function render(){
+  const km=+document.getElementById('km').value;
+  document.getElementById('kmv').textContent=km.toLocaleString('pt-BR')+' km';
+  document.getElementById('rev-title').textContent=`Revisão de ${km/1000} mil km`;
+  const lista=ITENS.filter(i=>km%i.a===0);
+  document.getElementById('rev-items').innerHTML=lista.map(i=>`<li><span>${i.n}</span><small>${brl(i.v*k)}</small></li>`).join('');
+  document.getElementById('rev-total').textContent=brl(lista.reduce((s,i)=>s+i.v*k,0));
+  return {km,lista};
+}
+document.getElementById('km').addEventListener('input',render);
+document.querySelectorAll('#tipo button').forEach(b=>b.addEventListener('click',()=>{k=+b.dataset.k;document.querySelectorAll('#tipo button').forEach(x=>x.setAttribute('aria-pressed',x===b));render();}));
+render();
+document.getElementById('rev-btn').addEventListener('click',()=>{const {km,lista}=render();
+  document.getElementById('rev-msg').textContent=`Mensagem que seria enviada: "Olá! Quero agendar a revisão de ${km/1000} mil km (${lista.length} itens)." Demonstração: no site real, abre o WhatsApp da oficina.`;});
+document.getElementById('orc').addEventListener('submit',e=>{e.preventDefault();
+  const n=document.getElementById('nome').value.trim(), c=document.getElementById('carro').value.trim(), m=document.getElementById('fmsg');
+  m.textContent = n&&c ? `Obrigado, ${n}! Pedido de orçamento do ${c} registrado nesta demonstração. No site real, ele segue para o WhatsApp da oficina.` : 'Preencha pelo menos o nome e o carro.';});
+</script>
+
+</body>
+</html>

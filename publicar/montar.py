@@ -15,10 +15,22 @@ PAGINAS = {  # pasta de origem -> pasta publicada
     "portfolio": "",
     "site-restaurante": "restaurante",
     "site-rota-leve": "transportadora",
+    "site-barbearia": "barbearia",
+    "site-petshop": "petshop",
+    "site-oficina": "oficina",
+    "site-clinica": "dentista",
+    "site-hortifruti": "hortifruti",
+    "site-pizzaria": "pizzaria",
 }
 LINKS_AMOSTRA = {  # link do claude.ai -> caminho no site publicado
     "https://claude.ai/artifact/WgqwpeEiV2YPmxsogi2Lpv": "restaurante/",
     "https://claude.ai/artifact/6DR3eWiu6xPQYhWLu5pSx7": "transportadora/",
+    "https://claude.ai/artifact/CZFmvnyEAmgQ1AmieLLqDe": "barbearia/",
+    "https://claude.ai/artifact/WkbVZ7Az1WSMrJVmG54ac5": "petshop/",
+    "https://claude.ai/artifact/1NQ4Dxmt6NxVqbuiXhPWBk": "oficina/",
+    "https://claude.ai/artifact/5ktnto2ijLtxd5F4gfSTYT": "dentista/",
+    "https://claude.ai/artifact/EG1tA3q4xjE1hbaKqAwx3G": "hortifruti/",
+    "https://claude.ai/artifact/EeFcMSLK4pYUPU5kiNzbkm": "pizzaria/",
 }
 
 def documento(corpo: str) -> str:

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quitanda Verde Vivo</title>
+</head>
+<body>
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: cartão-herói com cesta de feira e etiquetas de preço penduradas balançando; faixa de ofertas rolando; ofertas com carrinho; cesta da semana; foto da feira; como funciona; contato */
+:root{
+  --band:#173d26; --band-ink:#f4f7ef;
+  --bg:#f3f5ec; --card:#ffffff; --ink:#18261c; --muted:#5d6b60; --line:#e1e6d8;
+  --leaf:#1f6b3a; --leaf-soft:#e2f0e1; --sun:#f5c52b; --tomato:#d9452e;
+  --shadow:0 30px 60px -30px rgba(23,61,38,.38);
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif; --body:"DM Sans",ui-sans-serif,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --band:#1c3a26; --band-ink:#f4f7ef;
+  --bg:#0e140f; --card:#162018; --ink:#eef3ea; --muted:#a3b2a6; --line:#26342a;
+  --leaf:#5cc485; --leaf-soft:#173022; --sun:#f5c84a; --tomato:#ff6a52;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.75); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --band:#1c3a26; --band-ink:#f4f7ef;
+  --bg:#0e140f; --card:#162018; --ink:#eef3ea; --muted:#a3b2a6; --line:#26342a;
+  --leaf:#5cc485; --leaf-soft:#173022; --sun:#f5c84a; --tomato:#ff6a52;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.75); color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.6;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:1;letter-spacing:-.02em;margin:0;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:12px 22px;font:700 .95rem var(--body);text-decoration:none;border:2px solid var(--ink);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 22px -12px rgba(0,0,0,.4)}
+.btn-leaf{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.btn-sun{background:var(--sun);border-color:var(--sun);color:#1f2a14}
+.btn-ink{background:var(--ink);color:var(--card)}
+.btn-ghost{background:transparent;color:var(--ink)}
+
+.top{padding-block:36px 0}
+.hero{background:var(--card);border-radius:32px;box-shadow:var(--shadow);overflow:hidden;animation:cardIn .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cardIn{from{transform:translateY(36px) scale(.98);opacity:.3}}
+nav{display:flex;align-items:center;gap:22px;padding:22px 36px}
+.logo{display:flex;align-items:center;gap:10px;font:800 1.35rem var(--display);text-decoration:none}
+.logo svg{color:var(--leaf)}
+.links{display:flex;gap:24px;margin:0 auto;list-style:none;padding:0;font-weight:500;color:var(--muted)}
+.links a{text-decoration:none}
+.links a[aria-current]{color:var(--ink);font-weight:700}
+.cartbtn{position:relative}
+.cartbtn b{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:999px;background:var(--tomato);color:#fff;font-size:.75rem;display:grid;place-items:center;padding:0 6px;transition:transform .25s}
+.cartbtn b.bump{transform:scale(1.35)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;padding:6px 36px 50px 64px}
+.hero-copy{min-width:0}
+.tag{display:inline-flex;gap:8px;align-items:center;background:var(--leaf-soft);color:var(--leaf);font-weight:700;font-size:.82rem;padding:7px 14px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.8rem,6.4vw,5rem)}
+.hero h1 .y{background:linear-gradient(transparent 62%,var(--sun) 62% 92%,transparent 92%);padding-inline:.06em;background-size:0% 100%;background-repeat:no-repeat;animation:paint .8s 1s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes paint{to{background-size:100% 100%}}
+.drop{display:inline-block;animation:drop .7s cubic-bezier(.3,1.5,.5,1) both}
+.drop:nth-child(2){animation-delay:.1s}.drop:nth-child(3){animation-delay:.2s}.drop:nth-child(4){animation-delay:.3s}
+@keyframes drop{from{transform:translateY(-40px);opacity:.1}}
+.lead{color:var(--muted);font-size:1.08rem;max-width:44ch;margin:20px 0 26px;animation:rise .8s .55s both}
+.actions{display:flex;flex-wrap:wrap;gap:12px;animation:rise .8s .7s both}
+.facts{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:24px;font-weight:700;font-size:.92rem;animation:rise .8s .85s both}
+.facts span{display:flex;gap:8px;align-items:center}
+.facts i{width:8px;height:8px;border-radius:50%;background:var(--leaf)}
+@keyframes rise{from{opacity:.2;transform:translateY(16px)}}
+
+.stage{position:relative;min-width:0;min-height:500px;display:flex;justify-content:center;align-items:flex-end}
+.basket{width:min(380px,86%);aspect-ratio:76/82;max-width:100%;border-radius:32px;overflow:hidden;box-shadow:var(--shadow);animation:rise 1s .2s both}
+.basket img{width:100%;height:100%;object-fit:cover;display:block}
+.pricetag{position:absolute;z-index:2;transform-origin:50% 0;animation:swing 3.6s ease-in-out infinite,hang .8s cubic-bezier(.3,1.5,.5,1) both}
+.pricetag::before{content:"";position:absolute;left:50%;top:-46px;height:46px;border-left:1.5px dashed var(--muted)}
+.pricetag .card{background:var(--sun);color:#1f2a14;border-radius:12px 12px 14px 14px;padding:10px 16px 12px;text-align:center;box-shadow:0 14px 24px -12px rgba(0,0,0,.4);position:relative;min-width:110px}
+.pricetag .card::before{content:"";position:absolute;top:7px;left:50%;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:var(--card)}
+.pricetag small{display:block;font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
+.pricetag b{font:800 1.5rem var(--display);font-variant-numeric:tabular-nums}
+.pricetag s{font-size:.75rem;opacity:.7}
+.p1{top:46px;left:2%;animation-delay:-.6s,.9s}
+.p2{top:120px;right:0;animation-delay:-1.8s,1.1s}
+.p2 .card{background:var(--tomato);color:#fff}
+@keyframes swing{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+@keyframes hang{from{transform:translateY(-80px);opacity:.1}}
+
+.ticker{margin-top:26px;background:var(--leaf);color:#fff;overflow:hidden;border-radius:16px}
+.ticker div{display:flex;gap:36px;width:max-content;padding-block:12px;animation:marquee 30s linear infinite;font:700 1rem var(--display)}
+.ticker span{white-space:nowrap;display:flex;gap:36px;align-items:center}
+.ticker span::after{content:"●";color:var(--sun);font-size:.7rem}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+section{padding-block:80px 0}
+.head{max-width:640px;margin-bottom:30px}
+.kicker{font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tomato)}
+.head h2{font-size:clamp(2.2rem,4.4vw,3.3rem);margin-top:6px}
+.head p{color:var(--muted);margin:10px 0 0}
+
+.shop{display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;min-width:0}
+.prod{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:10px 10px 16px;display:flex;flex-direction:column;gap:8px;position:relative}
+.prod img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:16px;display:block}
+.prod .off{position:absolute;top:18px;left:18px;background:var(--tomato);color:#fff;font-weight:700;font-size:.75rem;padding:4px 10px;border-radius:999px}
+.prod h3{font-size:1.15rem;padding-inline:6px}
+.prod .pr{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding-inline:6px;font-variant-numeric:tabular-nums}
+.prod .pr b{font:800 1.3rem var(--display)}
+.prod .pr s{color:var(--muted);font-size:.85rem}
+.prod .pr small{color:var(--muted);font-size:.8rem}
+.qty{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 6px 0;background:var(--bg);border-radius:999px;padding:4px}
+.qty button{width:34px;height:34px;border-radius:50%;border:0;background:var(--card);color:var(--ink);font:700 1.1rem var(--body);cursor:pointer;box-shadow:0 2px 6px -2px rgba(0,0,0,.25)}
+.qty button.add{background:var(--leaf);color:#fff}
+.qty span{font-weight:700;font-variant-numeric:tabular-nums}
+.cart{position:sticky;top:20px;background:var(--band);color:var(--band-ink);border-radius:24px;padding:24px;display:grid;gap:12px}
+.cart h3{font-size:1.5rem}
+.cart ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.92rem;min-height:1.4em}
+.cart li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed rgba(255,255,255,.15);padding-bottom:6px;font-variant-numeric:tabular-nums}
+.cart .empty{opacity:.7}
+.cart label{display:grid;gap:6px;font-size:.85rem;opacity:.95}
+.cart select{font:inherit;border-radius:12px;padding:9px 10px;border:0;background:rgba(255,255,255,.1);color:inherit}
+.cart select option{color:#18261c}
+.cart .tot{display:flex;justify-content:space-between;align-items:baseline}
+.cart .tot b{font:800 2rem var(--display);color:var(--sun);font-variant-numeric:tabular-nums}
+.cart .msg{font-size:.84rem;background:rgba(255,255,255,.08);border-radius:12px;padding:12px;margin:0;min-height:1.4em}
+
+.boxes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;display:grid;gap:10px}
+.box.hot{border:2px solid var(--leaf)}
+.box h3{font-size:1.45rem}
+.box .price{font:800 2rem var(--display);font-variant-numeric:tabular-nums}
+.box .price small{font:500 .9rem var(--body);color:var(--muted)}
+.box ul{margin:0;padding-left:18px;color:var(--muted);font-size:.93rem}
+.box .badge{justify-self:start;background:var(--leaf);color:#fff;font-weight:700;font-size:.75rem;padding:4px 10px;border-radius:999px}
+
+.feira{position:relative;margin:0;border-radius:28px;overflow:hidden;aspect-ratio:15/8;max-width:100%;box-shadow:var(--shadow)}
+.feira img{width:100%;height:100%;object-fit:cover;display:block}
+.feira figcaption{position:absolute;left:24px;bottom:24px;right:24px;max-width:460px;background:rgba(20,40,26,.78);color:#fff;border-radius:18px;padding:16px 20px;backdrop-filter:blur(6px)}
+.feira figcaption b{display:block;font:800 1.4rem var(--display)}
+.feira figcaption span{opacity:.88}
+
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;list-style:none;padding:0;margin:0;counter-reset:s}
+.steps li{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:6px}
+.steps li::before{counter-increment:s;content:counter(s);width:40px;height:40px;border-radius:50%;background:var(--sun);color:#1f2a14;display:grid;place-items:center;font:800 1.1rem var(--display);margin-bottom:6px}
+.steps h3{font-size:1.2rem}
+.steps p{margin:0;color:var(--muted)}
+
+.info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;background:var(--band);color:var(--band-ink);border-radius:26px;padding:36px 40px}
+.info div{min-width:0}
+.info h3{font:700 .8rem var(--body);letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.info p{margin:6px 0 0}
+.info .sel{user-select:all}
+
+footer.site{padding-block:52px 36px;color:var(--muted);font-size:.85rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+footer.site .credits{flex-basis:100%;opacity:.8}
+
+@media (max-width:980px){
+  .shop{grid-template-columns:1fr}
+  .cart{position:static}
+}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;padding:6px 24px 44px}
+  .links{display:none}
+  nav{padding:18px 24px;justify-content:space-between}
+  .grid,.boxes{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr}
+  .info{grid-template-columns:1fr;padding:28px}
+}
+@media (max-width:560px){
+  .boxes{grid-template-columns:1fr}
+  .grid{gap:10px}
+  .qty button{width:30px;height:30px}
+  .prod h3{font-size:1rem}
+  nav .btn-ghost{display:none}
+  .stage{min-height:440px}
+  .p1{left:-4px}.p2{right:-4px}
+  .feira{aspect-ratio:4/5}
+  .feira figcaption{left:12px;right:12px;bottom:12px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.hero h1 .y{background-size:100% 100%}}
+</style>
+
+<div class="wrap top">
+  <header class="hero">
+    <nav aria-label="Principal">
+      <a class="logo" href="#inicio"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></svg>Verde Vivo</a>
+      <ul class="links">
+        <li><a href="#inicio" aria-current="page">Início</a></li>
+        <li><a href="#ofertas">Ofertas</a></li>
+        <li><a href="#cestas">Cestas</a></li>
+        <li><a href="#como">Entrega</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a class="btn btn-ghost" href="#cestas">Cestas</a>
+      <a class="btn btn-ink cartbtn" href="#ofertas">Sacola <b id="badge">0</b></a>
+    </nav>
+    <div class="hero-grid" id="inicio">
+      <div class="hero-copy">
+        <span class="tag">🥬 Colhido ontem, na sua mesa hoje</span>
+        <h1><span class="drop">Feira</span> <span class="drop">fresca</span> <span class="drop">sem sair</span> <span class="drop y">de casa.</span></h1>
+        <p class="lead">Frutas, verduras e legumes escolhidos a dedo na Ceagesp toda madrugada. Monte sua sacola e receba no mesmo dia.</p>
+        <div class="actions">
+          <a class="btn btn-leaf" href="#ofertas">Ver ofertas da semana</a>
+          <a class="btn btn-ghost" href="#cestas">Assinar cesta</a>
+        </div>
+        <div class="facts"><span><i></i>Entrega grátis acima de R$ 80</span><span><i></i>Pedido até 14h, chega hoje</span></div>
+      </div>
+      <div class="stage">
+        <div class="basket"><img src="img/hero.jpg" alt="Cesta de palha cheia de abacate, tomate, aspargo e pimentão" width="760" height="820"></div>
+        <div class="pricetag p1"><div class="card"><small>Tomate</small><b>R$ 5,99</b> <s>7,49</s>/kg</div></div>
+        <div class="pricetag p2"><div class="card"><small>Banana prata</small><b>R$ 4,49</b>/kg</div></div>
+      </div>
+    </div>
+  </header>
+  <div class="ticker" aria-hidden="true"><div>
+    <span>Tomate R$ 5,99/kg</span><span>Alface crespa R$ 2,99</span><span>Laranja pera R$ 3,49/kg</span><span>Abacate R$ 6,90/kg</span><span>Mamão formosa R$ 4,99/kg</span><span>Banana prata R$ 4,49/kg</span>
+    <span>Tomate R$ 5,99/kg</span><span>Alface crespa R$ 2,99</span><span>Laranja pera R$ 3,49/kg</span><span>Abacate R$ 6,90/kg</span><span>Mamão formosa R$ 4,99/kg</span><span>Banana prata R$ 4,49/kg</span>
+  </div></div>
+</div>
+
+<main class="wrap">
+  <section id="ofertas">
+    <div class="head"><span class="kicker">Ofertas da semana</span><h2>Monte sua sacola</h2><p>Toque em + para adicionar. Itens vendidos por kg são pesados na hora e o valor pode variar um pouco.</p></div>
+    <div class="shop">
+      <div class="grid" id="grid"></div>
+      <aside class="cart" aria-live="polite">
+        <h3>Sua sacola</h3>
+        <ul id="itens"><li class="empty">Sua sacola está vazia.</li></ul>
+        <label for="bairro">Bairro para entrega
+          <select id="bairro"><option value="0">Centro · grátis acima de R$ 80</option><option value="6">Jardim das Flores · R$ 6</option><option value="9">Vila Nova · R$ 9</option><option value="-1">Retirar na loja</option></select>
+        </label>
+        <div class="tot"><span id="frete">Entrega: –</span><b id="total">R$ 0,00</b></div>
+        <button class="btn btn-sun" type="button" id="enviar">Enviar pedido pelo WhatsApp</button>
+        <p class="msg" id="msg">Preços de exemplo para esta demonstração.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="cestas">
+    <div class="head"><span class="kicker">Assinatura</span><h2>Cesta da semana na sua porta</h2><p>Escolha o tamanho, a gente monta com o que está mais fresco e entrega toda sexta.</p></div>
+    <div class="boxes">
+      <div class="box"><h3>Cesta Pequena</h3><div class="price">R$ 59 <small>/semana</small></div><ul><li>Para 1 a 2 pessoas</li><li>4 frutas, 3 verduras, 3 legumes</li></ul><a class="btn btn-ghost" href="#contato">Quero esta</a></div>
+      <div class="box hot"><span class="badge">Mais pedida</span><h3>Cesta Família</h3><div class="price">R$ 99 <small>/semana</small></div><ul><li>Para 3 a 4 pessoas</li><li>6 frutas, 5 verduras, 5 legumes</li><li>Ovos caipira de brinde</li></ul><a class="btn btn-leaf" href="#contato">Quero esta</a></div>
+      <div class="box"><h3>Cesta Orgânica</h3><div class="price">R$ 129 <small>/semana</small></div><ul><li>Só produtores orgânicos certificados</li><li>Itens da estação</li></ul><a class="btn btn-ghost" href="#contato">Quero esta</a></div>
+    </div>
+  </section>
+
+  <section aria-label="Nossa banca">
+    <figure class="feira">
+      <img src="img/feira.jpg" alt="Caixas de pimentões vermelhos e laranja ao lado de repolhos numa banca de feira" width="1200" height="640" loading="lazy">
+      <figcaption><b>Escolhido a dedo toda madrugada</b><span>Compramos direto de produtores da região e da Ceagesp. O que não está bonito, não vai para a sua sacola.</span></figcaption>
+    </figure>
+  </section>
+
+  <section id="como">
+    <div class="head"><span class="kicker">Entrega</span><h2>Do pé para a sua cozinha</h2></div>
+    <ol class="steps">
+      <li><h3>Monte a sacola</h3><p>Pelo site ou mandando a lista no WhatsApp.</p></li>
+      <li><h3>Separamos na hora</h3><p>Pesamos tudo e confirmamos o valor exato antes de sair.</p></li>
+      <li><h3>Chega no mesmo dia</h3><p>Pedidos até 14h. Pague no Pix, cartão ou na entrega.</p></li>
+    </ol>
+  </section>
+
+  <section id="contato">
+    <div class="info">
+      <div><h3>Horário</h3><p>Seg a sáb · 7h às 20h<br>Domingo · 7h às 13h</p></div>
+      <div><h3>Endereço</h3><p class="sel">Rua das Laranjeiras, 88 · Centro</p></div>
+      <div><h3>WhatsApp</h3><p class="sel">(11) 90000-0000</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site wrap">
+  <span>© 2026 Quitanda Verde Vivo</span>
+  <span>Site de demonstração: nomes, preços e contatos são fictícios. Criado por <a href="https://www.instagram.com/vertice.digital.sp/" target="_blank" rel="noopener">Vértice Digital</a> · WhatsApp (11) 94254-7938</span>
+  <small class="credits">Fotos: Unsplash (leonie wise, Louis Le Pessot, Andrey Câmara, this life's illusions, Rifky Seno, Kevin Porter, Rachel Kelli, Ruby Lalor).</small>
+</footer>
+
+<script>
+const PROD=[
+  {id:'tomate',n:'Tomate italiano',p:5.99,de:7.49,u:'kg',step:.5,img:'tomate',alt:'Tomates vermelhos sobre fundo laranja'},
+  {id:'banana',n:'Banana prata',p:4.49,u:'kg',step:.5,img:'banana',alt:'Cachos de banana amarela e verde empilhados'},
+  {id:'alface',n:'Alface crespa',p:2.99,de:3.99,u:'un',step:1,img:'alface',alt:'Pé de alface verde e fresco'},
+  {id:'laranja',n:'Laranja pera',p:3.49,u:'kg',step:1,img:'laranja',alt:'Pilha de laranjas'},
+  {id:'abacate',n:'Abacate',p:6.90,u:'kg',step:.5,img:'abacate',alt:'Abacate cortado ao meio sobre madeira'},
+  {id:'mamao',n:'Mamão formosa',p:4.99,de:5.99,u:'kg',step:1,img:'mamao',alt:'Mamões e laranjas numa banca'}
+];
+const qty={};
+const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const fmtQ=(q,u)=>u==='kg'?q.toLocaleString('pt-BR',{maximumFractionDigits:1})+' kg':q+' un';
+const grid=document.getElementById('grid');
+grid.innerHTML=PROD.map(p=>`<article class="prod">${p.de?`<span class="off">-${Math.round((1-p.p/p.de)*100)}%</span>`:''}<img src="img/${p.img}.jpg" alt="${p.alt}" width="480" height="480" loading="lazy"><h3>${p.n}</h3><div class="pr"><b>${brl(p.p)}</b>${p.de?`<s>${brl(p.de)}</s>`:''}<small>/${p.u}</small></div><div class="qty"><button type="button" data-id="${p.id}" data-d="-1" aria-label="Tirar ${p.n}">–</button><span id="q-${p.id}">0</span><button type="button" class="add" data-id="${p.id}" data-d="1" aria-label="Adicionar ${p.n}">+</button></div></article>`).join('');
+grid.addEventListener('click',e=>{const b=e.target.closest('button[data-id]'); if(!b) return; const p=PROD.find(x=>x.id===b.dataset.id);
+  qty[p.id]=Math.max(0,+((qty[p.id]||0)+p.step*b.dataset.d).toFixed(1)); document.getElementById('q-'+p.id).textContent=qty[p.id]?fmtQ(qty[p.id],p.u):'0'; render(true);});
+document.getElementById('bairro').addEventListener('change',()=>render());
+function render(bump){
+  const its=PROD.filter(p=>qty[p.id]>0), sub=its.reduce((s,p)=>s+p.p*qty[p.id],0), f=+document.getElementById('bairro').value;
+  const frete= f<0?0 : f===0 ? (sub>=80||sub===0?0:7) : f;
+  document.getElementById('itens').innerHTML= its.length? its.map(p=>`<li><span>${fmtQ(qty[p.id],p.u)} ${p.n}</span><span>${brl(p.p*qty[p.id])}</span></li>`).join('') : '<li class="empty">Sua sacola está vazia.</li>';
+  document.getElementById('frete').textContent= f<0?'Retirada na loja': sub===0?'Entrega: –' : frete?`Entrega: ${brl(frete)}`:'Entrega grátis';
+  document.getElementById('total').textContent=brl(sub+(sub?frete:0));
+  const badge=document.getElementById('badge'); badge.textContent=its.length; if(bump){badge.classList.add('bump'); setTimeout(()=>badge.classList.remove('bump'),220);}
+  return {its,total:sub+(sub?frete:0)};
+}
+// sacola de exemplo para a página abrir mostrando como funciona
+qty.tomate=1; qty.banana=1.5; qty.alface=2;
+PROD.forEach(p=>{ if(qty[p.id]) document.getElementById('q-'+p.id).textContent=fmtQ(qty[p.id],p.u); });
+render();
+document.getElementById('enviar').addEventListener('click',()=>{const {its,total}=render(); const m=document.getElementById('msg');
+  m.textContent= its.length? `Mensagem que seria enviada: "Olá! Quero: ${its.map(p=>fmtQ(qty[p.id],p.u)+' de '+p.n.toLowerCase()).join(', ')}. Total ${brl(total)}." Demonstração: no site real, abre o WhatsApp da quitanda.` : 'Adicione pelo menos um item à sacola.';});
+</script>
+
+</body>
+</html>

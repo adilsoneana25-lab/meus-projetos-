@@ -1,0 +1,363 @@
+<title>Rota Leve Logística</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: céu claro com nuvens, cartão-herói flutuante (texto à esquerda, celular com app de rastreio à direita), seções leves abaixo */
+:root{
+  --sky-top:#dfe7f1; --sky-bottom:#f4f7fb; --card:#ffffff; --ink:#151a24; --muted:#5f6b7d;
+  --line:#e3e8f0; --accent:#1f6bff; --accent-soft:#e8f0ff; --warm:#ff7a30; --btn:#1b2030; --btn-ink:#ffffff;
+  --cloud:#ffffff; --phone:#11151d; --shadow:0 30px 60px -30px rgba(25,45,80,.35);
+  --display:"Outfit",ui-sans-serif,system-ui,sans-serif; --body:"Inter",ui-sans-serif,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --sky-top:#0d1422; --sky-bottom:#121a2a; --card:#18202f; --ink:#eef2f8; --muted:#a3aec0;
+  --line:#283246; --accent:#5b93ff; --accent-soft:#1c2a45; --warm:#ff8d4d; --btn:#eef2f8; --btn-ink:#121826;
+  --cloud:#2a3449; --phone:#05070b; --shadow:0 30px 60px -30px rgba(0,0,0,.7); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --sky-top:#0d1422; --sky-bottom:#121a2a; --card:#18202f; --ink:#eef2f8; --muted:#a3aec0;
+  --line:#283246; --accent:#5b93ff; --accent-soft:#1c2a45; --warm:#ff8d4d; --btn:#eef2f8; --btn-ink:#121826;
+  --cloud:#2a3449; --phone:#05070b; --shadow:0 30px 60px -30px rgba(0,0,0,.7); color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--body);color:var(--ink);background:linear-gradient(180deg,var(--sky-top),var(--sky-bottom) 700px) var(--sky-bottom);line-height:1.6;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+
+/* nuvens */
+.sky{position:relative;padding-block:48px 24px;overflow:hidden}
+.cloud{position:absolute;background:var(--cloud);border-radius:999px;opacity:.9;filter:blur(1px);animation:drift linear infinite}
+.cloud::before,.cloud::after{content:"";position:absolute;background:inherit;border-radius:50%}
+.cloud::before{width:55%;height:180%;left:15%;bottom:20%}
+.cloud::after{width:40%;height:140%;right:12%;bottom:25%}
+.c1{width:150px;height:34px;top:70px;left:-160px;animation-duration:48s}
+.c2{width:110px;height:26px;top:300px;left:-120px;animation-duration:62s;animation-delay:-20s}
+.c3{width:190px;height:40px;top:520px;left:-200px;animation-duration:75s;animation-delay:-40s}
+@keyframes drift{to{transform:translateX(calc(100vw + 400px))}}
+
+/* cartão-herói */
+.hero{position:relative;z-index:1;background:var(--card);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
+nav{display:flex;align-items:center;gap:24px;padding:22px 36px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:1.15rem;text-decoration:none}
+.links{display:flex;gap:28px;margin:0 auto;list-style:none;padding:0;font-size:.9rem;color:var(--muted)}
+.links a{text-decoration:none}
+.links a[aria-current]{color:var(--ink);position:relative}
+.links a[aria-current]::after{content:"";position:absolute;left:30%;right:30%;bottom:-6px;height:2px;border-radius:2px;background:var(--accent)}
+.auth{display:flex;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:10px 22px;font:600 .88rem var(--body);border:1.5px solid var(--btn);cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn-dark{background:var(--btn);color:var(--btn-ink)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px -10px rgba(20,30,60,.5)}
+
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:24px;padding:24px 36px 56px 72px}
+.hero-copy{min-width:0}
+.eyebrow{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:6px 12px;border-radius:999px;margin-bottom:20px}
+.hero h1{font-size:clamp(2.3rem,5vw,4rem);font-weight:700;position:relative;max-width:12ch}
+.doodle{position:absolute;width:90px;top:-34px;right:-30px;color:var(--accent)}
+.underline{position:relative;white-space:nowrap}
+.underline svg{position:absolute;left:0;bottom:-10px;width:100%;height:14px;color:var(--warm)}
+.hero p.lead{color:var(--muted);max-width:42ch;margin:24px 0 32px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.track{display:flex;gap:8px;margin-top:28px;max-width:420px;background:var(--sky-bottom);border:1px solid var(--line);border-radius:999px;padding:6px}
+.track input{flex:1;min-width:0;border:0;background:transparent;padding:8px 14px;font:500 .92rem var(--body);color:var(--ink)}
+.track input:focus{outline:none}
+.track:focus-within{border-color:var(--accent)}
+.track-msg{font-size:.85rem;color:var(--muted);margin-top:10px;min-height:1.4em}
+
+/* celular */
+.phone-zone{position:relative;display:flex;justify-content:center;min-width:0}
+.phone{width:240px;max-width:100%;aspect-ratio:9/18.5;background:var(--phone);border-radius:38px;padding:10px;box-shadow:0 40px 60px -25px rgba(10,20,40,.55);transform:rotate(-6deg);animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:rotate(-6deg) translateY(-14px)}}
+.screen{height:100%;background:#f6f9fd;border-radius:30px;overflow:hidden;color:#151a24;padding:16px 14px;display:flex;flex-direction:column;gap:12px;font-size:.66rem}
+.screen .top{display:flex;justify-content:space-between;align-items:center;color:#5f6b7d}
+.avatar{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#ffb37d,#ff7a30)}
+.screen h4{font-family:var(--display);font-size:.95rem;margin:0;line-height:1.2}
+.pkg{background:#fff;border-radius:14px;padding:10px;box-shadow:0 6px 14px -8px rgba(20,40,80,.3)}
+.pkg b{display:block;font-size:.72rem}
+.pkg small{color:#5f6b7d}
+.steps{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.steps li{display:flex;gap:8px;align-items:center}
+.dot{width:9px;height:9px;border-radius:50%;background:#cfd8e6;flex:none}
+.steps .done .dot{background:#1f6bff}
+.steps .now .dot{background:#ff7a30;box-shadow:0 0 0 4px rgba(255,122,48,.2);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(255,122,48,0)}}
+.mini-map{height:70px;border-radius:12px;background:linear-gradient(135deg,#dfeaff,#eef4ff);position:relative;overflow:hidden}
+.mini-map svg{position:absolute;inset:0;width:100%;height:100%}
+.tabbar{margin-top:auto;display:flex;justify-content:space-around;align-items:center}
+.tabbar span{width:8px;height:8px;border-radius:50%;background:#cfd8e6}
+.tabbar .go{width:24px;height:24px;background:#ff7a30}
+.badge{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 14px;font-size:.8rem;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center;animation:float2 7s ease-in-out infinite}
+.badge strong{font-family:var(--display);font-size:1.05rem;display:block;line-height:1.1}
+.badge small{color:var(--muted)}
+.b1{top:12%;left:0}
+.b2{bottom:10%;right:2%;animation-delay:-3s}
+@keyframes float2{50%{transform:translateY(-8px)}}
+.ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none}
+
+/* entrada */
+.reveal{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}
+@keyframes rise{from{opacity:.001;transform:translateY(24px)}}
+
+/* seções */
+section{padding-block:88px 0}
+.sec-head{max-width:620px;margin-bottom:40px}
+.sec-head .kicker{color:var(--warm);font-weight:600;font-size:.85rem}
+.sec-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-top:6px}
+.sec-head p{color:var(--muted);margin:12px 0 0}
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.service{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;transition:transform .25s,box-shadow .25s}
+.service:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.service h3{font-size:1.2rem;margin:18px 0 8px}
+.service p{color:var(--muted);margin:0;font-size:.95rem}
+.service .meta{margin-top:16px;font-size:.8rem;font-weight:600;color:var(--accent)}
+
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;counter-reset:s;position:relative}
+.flow li{list-style:none;position:relative;padding-top:56px}
+.flow li::before{counter-increment:s;content:counter(s);position:absolute;top:0;left:0;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font:700 1rem var(--display);background:var(--btn);color:var(--btn-ink)}
+.flow li::after{content:"";position:absolute;top:20px;left:52px;right:8px;border-top:2px dashed var(--line)}
+.flow li:last-child::after{display:none}
+.flow h3{font-size:1.1rem;margin-bottom:6px}
+.flow p{margin:0;color:var(--muted);font-size:.93rem}
+.flow{padding:0;margin:0}
+
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;background:var(--btn);color:var(--btn-ink);border-radius:28px;padding:44px}
+.stats div{min-width:0}
+.stats strong{display:block;font:700 clamp(1.8rem,3.5vw,2.6rem) var(--display);font-variant-numeric:tabular-nums}
+.stats span{opacity:.75;font-size:.9rem}
+
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+blockquote{margin:0;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:18px}
+blockquote p{margin:0}
+blockquote footer{display:flex;gap:12px;align-items:center;font-size:.88rem;margin-top:auto}
+blockquote footer small{display:block;color:var(--muted)}
+.ini{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--accent-soft);color:var(--accent);flex:none}
+
+.contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;background:var(--card);border:1px solid var(--line);border-radius:28px;padding:44px}
+.contact > div{min-width:0}
+.contact ul{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:14px}
+.contact li{display:flex;gap:12px;align-items:center}
+.contact li span{user-select:all}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+form .full{grid-column:1/-1}
+label{display:grid;gap:6px;font-size:.85rem;font-weight:500}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sky-bottom);border:1px solid var(--line);border-radius:12px;padding:11px 14px;width:100%}
+textarea{min-height:110px;resize:vertical}
+.form-msg{grid-column:1/-1;font-size:.9rem;color:var(--accent);min-height:1.4em;margin:0}
+
+footer.site{padding-block:56px 40px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;padding:16px 24px 48px}
+  .links{display:none}
+  nav{padding:18px 24px;justify-content:space-between}
+  .services,.quotes{grid-template-columns:1fr}
+  .flow,.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .flow li::after{display:none}
+  .contact{grid-template-columns:1fr;padding:28px}
+  .phone-zone{margin-top:24px}
+}
+@media (max-width:480px){
+  .auth .btn-ghost{display:none}
+  form{grid-template-columns:1fr}
+  .stats{padding:28px;grid-template-columns:1fr 1fr}
+  .flow{grid-template-columns:1fr}
+  .b1{left:-4px}.b2{right:-4px}
+  .doodle{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="sky">
+  <span class="cloud c1" aria-hidden="true"></span>
+  <span class="cloud c2" aria-hidden="true"></span>
+  <span class="cloud c3" aria-hidden="true"></span>
+
+  <div class="wrap">
+    <header class="hero reveal">
+      <nav aria-label="Principal">
+        <a class="logo" href="#inicio">
+          <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 22 C 8 6, 20 6, 25 22" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/></svg>
+          Rota Leve
+        </a>
+        <ul class="links">
+          <li><a href="#inicio" aria-current="page">Início</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#clientes">Clientes</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+        <div class="auth">
+          <a class="btn btn-dark" href="#rastrear">Rastrear</a>
+          <a class="btn btn-ghost" href="#contato">Cotação</a>
+        </div>
+      </nav>
+
+      <div class="hero-grid" id="inicio">
+        <div class="hero-copy">
+          <span class="eyebrow reveal d1">Transporte de cargas fracionadas</span>
+          <h1 class="reveal d2">Sua carga na estrada, <span class="underline">sem dor<svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C 50 2, 120 2, 197 8" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span> de cabeça!
+            <svg class="doodle" viewBox="0 0 90 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M10 40 l10 -14"/><path d="M26 44 l4 -22"/><path d="M42 30 c 10 -18, 30 -20, 36 -6 c 4 10, -8 14, -12 6"/></g></svg>
+          </h1>
+          <p class="lead reveal d3">Coletamos, transportamos e entregamos com prazo combinado e rastreio em tempo real, do galpão até a porta do seu cliente.</p>
+          <div class="hero-actions reveal d4">
+            <a class="btn btn-dark" href="#contato">Pedir cotação grátis</a>
+            <a class="btn btn-ghost" href="#como-funciona">Ver como funciona</a>
+          </div>
+          <form class="track reveal d4" id="rastrear" aria-label="Rastrear encomenda">
+            <input id="codigo" name="codigo" placeholder="Código de rastreio (ex: RL-482193)" aria-label="Código de rastreio" autocomplete="off">
+            <button class="btn btn-dark" type="submit">Rastrear</button>
+          </form>
+          <p class="track-msg" id="track-msg" aria-live="polite"></p>
+        </div>
+
+        <div class="phone-zone reveal d3" aria-label="Exemplo do aplicativo de rastreio">
+          <div class="phone">
+            <div class="screen">
+              <div class="top"><span>☰</span><span>Olá, Marina</span><span class="avatar"></span></div>
+              <h4>Acompanhe sua entrega</h4>
+              <div class="mini-map">
+                <svg viewBox="0 0 200 70" aria-hidden="true">
+                  <path d="M10 55 C 50 10, 90 65, 130 30 S 185 20, 190 15" fill="none" stroke="#1f6bff" stroke-width="3" stroke-dasharray="6 5"/>
+                  <circle cx="10" cy="55" r="5" fill="#1f6bff"/><circle cx="130" cy="30" r="6" fill="#ff7a30"/><circle cx="190" cy="15" r="5" fill="#151a24"/>
+                </svg>
+              </div>
+              <div class="pkg">
+                <b>RL-482193 · 12 volumes</b>
+                <small>Campinas → Belo Horizonte</small>
+                <ul class="steps">
+                  <li class="done"><span class="dot"></span>Coletado · 08:12</li>
+                  <li class="done"><span class="dot"></span>Em transferência</li>
+                  <li class="now"><span class="dot"></span>Saiu para entrega</li>
+                  <li><span class="dot"></span>Entregue</li>
+                </ul>
+              </div>
+              <div class="pkg"><b>Previsão: hoje até 17h</b><small>CT-e e NF-e anexados</small></div>
+              <div class="tabbar"><span></span><span></span><span class="go"></span><span></span><span></span></div>
+            </div>
+          </div>
+          <div class="badge b1"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><strong>98,7%</strong><small>entregas no prazo</small></div></div>
+          <div class="badge b2"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><strong>D+1</strong><small>capitais do Sudeste</small></div></div>
+        </div>
+      </div>
+    </header>
+  </div>
+</div>
+
+<main class="wrap">
+  <section id="servicos">
+    <div class="sec-head">
+      <span class="kicker">Nossos serviços</span>
+      <h2>O que levamos por você</h2>
+      <p>Da caixa avulsa à carga paletizada, cada envio tem rota planejada e documentação em dia.</p>
+    </div>
+    <div class="services">
+      <article class="service">
+        <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span>
+        <h3>Carga fracionada</h3>
+        <p>Pague só pelo espaço que usar. Ideal para e-commerce e distribuidores com volumes variados.</p>
+        <div class="meta">A partir de 1 volume</div>
+      </article>
+      <article class="service">
+        <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l9-6 9 6v12"/><path d="M8 21v-7h8v7"/></svg></span>
+        <h3>Armazenagem</h3>
+        <p>Galpão com controle de estoque, separação e expedição no mesmo dia do pedido.</p>
+        <div class="meta">Recebimento conferido por NF-e</div>
+      </article>
+      <article class="service">
+        <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+        <h3>Última milha</h3>
+        <p>Entrega na porta do consumidor com foto e assinatura digital como comprovante.</p>
+        <div class="meta">Comprovante em até 2 h</div>
+      </article>
+    </div>
+  </section>
+
+  <section id="como-funciona">
+    <div class="sec-head">
+      <span class="kicker">Como funciona</span>
+      <h2>Quatro passos do pedido à entrega</h2>
+    </div>
+    <ol class="flow">
+      <li><h3>Cotação</h3><p>Informe CEP de origem, destino, peso e medidas. Respondemos em até 30 minutos.</p></li>
+      <li><h3>Coleta</h3><p>Buscamos no seu endereço no horário agendado, com conferência de volumes.</p></li>
+      <li><h3>Transporte</h3><p>Emitimos CT-e e MDF-e, e você acompanha cada etapa pelo código de rastreio.</p></li>
+      <li><h3>Entrega</h3><p>Seu cliente recebe e você recebe o comprovante digital na hora.</p></li>
+    </ol>
+  </section>
+
+  <section aria-label="Números da empresa">
+    <div class="stats">
+      <div><strong>12 mil</strong><span>entregas por mês</span></div>
+      <div><strong>98,7%</strong><span>no prazo combinado</span></div>
+      <div><strong>320</strong><span>cidades atendidas</span></div>
+      <div><strong>0,02%</strong><span>índice de avarias</span></div>
+    </div>
+  </section>
+
+  <section id="clientes">
+    <div class="sec-head">
+      <span class="kicker">Clientes</span>
+      <h2>Quem já envia com a gente</h2>
+    </div>
+    <div class="quotes">
+      <blockquote><p>"Reduzimos as reclamações de atraso quase a zero. O rastreio tirou o peso do nosso SAC."</p><footer><span class="ini">JS</span><div>Juliana Souza<small>Loja virtual de cosméticos</small></div></footer></blockquote>
+      <blockquote><p>"A coleta chega no horário e a conferência de volumes evita divergência na nota."</p><footer><span class="ini">RM</span><div>Ricardo Melo<small>Distribuidora de autopeças</small></div></footer></blockquote>
+      <blockquote><p>"Atendimento rápido pelo WhatsApp e cotação no mesmo dia. Viramos clientes fixos."</p><footer><span class="ini">AP</span><div>Ana Paula Reis<small>Indústria de embalagens</small></div></footer></blockquote>
+    </div>
+  </section>
+
+  <section id="contato">
+    <div class="contact">
+      <div>
+        <div class="sec-head" style="margin-bottom:0">
+          <span class="kicker">Contato</span>
+          <h2>Peça sua cotação</h2>
+          <p>Preencha os dados da carga ou fale direto com a nossa equipe.</p>
+        </div>
+        <ul>
+          <li><span class="ico">☎</span><div>WhatsApp<br><span>(11) 90000-0000</span></div></li>
+          <li><span class="ico">@</span><div>E-mail<br><span>comercial@rotaleve.com.br</span></div></li>
+          <li><span class="ico">⌖</span><div>Galpão<br><span>Rod. Anhanguera, km 98 · Campinas/SP</span></div></li>
+        </ul>
+      </div>
+      <form id="cotacao" novalidate>
+        <label>Nome<input id="nome" required placeholder="Seu nome"></label>
+        <label>Empresa<input id="empresa" placeholder="Nome da empresa"></label>
+        <label>CEP de origem<input id="cep-origem" inputmode="numeric" placeholder="00000-000"></label>
+        <label>CEP de destino<input id="cep-destino" inputmode="numeric" placeholder="00000-000"></label>
+        <label>Peso total (kg)<input id="peso" inputmode="decimal" placeholder="ex: 150"></label>
+        <label>Tipo de serviço<select id="servico"><option>Carga fracionada</option><option>Armazenagem</option><option>Última milha</option></select></label>
+        <label class="full">Detalhes<textarea id="detalhes" placeholder="Quantidade de volumes, medidas, prazo desejado"></textarea></label>
+        <button class="btn btn-dark full" type="submit">Enviar pedido de cotação</button>
+        <p class="form-msg" id="form-msg" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site wrap">
+  <span>© 2026 Rota Leve Logística · CNPJ 00.000.000/0001-00</span>
+  <span>Textos e números de exemplo: substitua pelos dados do cliente.</span>
+</footer>
+
+<script>
+document.getElementById('rastrear').addEventListener('submit', e => {
+  e.preventDefault();
+  const v = document.getElementById('codigo').value.trim().toUpperCase();
+  const msg = document.getElementById('track-msg');
+  msg.textContent = /^RL-\d{6}$/.test(v)
+    ? `Exemplo: ${v} saiu para entrega. Previsão hoje até 17h.`
+    : 'Digite um código no formato RL-000000.';
+});
+document.getElementById('cotacao').addEventListener('submit', e => {
+  e.preventDefault();
+  const nome = document.getElementById('nome').value.trim();
+  document.getElementById('form-msg').textContent = nome
+    ? `Obrigado, ${nome}! Esta é uma demonstração: no site real, o pedido seguirá para o e-mail ou WhatsApp da empresa.`
+    : 'Preencha pelo menos o seu nome.';
+});
+</script>

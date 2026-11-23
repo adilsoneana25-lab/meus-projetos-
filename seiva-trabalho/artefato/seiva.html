@@ -115,9 +115,20 @@ a{color:inherit}
 .cue.gone{opacity:0}
 .static-copy{display:none}
 @media (max-height:560px){.cue{display:none}}
+.stage{height:100vh;height:100svh}
+@media (max-width:720px){
+  .hero{height:820vh}
+  .band{left:20px;right:20px;width:auto;top:22%;transform:none}
+  .band::before{inset:-40% -12% -40% -12%;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(6,12,8,var(--sa,.6)) 0%,rgba(6,12,8,calc(var(--sa,.6)*.85)) 45%,rgba(6,12,8,calc(var(--sa,.6)*.35)) 72%,rgba(6,12,8,0) 95%)}
+  .band-title{font-size:clamp(32px,9vw,44px)}
+  .b4{top:15%}
+  .b4 .sub{font-size:17px}
+  .frame:last-child{background-position:60% center}
+  .scrim{background:linear-gradient(180deg,rgba(8,16,11,.45) 0%,rgba(8,16,11,.15) 50%,rgba(8,16,11,.4) 100%)}
+}
 
 /* ===== topo estático (os cinco portões) ===== */
-@media (max-width: 720px), (orientation: portrait) and (max-width: 1024px), (orientation: portrait) and (pointer: coarse), (orientation: landscape) and (pointer: coarse) and (max-height: 560px), (prefers-reduced-motion: reduce){
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px), (prefers-reduced-motion: reduce){
   .hero{height:auto}
   .stage{position:relative;height:auto;min-height:100vh;min-height:100svh;display:flex;align-items:flex-start}
   .frames,.band,.cue,#hero-video{display:none}
@@ -696,10 +707,9 @@ html.rm .stage-note{opacity:1;transform:none}
   }
 
   /* ---- os cinco portões, decididos ao vivo ---- */
+  /* celular e tablet agora recebem a descida em vídeo; só ficam com o topo fixo
+     o celular deitado (sem altura para a viagem) e quem pede menos movimento */
   const GATES = [
-    '(max-width: 720px)',
-    '(orientation: portrait) and (max-width: 1024px)',
-    '(orientation: portrait) and (pointer: coarse)',
     '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
     '(prefers-reduced-motion: reduce)'
   ];
@@ -850,7 +860,7 @@ html.rm .stage-note{opacity:1;transform:none}
 
   /* ---- ligar tudo ---- */
   MQLS.forEach(m => m.addEventListener('change', applyHeroMode));
-  const RM = MQLS[4];
+  const RM = MQLS[1];
   RM.addEventListener('change', e => { if (e.matches) pinToFinalStates(); });
   if (RM.matches) pinToFinalStates();
   applyHeroMode();

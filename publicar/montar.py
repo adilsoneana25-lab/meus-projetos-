@@ -1,12 +1,12 @@
 """Monta a pasta publicar/site/, pronta para arrastar no Netlify Drop (https://app.netlify.com/drop).
 
 Como usar (Windows):  python publicar\\montar.py
-Antes, preencha SEU_NOME e SEU_WHATSAPP abaixo.
+Nome e WhatsApp já estão no portfólio; os campos abaixo servem para trocar, se mudarem.
 """
 import pathlib, shutil, re
 
-SEU_NOME = "Seu Nome"            # ex.: "Adilson Sites"
-SEU_WHATSAPP = "5500000000000"   # 55 + DDD + número, só dígitos. ex.: "5511912345678"
+SEU_NOME = "Vértice Digital"
+SEU_WHATSAPP = "5511942547938"   # 55 + DDD + número, só dígitos
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 SAIDA = RAIZ / "publicar" / "site"

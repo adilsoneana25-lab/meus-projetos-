@@ -18,5 +18,6 @@
 
 - Responder em português do Brasil.
 - Trabalha com criação de sites (clientes como restaurantes e logística) e usa Windows. Prefere soluções prontas.
+- Marca: **Vértice Digital** (Adilson Monteiro). WhatsApp (11) 94254-7938, Instagram @vertice.digital.sp. Usar no portfólio e no crédito "Criado por" das amostras.
 - Os sites deste repositório (`site-restaurante/`, `site-rota-leve/`) são **amostras de portfólio** para oferecer a clientes: nomes, textos, preços e contatos são fictícios e devem continuar marcados como exemplo até virar o site de um cliente real.
 - Fazer perguntas esclarecedoras antes de executar e pesquisar em fontes confiáveis, sem respostas genéricas ou inventadas.

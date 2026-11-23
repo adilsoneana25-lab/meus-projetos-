@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seiva · perfumaria natural do Brasil</title>
+<meta name="description" content="Perfumes feitos à mão com breu branco, priprioca e cumaru da Amazônia. Peça o kit com 3 amostras e prove antes de escolher.">
+<meta name="theme-color" content="#1F3328">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Seiva · perfumaria natural do Brasil">
+<meta property="og:description" content="A mata inteira cabe num frasco. Peça o kit de amostras e prove os três perfumes antes de escolher.">
+<!-- DEPLOY STEP: trocar pelos endereços absolutos do site publicado -->
+<meta property="og:image" content="assets/hero-4.jpg">
+<meta property="og:url" content="https://exemplo.com.br/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F3328'/%3E%3Cpath d='M32 10c9 12 16 21 16 30a16 16 0 0 1-32 0c0-9 7-18 16-30z' fill='%23C9954B'/%3E%3Cpath d='M32 22v30M32 34l-7-6M32 42l7-6' stroke='%231F3328' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Figtree:wght@400;600&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#EEF1EA;
+  --panel:#F7F8F3;
+  --mata:#1F3328;
+  --mata-2:#2A4334;
+  --accent:#B8402A;
+  --accent-hover:#9E3420;
+  --accent-muted:#C9954B;
+  --text-secondary:#46564B;
+  --text-primary:#18241C;
+  --on-dark:#F1F3EC;
+  --on-dark-2:#C5CFC4;
+  --border-ui:#7C8C80;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-io:cubic-bezier(.65,0,.35,1);
+  --tshadow:0 1px 2px rgba(6,12,8,.95),0 3px 12px rgba(6,12,8,.78),0 10px 44px rgba(6,12,8,.8);
+  --serif:"Young Serif",Georgia,serif;
+  --sans:"Figtree",system-ui,sans-serif;
+  --mono:"DM Mono",ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:hidden;overflow-x:clip;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{overflow-x:hidden;overflow-x:clip;margin:0;background:var(--canvas);color:var(--text-primary);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;animation:pageIn .9s var(--ease-out) both}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:fixed;left:16px;top:-60px;z-index:100;background:var(--mata);color:var(--on-dark);padding:10px 16px;border-radius:8px;text-decoration:none;transition:top .3s var(--ease-out)}
+.skip:focus{top:16px}
+
+/* ambiente fixo: névoa que deriva + grão */
+.env{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.env::before{content:"";position:absolute;inset:-20%;background:
+  radial-gradient(40% 35% at 20% 30%,rgba(201,149,75,.10),transparent 70%),
+  radial-gradient(45% 40% at 80% 70%,rgba(31,51,40,.10),transparent 70%),
+  radial-gradient(35% 30% at 60% 15%,rgba(120,150,120,.12),transparent 70%);
+  animation:drift 80s var(--ease-io) infinite alternate;animation-delay:-20s}
+.env::after{content:"";position:absolute;inset:0;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes drift{from{transform:translate3d(-3%,-2%,0) rotate(0deg)}to{transform:translate3d(3%,2%,0) rotate(4deg)}}
+.pollen{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--accent-muted);opacity:0;animation:float 22s linear infinite}
+@keyframes float{0%{transform:translate3d(0,10vh,0);opacity:0}15%{opacity:.35}85%{opacity:.25}100%{transform:translate3d(4vw,-90vh,0);opacity:0}}
+
+/* navegação */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px clamp(16px,4vw,48px);transition:background .5s var(--ease-out),box-shadow .5s var(--ease-out)}
+.nav.solid{background:rgba(238,241,234,.92);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(31,51,40,.12)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--on-dark);transition:color .5s var(--ease-out)}
+.nav.solid .brand{color:var(--mata)}
+.brand svg{width:30px;height:30px}
+.brand b{font:400 24px/1 var(--serif);letter-spacing:.01em}
+.brand small{font:400 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0}
+.nav ul a{text-decoration:none;font-weight:600;font-size:15px;color:var(--on-dark);text-shadow:0 1px 6px rgba(6,12,8,.6);transition:color .3s var(--ease-out),opacity .3s}
+.nav.solid ul a{color:var(--text-primary);text-shadow:none}
+.nav ul a:hover{opacity:.7}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 16px/1 var(--sans);text-decoration:none;border:0;cursor:pointer;border-radius:999px;padding:15px 26px;background:var(--accent);color:#fff;text-shadow:none;transition:background .3s var(--ease-out),transform .4s var(--ease-out),box-shadow .4s var(--ease-out);box-shadow:0 8px 24px -10px rgba(184,64,42,.7)}
+.btn:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(184,64,42,.75)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.small{padding:11px 18px;font-size:14px}
+.btn.ghost{background:transparent;color:var(--mata);box-shadow:inset 0 0 0 1.5px var(--border-ui)}
+.btn.ghost:hover{background:rgba(31,51,40,.06)}
+@media (pointer:coarse){.btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center}}
+@media (max-width:900px){.nav ul{display:none}}
+
+/* ===== topo (scrub) ===== */
+.hero{position:relative;height:520vh;background:var(--mata)}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--mata)}
+.frames{position:absolute;inset:0}
+.frame{position:absolute;inset:-5%;background-size:cover;background-position:center;opacity:0;will-change:transform,opacity;transform:translateZ(0)}
+.frame:first-child{opacity:1}
+#hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s var(--ease-out);will-change:transform;transform:translateZ(0)}
+.stage.video-ready #hero-video{opacity:1}
+.scrim{position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,rgba(8,16,11,.6) 0%,rgba(8,16,11,.42) 38%,rgba(8,16,11,.12) 58%,rgba(8,16,11,0) 72%),
+  radial-gradient(ellipse 120% 90% at 50% 45%,rgba(8,16,11,0) 40%,rgba(8,16,11,.55) 100%);}
+.band{position:absolute;left:clamp(20px,6vw,96px);top:50%;transform:translateY(-50%);width:min(600px,46vw);color:var(--on-dark);text-shadow:var(--tshadow);opacity:0;pointer-events:none}
+.band.live-pe{pointer-events:auto}
+.band::before{content:"";position:absolute;inset:-70% -36% -70% -60%;z-index:-1;pointer-events:none;opacity:calc(.25 + .75*var(--k,1));background:radial-gradient(ellipse 56% 50% at 46% 50%,rgba(6,12,8,var(--sa,.6)) 0%,rgba(6,12,8,calc(var(--sa,.6)*.9)) 34%,rgba(6,12,8,calc(var(--sa,.6)*.55)) 58%,rgba(6,12,8,calc(var(--sa,.6)*.2)) 78%,rgba(6,12,8,0) 96%)}
+.kicker{display:inline-block;font:400 13px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#E7C793;margin-bottom:18px}
+.band-title{font:400 clamp(36px,4.6vw,68px)/1.08 var(--serif);margin:0;letter-spacing:-.005em}
+.band .w{display:inline-block;white-space:nowrap}
+.band .c{display:inline-block}
+/* b1: desfoque para nitidez */
+.b1 .stack{position:relative;display:block}
+.b1 .soft{position:absolute;inset:0;filter:blur(10px);opacity:calc(1 - var(--k,0))}
+.b1 .sharp{display:block;opacity:var(--k,0)}
+.b1 .kicker{opacity:clamp(0,var(--k,0)*1.6,1)}
+/* b2: queda suave */
+.b2 .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.8,1);opacity:var(--kc);transform:translateY(calc((1 - var(--kc))*-26px))}
+/* b3: sementes se juntando */
+.b3 .c{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.6,1);opacity:var(--kc);transform:translate(calc((1 - var(--kc))*var(--jx,0px)),calc((1 - var(--kc))*var(--jy,0px))) rotate(calc((1 - var(--kc))*var(--jr,0deg)))}
+/* b4: pouso em três tempos */
+.b4{top:clamp(90px,17vh,170px);transform:none}
+.b4 .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*3,1);opacity:var(--kc);transform:translateY(calc((1 - var(--kc))*28px))}
+.b4 .sub{--ks:clamp(0,(var(--k,0) - .62)*4,1);opacity:var(--ks);transform:translateY(calc((1 - var(--ks))*14px));font-size:clamp(17px,1.4vw,20px);line-height:1.55;margin:20px 0 0;max-width:42ch;color:#E8ECE4}
+.b4 .row{--kb:clamp(0,(var(--k,0) - .78)*5,1);opacity:var(--kb);transform:translateY(calc((1 - var(--kb))*12px));margin-top:28px}
+.cue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);color:var(--on-dark);font:400 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px;text-shadow:0 1px 6px rgba(0,0,0,.6);transition:opacity .5s var(--ease-out)}
+.cue i{width:1.5px;height:38px;background:linear-gradient(var(--on-dark),transparent);animation:cue 2.4s var(--ease-io) infinite;animation-delay:-.6s;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.cue.gone{opacity:0}
+.static-copy{display:none}
+@media (max-height:560px){.cue{display:none}}
+
+/* ===== topo estático (os cinco portões) ===== */
+@media (max-width: 720px), (orientation: portrait) and (max-width: 1024px), (orientation: portrait) and (pointer: coarse), (orientation: landscape) and (pointer: coarse) and (max-height: 560px), (prefers-reduced-motion: reduce){
+  .hero{height:auto}
+  .stage{position:relative;height:auto;min-height:100vh;min-height:100svh;display:flex;align-items:flex-start}
+  .frames,.band,.cue,#hero-video{display:none}
+  .stage{background:var(--mata) url("assets/hero-4.jpg") 58% 60%/cover no-repeat}
+  .scrim{background:linear-gradient(180deg,rgba(8,16,11,.78) 0%,rgba(8,16,11,.55) 40%,rgba(8,16,11,.05) 68%,rgba(8,16,11,.35) 100%)}
+  .static-copy{display:block;position:relative;z-index:2;padding:clamp(104px,16vh,150px) 20px 48px;color:var(--on-dark);text-shadow:var(--tshadow);max-width:600px}
+  .static-copy .band-title{font-size:clamp(34px,9vw,56px)}
+  .static-copy p{font-size:17px;margin:18px 0 26px;max-width:38ch;color:#E8ECE4}
+}
+
+/* ===== seções ===== */
+main{position:relative}
+.sec{position:relative;padding:clamp(88px,12vw,150px) clamp(20px,5vw,64px)}
+.wrap{max-width:1180px;margin:0 auto;position:relative}
+.eyebrow{font:400 13px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#8A5A1E;margin:0 0 16px}
+h2{font:400 clamp(32px,4vw,54px)/1.1 var(--serif);margin:0;letter-spacing:-.005em;color:var(--mata)}
+.lede{font-size:18px;color:var(--text-secondary);max-width:52ch;margin:20px 0 0}
+
+/* linha da seiva (assinatura) */
+.vein{position:absolute;left:clamp(4px,2vw,28px);top:0;height:100%;width:60px;pointer-events:none;overflow:visible}
+.vein path{fill:none;stroke:var(--accent-muted);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:var(--d,1);opacity:.85}
+.vein circle{fill:var(--accent-muted);opacity:calc(1 - var(--d,1))}
+@media (max-width:720px){.vein{display:none}}
+
+/* entradas */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out);transition-delay:calc(var(--i,0)*110ms)}
+.in .rv{opacity:1;transform:none}
+.rv.settled{transition-delay:0s}
+
+/* fragrâncias */
+.frag-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4vw,32px);margin-top:56px}
+.card{background:var(--panel);border-radius:22px;overflow:hidden;box-shadow:0 1px 0 rgba(31,51,40,.06),0 24px 50px -36px rgba(31,51,40,.5);transition:transform .6s var(--ease-out),box-shadow .6s var(--ease-out);height:100%;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-6px);box-shadow:0 1px 0 rgba(31,51,40,.06),0 34px 60px -34px rgba(31,51,40,.6)}
+.card figure{margin:0;aspect-ratio:4/5;overflow:hidden;position:relative}
+.card figure img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-out)}
+.card:hover figure img{transform:scale(1.04)}
+.card figure::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 40% at 66% 58%,rgba(255,214,150,.22),transparent 70%);opacity:.4}
+.live .card figure::after{animation:glow 6s var(--ease-io) infinite alternate;animation-delay:calc(var(--g,0)*-2s)}
+@keyframes glow{from{opacity:.15}to{opacity:.7}}
+.card .body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
+.card h3{font:400 32px/1.1 var(--serif);margin:0;color:var(--mata)}
+.card .tag{margin:6px 0 0;font-size:17px;color:var(--text-secondary)}
+.notes{font-size:15px;color:var(--text-primary);margin:16px 0 0}
+.notes b{font:400 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);display:block;margin-bottom:6px;font-weight:400}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0}
+.chip{font:400 13px/1 var(--mono);padding:8px 11px;border-radius:999px;background:rgba(31,51,40,.07);color:var(--mata)}
+.price{margin-top:auto;padding-top:22px;display:flex;align-items:baseline;justify-content:space-between;border-top:1px solid rgba(31,51,40,.12);margin-top:22px}
+.price span{font-size:15px;color:var(--text-secondary)}
+.price strong{font:400 24px/1 var(--serif);color:var(--mata)}
+
+/* como fazemos */
+.dark{background:var(--mata);color:var(--on-dark)}
+.dark h2{color:var(--on-dark)}
+.dark .eyebrow{color:#E7C793}
+.dark .lede{color:var(--on-dark-2)}
+.steps{--gap:clamp(24px,4vw,56px);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:72px;position:relative}
+.steps-line{position:absolute;left:44px;top:43px;width:calc((100% - 2*var(--gap))*2/3 + 2*var(--gap));height:2px;pointer-events:none;overflow:visible;transform:scaleX(0);transform-origin:left center;transition:transform 2.2s var(--ease-out) .4s}
+.in .steps-line{transform:scaleX(1)}
+.steps-line line{stroke:var(--accent-muted);stroke-width:1.6;stroke-dasharray:6 8;opacity:.55}
+.step-ico{width:88px;height:88px;border-radius:50%;background:var(--mata-2);display:grid;place-items:center;position:relative;box-shadow:0 0 0 8px var(--mata)}
+.step-ico svg{width:46px;height:46px}
+.step-ico svg path,.step-ico svg circle,.step-ico svg rect{fill:none;stroke:#E7C793;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s var(--ease-out);transition-delay:calc(var(--i,0)*220ms + 300ms)}
+.in .step-ico svg path,.in .step-ico svg circle,.in .step-ico svg rect{stroke-dashoffset:0}
+.step-ico::after{content:"";position:absolute;inset:-8px;border-radius:50%;box-shadow:0 0 30px 4px rgba(231,199,147,.35);opacity:0}
+.live .step-ico::after{animation:pulse 5s var(--ease-io) infinite alternate;animation-delay:calc(var(--i,0)*-1.6s)}
+@keyframes pulse{from{opacity:0}to{opacity:.8}}
+.step h3{font:400 28px/1.15 var(--serif);margin:28px 0 10px;color:var(--on-dark)}
+.step .num{font:400 12px/1 var(--mono);letter-spacing:.14em;color:#E7C793}
+.step p{margin:0;color:var(--on-dark-2);max-width:34ch}
+
+/* momento interativo */
+.feel{text-align:center}
+.feel .lede{margin-left:auto;margin-right:auto}
+.dial{position:relative;width:min(300px,72vw);aspect-ratio:1;margin:56px auto 0}
+.dial svg{width:100%;height:100%;transform:rotate(-90deg)}
+.dial .track{fill:none;stroke:rgba(31,51,40,.12);stroke-width:6}
+.dial .fill{fill:none;stroke:var(--accent-muted);stroke-width:6;stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:var(--off,339.3)}
+.dial .mist{position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle at 50% 55%,rgba(201,149,75,.55),rgba(201,149,75,0) 70%);opacity:var(--p,0);transform:scale(calc(.7 + .3*var(--p,0)))}
+.dial .read{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dial .hours{font:400 64px/1 var(--serif);color:var(--mata)}
+.dial .hours small{font-size:26px}
+.dial .unit{font:400 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary);margin-top:8px}
+.live .dial .breath{animation:breath 4.8s var(--ease-io) infinite alternate;animation-delay:-1.2s}
+.dial .breath{position:absolute;inset:6%;border-radius:50%;border:1px solid rgba(201,149,75,.45);pointer-events:none}
+@keyframes breath{from{transform:scale(.97);opacity:.3}to{transform:scale(1.03);opacity:.9}}
+.hold{margin-top:32px;user-select:none;-webkit-user-select:none;touch-action:none;-webkit-touch-callout:none}
+.hold[aria-pressed="true"]{transform:scale(.97)}
+.stages{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;margin:56px auto 0;text-align:left}
+.stage-note{padding:22px 22px 24px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px rgba(31,51,40,.1);opacity:.4;transform:translateY(8px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out),box-shadow .7s var(--ease-out)}
+.stage-note.on{opacity:1;transform:none;box-shadow:inset 0 0 0 1.5px var(--accent-muted)}
+.stage-note b{display:block;font:400 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#8A5A1E;margin-bottom:10px;font-weight:400}
+.stage-note p{margin:0;font-size:16px}
+.feel-done{margin:24px 0 0;font-size:16px;color:var(--text-secondary);opacity:0;transition:opacity .8s var(--ease-out)}
+.feel.complete .feel-done{opacity:1}
+
+/* kit */
+.kit{padding:0;background:var(--panel)}
+.kit .grid{display:grid;grid-template-columns:1.15fr 1fr;align-items:center;min-height:min(86vh,760px)}
+.kit .pic{position:relative;height:100%;min-height:420px;overflow:hidden}
+.kit .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%}
+.kit .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,226,170,.0) 30%,rgba(255,226,170,.25) 50%,rgba(255,226,170,0) 70%);background-size:250% 100%;opacity:.6}
+.live .kit .pic::after{animation:shaft 9s var(--ease-io) infinite alternate;animation-delay:-3s}
+@keyframes shaft{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+.kit .txt{padding:clamp(56px,7vw,96px) clamp(24px,5vw,80px)}
+.kit .price-tag{display:flex;align-items:baseline;gap:14px;margin:30px 0 30px;flex-wrap:wrap}
+.kit .price-tag span{font:400 13px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary)}
+.kit .price-tag strong{font:400 44px/1 var(--serif);color:var(--mata)}
+
+/* depoimentos */
+.quotes{display:flex;flex-direction:column;gap:clamp(40px,6vw,72px);margin-top:64px}
+.quote{max-width:780px;position:relative}
+.quote:nth-child(2){margin-left:auto;text-align:right}
+.quote:nth-child(3){margin-left:12%}
+.quote blockquote{margin:0;font:400 clamp(24px,2.6vw,36px)/1.3 var(--serif);color:var(--mata)}
+.quote cite{display:block;margin-top:14px;font:400 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:var(--text-secondary)}
+.quote::before{content:"“";position:absolute;top:-.42em;left:-.42em;font:400 120px/1 var(--serif);color:var(--accent-muted);opacity:.35}
+.quote:nth-child(2)::before{left:auto;right:-.3em}
+.live .quote::before{animation:qd 7s var(--ease-io) infinite alternate;animation-delay:calc(var(--i,0)*-2.3s)}
+@keyframes qd{from{transform:translateY(-4px)}to{transform:translateY(6px)}}
+
+/* dúvidas */
+.faq .grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(32px,6vw,96px);align-items:start}
+.faq .side{position:sticky;top:110px}
+details{border-top:1px solid rgba(31,51,40,.18)}
+details:last-child{border-bottom:1px solid rgba(31,51,40,.18)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font:400 22px/1.3 var(--serif);color:var(--mata)}
+summary::-webkit-details-marker{display:none}
+summary .pm{flex:none;width:28px;height:28px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--border-ui);position:relative;transition:transform .5s var(--ease-out),background .4s}
+summary .pm::before,summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.6px;background:var(--mata);transform:translate(-50%,-50%)}
+summary .pm::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .5s var(--ease-out)}
+details[open] summary .pm{background:rgba(201,149,75,.2)}
+details[open] summary .pm::after{transform:translate(-50%,-50%) rotate(0deg)}
+details .ans{overflow:hidden}
+details p{margin:0 0 26px;color:var(--text-secondary);max-width:58ch;animation:ansIn .6s var(--ease-out)}
+@keyframes ansIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* chamada final */
+.final{position:relative;color:var(--on-dark);text-align:center;overflow:hidden;background:var(--mata)}
+.final .bg{position:absolute;inset:0;background:url("assets/hero-4.jpg") 50% 62%/cover no-repeat;opacity:.55}
+.final .bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(10,20,14,.55),rgba(10,20,14,.88))}
+.final .wrap{position:relative;z-index:1;text-shadow:var(--tshadow)}
+.final h2{color:var(--on-dark);font-size:clamp(40px,6vw,84px)}
+.final p{font-size:19px;color:#E3E8DF;margin:20px auto 36px;max-width:40ch}
+.final .btn{text-shadow:none}
+
+footer{background:#16241C;color:var(--on-dark-2);padding:48px clamp(20px,5vw,64px);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline}
+footer b{font:400 20px/1 var(--serif);color:var(--on-dark)}
+footer p{margin:0}
+
+@media (max-width:900px){
+  .cards{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}
+  .steps{grid-template-columns:1fr;gap:44px}
+  .steps-line{display:none}
+  .stages{grid-template-columns:1fr}
+  .kit .grid{grid-template-columns:1fr}
+  .kit .pic{min-height:0;aspect-ratio:3/2;height:auto}
+  .faq .grid{grid-template-columns:1fr}
+  .faq .side{position:static}
+  .quote:nth-child(3){margin-left:0}
+}
+
+/* pausa em aba escondida */
+body.paused *,body.paused *::before,body.paused *::after{animation-play-state:paused!important}
+
+/* movimento reduzido: tudo no estado final */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;transition-delay:0s!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+  .vein path{stroke-dashoffset:0}
+  .vein circle{opacity:1}
+  .step-ico svg path,.step-ico svg circle,.step-ico svg rect{stroke-dashoffset:0}
+  .stage-note{opacity:1;transform:none}
+  .steps-line{transform:none}
+  .pollen{display:none}
+}
+html.rm .rv{opacity:1;transform:none}
+html.rm .vein path{stroke-dashoffset:0}
+html.rm .stage-note{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Pular para o conteúdo</a>
+<div class="env" aria-hidden="true" id="env"></div>
+
+<nav class="nav" id="nav" aria-label="Principal">
+  <a class="brand" href="#topo" aria-label="Seiva, voltar ao topo">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c10 13 18 23 18 33a18 18 0 0 1-36 0C14 29 22 19 32 6z" fill="#C9954B"/><path d="M32 20v34M32 33l-8-7M32 42l8-7" stroke="#1F3328" stroke-width="2.8" fill="none" stroke-linecap="round"/></svg>
+    <span><b>Seiva</b><br><small>perfumaria natural</small></span>
+  </a>
+  <ul>
+    <li><a href="#fragrancias">Fragrâncias</a></li>
+    <li><a href="#como-fazemos">Como fazemos</a></li>
+    <li><a href="#kit">Kit de amostras</a></li>
+    <li><a href="#duvidas">Dúvidas</a></li>
+  </ul>
+  <a class="btn small wa" href="#" target="_blank" rel="noopener">Pedir kit</a>
+</nav>
+
+<header class="hero" id="topo">
+  <div class="stage" id="stage">
+    <div class="frames" aria-hidden="true">
+      <div class="frame" data-src="assets/hero-1.jpg"></div>
+      <div class="frame" data-src="assets/hero-2.jpg"></div>
+      <div class="frame" data-src="assets/hero-3.jpg"></div>
+      <div class="frame" data-src="assets/hero-4.jpg"></div>
+    </div>
+    <video id="hero-video" preload="none" muted playsinline aria-hidden="true" tabindex="-1"></video>
+    <div class="scrim" aria-hidden="true"></div>
+
+    <div class="band b1" data-a="0" data-b="0.24" style="--sa:.66">
+      <span class="kicker">Seiva · perfumaria natural do Brasil</span>
+      <span class="stack">
+        <span class="band-title soft" aria-hidden="true">Todo perfume começa no alto da mata.</span>
+        <span class="band-title sharp">Todo perfume começa no alto da mata.</span>
+      </span>
+    </div>
+    <div class="band b2" data-a="0.28" data-b="0.50" style="--sa:.8">
+      <p class="band-title" data-split="w">Onde a névoa encontra a folha, nasce o cheiro.</p>
+    </div>
+    <div class="band b3" data-a="0.54" data-b="0.74" style="--sa:.78" data-spread="0.5">
+      <p class="band-title" data-split="c">Breu, priprioca, cumaru. Colhidos por quem conhece a floresta.</p>
+    </div>
+    <div class="band b4" data-a="0.80" data-b="1" style="--sa:.72" data-ramp="0.12">
+      <p class="band-title" data-split="w">A mata inteira cabe num frasco.</p>
+      <p class="sub">Perfumes feitos à mão com ingredientes nativos. Prove antes de escolher.</p>
+      <div class="row"><a class="btn wa" href="#" target="_blank" rel="noopener">Pedir kit de amostras</a></div>
+    </div>
+    <div class="cue" id="cue" aria-hidden="true">Role para descer<i></i></div>
+
+    <div class="static-copy">
+    <span class="kicker">Seiva · perfumaria natural do Brasil</span>
+    <p class="band-title">A mata inteira cabe num frasco.</p>
+    <p>Perfumes feitos à mão com breu branco, priprioca e cumaru. Prove os três antes de escolher.</p>
+    <a class="btn wa" href="#" target="_blank" rel="noopener">Pedir kit de amostras</a>
+  </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <h1 class="sr-only">Seiva, perfumaria natural do Brasil: perfumes feitos à mão com ingredientes da Amazônia</h1>
+
+  <section class="sec" id="fragrancias" data-vein>
+    <svg class="vein" viewBox="0 0 60 1000" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M20 0 C20 120 24 160 20 260 C16 340 20 420 20 520 C20 620 26 700 20 800 C16 880 20 940 20 1000"/><path pathLength="1" d="M20 190 C34 176 46 176 58 168"/></svg>
+    <div class="wrap">
+      <div class="frag-head">
+        <div class="rv" style="--i:0">
+          <p class="eyebrow">Três perfumes, três ingredientes</p>
+          <h2>Cada frasco nasce de uma planta da mata.</h2>
+        </div>
+      </div>
+      <div class="cards">
+        <div class="rv" style="--i:1"><article class="card" style="--g:0">
+          <figure><img src="assets/fragrancia-breu.jpg" alt="Pedras de resina branca de breu e limão-cravo cortado sobre casca de árvore com musgo, ao lado de um frasco âmbar" width="638" height="800" loading="lazy"></figure>
+          <div class="body">
+            <h3>Breu</h3>
+            <p class="tag">Resinoso e fresco.</p>
+            <p class="notes"><b>Notas</b>Breu branco, limão-cravo, cedro.</p>
+            <div class="chips"><span class="chip">Extrato 25%</span><span class="chip">8 a 10 h na pele</span></div>
+            <div class="price"><span>50 ml</span><strong>R$ 289,00</strong></div>
+          </div>
+        </article></div>
+        <div class="rv" style="--i:2"><article class="card" style="--g:1">
+          <figure><img src="assets/fragrancia-priprioca.jpg" alt="Raízes de priprioca, pimenta-rosa e raízes de vetiver sobre terra úmida da floresta, ao lado de um frasco âmbar" width="638" height="800" loading="lazy"></figure>
+          <div class="body">
+            <h3>Priprioca</h3>
+            <p class="tag">Terroso e quente.</p>
+            <p class="notes"><b>Notas</b>Raiz de priprioca, vetiver, pimenta-rosa.</p>
+            <div class="chips"><span class="chip">Extrato 25%</span><span class="chip">8 a 10 h na pele</span></div>
+            <div class="price"><span>50 ml</span><strong>R$ 289,00</strong></div>
+          </div>
+        </article></div>
+        <div class="rv" style="--i:3"><article class="card" style="--g:2">
+          <figure><img src="assets/fragrancia-cumaru.jpg" alt="Sementes escuras de cumaru, uma fava de baunilha e lascas de sândalo sobre madeira com musgo, ao lado de um frasco âmbar" width="638" height="800" loading="lazy"></figure>
+          <div class="body">
+            <h3>Cumaru</h3>
+            <p class="tag">Doce e amadeirado.</p>
+            <p class="notes"><b>Notas</b>Cumaru, baunilha do cerrado, sândalo.</p>
+            <div class="chips"><span class="chip">Extrato 28%</span><span class="chip">10 a 12 h na pele</span></div>
+            <div class="price"><span>50 ml</span><strong>R$ 309,00</strong></div>
+          </div>
+        </article></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec dark" id="como-fazemos">
+    <div class="wrap">
+      <div class="rv" style="--i:0">
+        <p class="eyebrow">Da mata ao frasco</p>
+        <h2>Devagar, do jeito que a floresta faz.</h2>
+      </div>
+      <div class="steps">
+        <svg class="steps-line" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 100 2"><line x1="0" y1="1" x2="100" y2="1" vector-effect="non-scaling-stroke"/></svg>
+        <div class="step rv" style="--i:1">
+          <div class="step-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path pathLength="1" d="M24 6c6 8 11 14 11 20a11 11 0 0 1-22 0c0-6 5-12 11-20z"/><path pathLength="1" d="M8 42c6-3 12-3 16 0s10 3 16 0"/></svg></div>
+          <span class="num">01</span>
+          <h3>Colher</h3>
+          <p>Breu, raízes e sementes vêm de comunidades extrativistas do Pará, pagas de forma justa.</p>
+        </div>
+        <div class="step rv" style="--i:2">
+          <div class="step-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><circle pathLength="1" cx="24" cy="26" r="15"/><path pathLength="1" d="M24 17v9l6 4"/><path pathLength="1" d="M19 6h10"/></svg></div>
+          <span class="num">02</span>
+          <h3>Repousar</h3>
+          <p>Cada mistura descansa 30 dias antes de ir para o frasco. É isso que segura o cheiro na pele.</p>
+        </div>
+        <div class="step rv" style="--i:3">
+          <div class="step-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><rect pathLength="1" x="19" y="6" width="10" height="7" rx="2"/><path pathLength="1" d="M17 15h14l3 6v19a3 3 0 0 1-3 3H17a3 3 0 0 1-3-3V21z"/><path pathLength="1" d="M18 30h12"/></svg></div>
+          <span class="num">03</span>
+          <h3>Envasar</h3>
+          <p>Tudo à mão, em lotes de 200 frascos, com número e data no rótulo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec feel" id="sentir" data-vein>
+    <svg class="vein" viewBox="0 0 60 1000" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M20 0 C22 140 18 260 20 400 C22 540 18 700 20 1000"/><path pathLength="1" d="M20 160 C32 150 44 150 56 138"/></svg>
+    <div class="wrap">
+      <div class="rv" style="--i:0">
+        <p class="eyebrow">Fixação, sem promessa vaga</p>
+        <h2>Quanto tempo dura? Segure e veja.</h2>
+        <p class="lede">Segure o botão e veja o perfume mudar na pele, hora a hora.</p>
+      </div>
+      <div class="rv" style="--i:1">
+        <div class="dial" id="dial" aria-hidden="true">
+          <div class="breath"></div>
+          <div class="mist"></div>
+          <svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="54"/><circle class="fill" cx="60" cy="60" r="54"/></svg>
+          <div class="read"><span class="hours"><span id="hrs">0</span><small> h</small></span><span class="unit">na pele</span></div>
+        </div>
+        <button class="btn hold" id="hold" type="button" aria-pressed="false" aria-describedby="hold-status">Segure para sentir</button>
+        <p class="sr-only" id="hold-status" aria-live="polite"></p>
+      </div>
+      <div class="stages">
+        <div class="stage-note rv" style="--i:2" data-at="0.02"><b>Na hora</b><p>Limão-cravo e breu, frescos.</p></div>
+        <div class="stage-note rv" style="--i:3" data-at="0.2"><b>Depois de 2 horas</b><p>A priprioca aparece, terrosa.</p></div>
+        <div class="stage-note rv" style="--i:4" data-at="0.8"><b>Depois de 8 horas</b><p>Cedro e cumaru, colados na pele.</p></div>
+      </div>
+      <p class="feel-done">É esse caminho que você sente com o kit, no seu calor e na sua pele.</p>
+    </div>
+  </section>
+
+  <section class="sec kit" id="kit">
+    <div class="grid">
+      <div class="pic rv" style="--i:0"><img src="assets/kit-amostras.jpg" alt="Caixa de papel kraft aberta com três frascos âmbar de amostra, sobre musgo na floresta" width="1024" height="678" loading="lazy"></div>
+      <div class="txt">
+        <div class="rv" style="--i:1">
+          <p class="eyebrow">O kit de amostras</p>
+          <h2>Prove os três antes de escolher.</h2>
+          <p class="lede">Três frascos de 2 ml, um de cada perfume. Use por uma semana, no seu calor, na sua pele. Se gostar, o valor do kit vira desconto no frasco.</p>
+        </div>
+        <div class="rv" style="--i:2">
+          <div class="price-tag"><span>Kit com 3 amostras</span><strong>R$ 39,00</strong></div>
+          <a class="btn wa" href="#" target="_blank" rel="noopener">Pedir kit de amostras</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="depoimentos" data-vein>
+    <svg class="vein" viewBox="0 0 60 1000" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M20 0 C18 180 24 360 20 520 C16 700 22 860 20 1000"/><path pathLength="1" d="M20 300 C32 290 44 292 56 280"/></svg>
+    <div class="wrap">
+      <div class="rv" style="--i:0">
+        <p class="eyebrow">Quem já provou</p>
+        <h2>O cheiro fica. As pessoas contam.</h2>
+      </div>
+      <div class="quotes">
+        <figure class="quote rv" style="--i:1"><blockquote>Coloquei o Breu de manhã e no fim do dia ainda sentia no pulso.</blockquote><cite>Camila, Belém</cite></figure>
+        <figure class="quote rv" style="--i:2"><blockquote>Comprei o kit com medo de errar. Acabei levando o Cumaru e dando o Priprioca de presente.</blockquote><cite>Rafael, Curitiba</cite></figure>
+        <figure class="quote rv" style="--i:3"><blockquote>Tenho pele sensível e testei com calma. Gostei de saber cada ingrediente do rótulo.</blockquote><cite>Juliana, Recife</cite></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec faq" id="duvidas">
+    <div class="wrap grid">
+      <div class="side rv" style="--i:0">
+        <p class="eyebrow">Perguntas frequentes</p>
+        <h2>O que todo mundo pergunta antes de provar.</h2>
+      </div>
+      <div class="rv" style="--i:1">
+        <details><summary>Quanto tempo o perfume fica na pele?<span class="pm" aria-hidden="true"></span></summary><div class="ans"><p>De 8 a 12 horas, dependendo do perfume e da sua pele. Pele hidratada segura mais. Por isso o kit: você testa no seu dia a dia antes de comprar.</p></div></details>
+        <details><summary>Tenho alergia. Posso usar?<span class="pm" aria-hidden="true"></span></summary><div class="ans"><p>Todos os ingredientes estão no rótulo e no site. Teste uma gota no pulso e espere 24 horas. Se tiver histórico de dermatite, fale antes com seu dermatologista.</p></div></details>
+        <details><summary>Como sei que é original?<span class="pm" aria-hidden="true"></span></summary><div class="ans"><p>Cada frasco tem lote numerado, data de envase e nota fiscal. A gente só vende pelo nosso canal.</p></div></details>
+        <details><summary>E se eu não gostar de nenhum dos três?<span class="pm" aria-hidden="true"></span></summary><div class="ans"><p>Você gastou R$ 39,00 e descobriu isso sem comprar um frasco inteiro. É para isso que o kit existe.</p></div></details>
+        <details><summary>Entregam no Brasil todo?<span class="pm" aria-hidden="true"></span></summary><div class="ans"><p>Sim. O kit vai por carta registrada, e o frasco por transportadora.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec final" id="pedido">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="rv" style="--i:0">
+        <h2>Comece pelo cheiro.</h2>
+        <p>Peça o kit, teste em casa, escolha com calma.</p>
+      </div>
+      <div class="rv" style="--i:1">
+        <a class="btn wa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.3-.4.8-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>Pedir kit de amostras pelo WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b>Seiva</b> · perfumaria natural do Brasil</div>
+    <p>Marca fictícia criada para demonstração. Imagens geradas por inteligência artificial.</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+  /* Vídeo do topo: deixe null enquanto não houver vídeo. Com vídeo, use 'assets/hero-scrub.mp4' e o tamanho em bytes. */
+  const HERO_VIDEO = null;
+  const VIDEO_BYTES = 0;
+
+  const WA = 'https://wa.me/?text=' + encodeURIComponent('Olá! Quero o kit de amostras da Seiva.');
+  document.querySelectorAll('a.wa').forEach(a => { a.href = WA; });
+
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const smoothstep = (p, e0, e1) => { const t = clamp((p - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
+  function rng(seed){ let s = seed >>> 0; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; }
+
+  const root = document.documentElement;
+  const hero = document.getElementById('topo');
+  const stage = document.getElementById('stage');
+  const frames = [...stage.querySelectorAll('.frame')];
+  const video = document.getElementById('hero-video');
+  const cue = document.getElementById('cue');
+  const nav = document.getElementById('nav');
+
+  /* ---- divisão do texto das faixas (uma vez) ---- */
+  stage.querySelectorAll('[data-split]').forEach((el, n) => {
+    const mode = el.dataset.split;
+    const text = el.textContent.trim();
+    const r = rng(1234 + n * 97);
+    const band = el.closest('.band');
+    const spread = parseFloat(band.dataset.spread || '0.55');
+    el.textContent = '';
+    const sr = document.createElement('span'); sr.className = 'sr-only'; sr.textContent = text; el.appendChild(sr);
+    const vis = document.createElement('span'); vis.setAttribute('aria-hidden', 'true'); el.appendChild(vis);
+    const words = text.split(' ');
+    const totalChars = text.replace(/ /g, '').length;
+    let ci = 0;
+    words.forEach((word, wi) => {
+      const w = document.createElement('span'); w.className = 'w';
+      if (mode === 'w') {
+        w.textContent = word;
+        w.style.setProperty('--th', (wi / words.length * 0.5).toFixed(3));
+      } else {
+        [...word].forEach(ch => {
+          const c = document.createElement('span'); c.className = 'c'; c.textContent = ch;
+          c.style.setProperty('--th', (r() * spread).toFixed(3));
+          c.style.setProperty('--jx', ((r() - .5) * 90).toFixed(1) + 'px');
+          c.style.setProperty('--jy', ((r() - .5) * 70).toFixed(1) + 'px');
+          c.style.setProperty('--jr', ((r() - .5) * 50).toFixed(1) + 'deg');
+          w.appendChild(c); ci++;
+        });
+      }
+      vis.appendChild(w);
+      if (wi < words.length - 1) vis.appendChild(document.createTextNode(' '));
+    });
+  });
+
+  const bands = [...stage.querySelectorAll('.band')].map((el, i, arr) => ({
+    el, a: parseFloat(el.dataset.a), b: parseFloat(el.dataset.b),
+    ramp: el.dataset.ramp ? parseFloat(el.dataset.ramp) : null,
+    first: i === 0, last: i === arr.length - 1, op: -1, k: -1
+  }));
+
+  /* ---- progresso do topo ---- */
+  function heroProgress(){
+    const r = hero.getBoundingClientRect();
+    const range = r.height - innerHeight;
+    return range > 0 ? clamp(-r.top / range, 0, 1) : 0;
+  }
+
+  /* ---- quadros (cruzamento das imagens da descida) ---- */
+  const T = [0.26, 0.52, 0.77], W = 0.05;
+  const SPAN = [[0, .31], [.21, .57], [.47, .82], [.72, 1]];
+  const fCache = frames.map(() => ({ o: -1, t: '' }));
+  function renderFrames(p){
+    frames.forEach((f, i) => {
+      const o = i === 0 ? 1 : smoothstep(p, T[i - 1] - W, T[i - 1] + W);
+      const u = clamp((p - SPAN[i][0]) / (SPAN[i][1] - SPAN[i][0]), 0, 1);
+      let s, y;
+      if (i < 3) { s = 1.10 - 0.06 * u; y = (1 - u) * 2.2 - u * 2.2; }
+      else { const e = 1 - Math.pow(1 - u, 3); s = 1.08 - 0.08 * e; y = (1 - e) * 2.2; }
+      const ro = Math.round(o * 1000) / 1000;
+      const tf = `translate3d(0,${y.toFixed(2)}%,0) scale(${s.toFixed(4)})`;
+      if (ro !== fCache[i].o) { f.style.opacity = ro; fCache[i].o = ro; }
+      if (tf !== fCache[i].t) { f.style.transform = tf; fCache[i].t = tf; }
+    });
+  }
+
+  /* ---- faixas de texto ---- */
+  let loadK = 0;
+  function updateCaptions(p){
+    bands.forEach(bd => {
+      const { a, b } = bd;
+      const f = Math.min(0.02, (b - a) / 3);
+      const inE = bd.first ? (p >= a ? 1 : 0) : smoothstep(p, a, a + f);
+      const outE = bd.last ? 1 : 1 - smoothstep(p, b - f, b);
+      let op = inE * outE;
+      const ramp = bd.ramp || Math.min(0.025, (b - a) * 0.35);
+      let k = clamp((p - a) / ramp, 0, 1);
+      if (bd.first) { k = Math.max(k, loadK); }
+      op = Math.round(op * 1000) / 1000;
+      if (op !== bd.op) { bd.el.style.opacity = op; bd.el.style.visibility = op > 0 ? '' : 'hidden'; bd.op = op; bd.el.classList.toggle('live-pe', op > 0.5); }
+      if (Math.abs(k - bd.k) > 0.008 || (k === 1 && bd.k !== 1) || (k === 0 && bd.k !== 0)) { bd.el.style.setProperty('--k', k.toFixed(3)); bd.k = k; }
+    });
+    const cueOff = p > 0.04;
+    if (cueOff !== cue.classList.contains('gone')) cue.classList.toggle('gone', cueOff);
+  }
+
+  /* ---- vídeo (só quando HERO_VIDEO existir) ---- */
+  let seekBusy = false, pendingTime = null;
+  function requestSeek(t){
+    if (!video.duration) return;
+    if (seekBusy) { pendingTime = t; return; }
+    seekBusy = true; video.currentTime = t;
+  }
+  video.addEventListener('seeked', () => { seekBusy = false; if (pendingTime !== null) { const t = pendingTime; pendingTime = null; requestSeek(t); } });
+  video.addEventListener('error', () => { seekBusy = false; pendingTime = null; stage.classList.remove('video-ready'); video.style.display = 'none'; });
+  async function loadHeroBlob(){
+    const ctrl = new AbortController();
+    let watchdog = setTimeout(() => ctrl.abort(), 20000);
+    const res = await fetch(HERO_VIDEO, { priority: 'low', signal: ctrl.signal });
+    if (!res.ok) throw new Error('video');
+    const total = Number(res.headers.get('Content-Length')) || VIDEO_BYTES || 1;
+    const reader = res.body.getReader(); const chunks = []; let got = 0;
+    for (;;) {
+      const { done, value } = await reader.read(); if (done) break;
+      clearTimeout(watchdog); watchdog = setTimeout(() => ctrl.abort(), 20000);
+      chunks.push(value); got += value.length; void (got / total);
+    }
+    clearTimeout(watchdog);
+    video.src = URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
+    video.load();
+    video.addEventListener('canplay', () => { requestSeek(shown * video.duration); stage.classList.add('video-ready'); }, { once: true });
+  }
+
+  /* ---- loop suave que descansa ---- */
+  let target = 0, shown = 0, rafId = null, lastTick = 0, heroOnScreen = true;
+  function render(p){
+    renderFrames(p);
+    if (HERO_VIDEO && stage.classList.contains('video-ready')) requestSeek(p * video.duration);
+    updateCaptions(p);
+  }
+  function tick(now){
+    const dt = Math.min(100, now - (lastTick || now)); lastTick = now;
+    const k = 0.16;
+    shown += (target - shown) * (1 - Math.pow(1 - k, dt / 16.667));
+    if (Math.abs(target - shown) < 0.0005) { shown = target; rafId = null; lastTick = 0; }
+    else rafId = requestAnimationFrame(tick);
+    render(shown);
+  }
+  function onScroll(){
+    target = heroProgress();
+    if (rafId === null && heroOnScreen) rafId = requestAnimationFrame(tick);
+  }
+  new IntersectionObserver(es => { heroOnScreen = es[0].isIntersecting; if (heroOnScreen && scrubOn) onScroll(); }).observe(hero);
+
+  /* rampa de entrada da primeira faixa */
+  let loadStart = 0, loadRaf = null;
+  function loadRamp(now){
+    if (!loadStart) loadStart = now;
+    const t = clamp((now - loadStart) / 1400, 0, 1);
+    loadK = 1 - Math.pow(1 - t, 3);
+    updateCaptions(shown);
+    loadRaf = t < 1 ? requestAnimationFrame(loadRamp) : null;
+  }
+
+  let heroInit = false;
+  function initHeroOnce(){
+    if (heroInit) return; heroInit = true;
+    frames.forEach(f => { f.style.backgroundImage = `url('${f.dataset.src}')`; });
+    if (HERO_VIDEO) setTimeout(() => loadHeroBlob().catch(() => { video.style.display = 'none'; }), 600);
+  }
+
+  /* ---- os cinco portões, decididos ao vivo ---- */
+  const GATES = [
+    '(max-width: 720px)',
+    '(orientation: portrait) and (max-width: 1024px)',
+    '(orientation: portrait) and (pointer: coarse)',
+    '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
+    '(prefers-reduced-motion: reduce)'
+  ];
+  const MQLS = GATES.map(q => matchMedia(q));
+  let scrubOn = false;
+  function enableScrub(){
+    if (scrubOn) return; scrubOn = true;
+    initHeroOnce();
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    bands.forEach(b => { b.op = -1; b.k = -1; });
+    fCache.forEach(c => { c.o = -1; c.t = ''; });
+    unpinFinalStates();
+    shown = target = heroProgress();
+    render(shown);
+    if (!loadRaf && loadK < 1) loadRaf = requestAnimationFrame(loadRamp);
+    onScroll();
+  }
+  function disableScrub(){
+    if (!scrubOn) return; scrubOn = false;
+    removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll);
+    if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+  }
+  function applyHeroMode(){ if (MQLS.some(m => m.matches)) disableScrub(); else enableScrub(); }
+
+  /* ---- movimento reduzido ao vivo ---- */
+  function pinToFinalStates(){
+    root.classList.add('rm');
+    veins.forEach(v => { v.style.setProperty('--d', 0); v.dataset.d = '0'; });
+    finishHold();
+  }
+  function unpinFinalStates(){
+    if (!root.classList.contains('rm')) return;
+    root.classList.remove('rm');
+    veins.forEach(v => { v.dataset.d = ''; });
+    resetHold();
+    updateVeins();
+  }
+
+  /* ---- linha da seiva: desenha conforme a rolagem ---- */
+  const veins = [...document.querySelectorAll('[data-vein]')].map(s => s.querySelector('.vein'));
+  function updateVeins(){
+    if (root.classList.contains('rm') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    veins.forEach(v => {
+      const r = v.parentElement.getBoundingClientRect();
+      const prog = clamp((innerHeight * 0.85 - r.top) / (r.height * 0.9), 0, 1);
+      const d = (1 - prog).toFixed(3);
+      if (v.dataset.d !== d) { v.style.setProperty('--d', d); v.dataset.d = d; }
+    });
+  }
+  let pageRaf = null;
+  addEventListener('scroll', () => {
+    if (pageRaf) return;
+    pageRaf = requestAnimationFrame(() => {
+      pageRaf = null;
+      updateVeins();
+      const solid = scrollY > (scrubOn ? hero.offsetHeight - innerHeight + 8 : innerHeight * 0.6);
+      if (solid !== nav.classList.contains('solid')) nav.classList.toggle('solid', solid);
+    });
+  }, { passive: true });
+
+  /* ---- entradas e elementos vivos ---- */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      e.target.querySelectorAll('.rv').forEach(el => {
+        el.addEventListener('transitionend', function done(ev){ if (ev.propertyName === 'opacity') { el.classList.add('settled'); el.removeEventListener('transitionend', done); } });
+      });
+    }
+    e.target.classList.toggle('live', e.isIntersecting);
+  }), { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('main .sec').forEach(s => io.observe(s));
+
+  document.addEventListener('visibilitychange', () => document.body.classList.toggle('paused', document.hidden));
+
+  /* pólen no fundo */
+  const env = document.getElementById('env');
+  const pr = rng(77);
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement('span'); s.className = 'pollen';
+    s.style.left = (pr() * 100).toFixed(1) + '%';
+    s.style.top = (60 + pr() * 40).toFixed(1) + '%';
+    s.style.animationDelay = (-pr() * 22).toFixed(1) + 's';
+    s.style.animationDuration = (18 + pr() * 12).toFixed(1) + 's';
+    const sz = (3 + pr() * 4).toFixed(1) + 'px'; s.style.width = sz; s.style.height = sz;
+    env.appendChild(s);
+  }
+
+  /* ---- momento interativo: segure para sentir ---- */
+  const holdBtn = document.getElementById('hold');
+  const dial = document.getElementById('dial');
+  const hrsEl = document.getElementById('hrs');
+  const holdStatus = document.getElementById('hold-status');
+  const feel = document.getElementById('sentir');
+  const notes = [...feel.querySelectorAll('.stage-note')];
+  const CIRC = 339.3, FULL_MS = 5000, BACK_MS = 2600;
+  let hv = 0, holding = false, holdRaf = null, holdLast = 0, complete = false;
+  const hCache = { off: '', hrs: '', on: [] };
+  function drawHold(){
+    const off = (CIRC * (1 - hv)).toFixed(1);
+    if (off !== hCache.off) { dial.style.setProperty('--off', off); dial.style.setProperty('--p', hv.toFixed(3)); hCache.off = off; }
+    const h = String(Math.round(hv * 10));
+    if (h !== hCache.hrs) { hrsEl.textContent = h; hCache.hrs = h; }
+    notes.forEach((n, i) => {
+      const on = hv >= parseFloat(n.dataset.at);
+      if (on !== hCache.on[i]) { n.classList.toggle('on', on); hCache.on[i] = on; }
+    });
+  }
+  function holdTick(now){
+    const dt = Math.min(64, now - (holdLast || now)); holdLast = now;
+    hv = clamp(hv + (holding ? dt / FULL_MS : -dt / BACK_MS), 0, 1);
+    drawHold();
+    if (hv >= 1) { finishHold(); return; }
+    if (holding || hv > 0) holdRaf = requestAnimationFrame(holdTick);
+    else { holdRaf = null; holdLast = 0; }
+  }
+  function startHold(){
+    if (complete) return;
+    holding = true; holdBtn.setAttribute('aria-pressed', 'true');
+    if (!holdRaf) { holdLast = 0; holdRaf = requestAnimationFrame(holdTick); }
+  }
+  function endHold(){
+    if (!holding) return;
+    holding = false; holdBtn.setAttribute('aria-pressed', 'false');
+    if (!holdRaf && hv > 0 && !complete) { holdLast = 0; holdRaf = requestAnimationFrame(holdTick); }
+  }
+  function finishHold(){
+    if (holdRaf) { cancelAnimationFrame(holdRaf); holdRaf = null; }
+    hv = 1; holding = false; complete = true; drawHold();
+    feel.classList.add('complete');
+    holdBtn.setAttribute('aria-pressed', 'false');
+    holdBtn.textContent = '10 horas na pele';
+    holdStatus.textContent = 'Pronto: depois de 10 horas, cedro e cumaru seguem colados na pele.';
+  }
+  function resetHold(){
+    complete = false; hv = 0; hCache.on = []; drawHold();
+    feel.classList.remove('complete');
+    holdBtn.textContent = 'Segure para sentir';
+    holdStatus.textContent = '';
+  }
+  holdBtn.addEventListener('pointerdown', e => { e.preventDefault(); holdBtn.setPointerCapture?.(e.pointerId); startHold(); });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => holdBtn.addEventListener(t, endHold));
+  holdBtn.addEventListener('contextmenu', e => e.preventDefault());
+  holdBtn.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); startHold(); } });
+  holdBtn.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); endHold(); } });
+  holdBtn.addEventListener('blur', endHold);
+  drawHold();
+
+  /* ---- ligar tudo ---- */
+  MQLS.forEach(m => m.addEventListener('change', applyHeroMode));
+  const RM = MQLS[4];
+  RM.addEventListener('change', e => { if (e.matches) pinToFinalStates(); });
+  if (RM.matches) pinToFinalStates();
+  applyHeroMode();
+  updateVeins();
+})();
+</script>
+</body>
+</html>

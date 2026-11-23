@@ -174,18 +174,14 @@ h2{font:400 clamp(32px,4vw,54px)/1.1 var(--serif);margin:0;letter-spacing:-.005e
 .dark .eyebrow{color:#E7C793}
 .dark .lede{color:var(--on-dark-2)}
 .steps{--gap:clamp(24px,4vw,56px);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:72px;position:relative}
-.steps-line{position:absolute;left:44px;top:43px;width:calc((100% - 2*var(--gap))*2/3 + 2*var(--gap));height:2px;pointer-events:none;overflow:visible;transform:scaleX(0);transform-origin:left center;transition:transform 2.2s var(--ease-out) .4s}
-.in .steps-line{transform:scaleX(1)}
-.steps-line line{stroke:var(--accent-muted);stroke-width:1.6;stroke-dasharray:6 8;opacity:.55}
-.step-ico{width:88px;height:88px;border-radius:50%;background:var(--mata-2);display:grid;place-items:center;position:relative;box-shadow:0 0 0 8px var(--mata)}
-.step-ico svg{width:46px;height:46px}
-.step-ico svg path,.step-ico svg circle,.step-ico svg rect{fill:none;stroke:#E7C793;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s var(--ease-out);transition-delay:calc(var(--i,0)*220ms + 300ms)}
-.in .step-ico svg path,.in .step-ico svg circle,.in .step-ico svg rect{stroke-dashoffset:0}
-.step-ico::after{content:"";position:absolute;inset:-8px;border-radius:50%;box-shadow:0 0 30px 4px rgba(231,199,147,.35);opacity:0}
-.live .step-ico::after{animation:pulse 5s var(--ease-io) infinite alternate;animation-delay:calc(var(--i,0)*-1.6s)}
+.step-pic{margin:0;position:relative;aspect-ratio:4/3;max-width:100%;border-radius:18px;overflow:hidden;box-shadow:0 30px 60px -40px rgba(0,0,0,.85)}
+.step-pic img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.8s var(--ease-out);transition-delay:calc(var(--i,0)*160ms + 200ms)}
+.in .step-pic img{transform:scale(1)}
+.step-pic::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(70% 60% at 22% 18%,rgba(255,214,150,.28),transparent 70%);opacity:.3}
+.live .step-pic::after{animation:glow 7s var(--ease-io) infinite alternate;animation-delay:calc(var(--i,0)*-2.2s)}
 @keyframes pulse{from{opacity:0}to{opacity:.8}}
-.step h3{font:400 28px/1.15 var(--serif);margin:28px 0 10px;color:var(--on-dark)}
-.step .num{font:400 12px/1 var(--mono);letter-spacing:.14em;color:#E7C793}
+.step h3{font:400 28px/1.15 var(--serif);margin:10px 0 10px;color:var(--on-dark)}
+.step .num{font:400 12px/1 var(--mono);letter-spacing:.14em;color:#E7C793;display:block;margin-top:26px}
 .step p{margin:0;color:var(--on-dark-2);max-width:34ch}
 
 /* momento interativo */
@@ -271,7 +267,6 @@ footer p{margin:0}
 @media (max-width:900px){
   .cards{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}
   .steps{grid-template-columns:1fr;gap:44px}
-  .steps-line{display:none}
   .stages{grid-template-columns:1fr}
   .kit .grid{grid-template-columns:1fr}
   .kit .pic{min-height:0;aspect-ratio:3/2;height:auto}
@@ -289,9 +284,8 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .rv{opacity:1;transform:none}
   .vein path{stroke-dashoffset:0}
   .vein circle{opacity:1}
-  .step-ico svg path,.step-ico svg circle,.step-ico svg rect{stroke-dashoffset:0}
+  .step-pic img{transform:none}
   .stage-note{opacity:1;transform:none}
-  .steps-line{transform:none}
   .pollen{display:none}
 }
 html.rm .rv{opacity:1;transform:none}
@@ -409,21 +403,20 @@ html.rm .stage-note{opacity:1;transform:none}
         <h2>Devagar, do jeito que a floresta faz.</h2>
       </div>
       <div class="steps">
-        <svg class="steps-line" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 100 2"><line x1="0" y1="1" x2="100" y2="1" vector-effect="non-scaling-stroke"/></svg>
         <div class="step rv" style="--i:1">
-          <div class="step-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path pathLength="1" d="M24 6c6 8 11 14 11 20a11 11 0 0 1-22 0c0-6 5-12 11-20z"/><path pathLength="1" d="M8 42c6-3 12-3 16 0s10 3 16 0"/></svg></div>
+          <figure class="step-pic"><img src="assets/passo-colher.jpg" alt="Cesto de palha com pedras de resina branca e sementes de cumaru sobre o musgo da mata" width="1024" height="768" loading="lazy"></figure>
           <span class="num">01</span>
           <h3>Colher</h3>
           <p>Breu, raízes e sementes vêm de comunidades extrativistas do Pará, pagas de forma justa.</p>
         </div>
         <div class="step rv" style="--i:2">
-          <div class="step-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><circle pathLength="1" cx="24" cy="26" r="15"/><path pathLength="1" d="M24 17v9l6 4"/><path pathLength="1" d="M19 6h10"/></svg></div>
+          <figure class="step-pic"><img src="assets/passo-repousar.jpg" alt="Vidros âmbar com a mistura em repouso sobre uma bancada de madeira, ao lado de uma janela aberta para a mata" width="1024" height="768" loading="lazy"></figure>
           <span class="num">02</span>
           <h3>Repousar</h3>
           <p>Cada mistura descansa 30 dias antes de ir para o frasco. É isso que segura o cheiro na pele.</p>
         </div>
         <div class="step rv" style="--i:3">
-          <div class="step-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><rect pathLength="1" x="19" y="6" width="10" height="7" rx="2"/><path pathLength="1" d="M17 15h14l3 6v19a3 3 0 0 1-3 3H17a3 3 0 0 1-3-3V21z"/><path pathLength="1" d="M18 30h12"/></svg></div>
+          <figure class="step-pic"><img src="assets/passo-envasar.jpg" alt="Fileiras de frascos âmbar com tampa de madeira, um funil de vidro e etiquetas de papel kraft sobre a bancada" width="1024" height="768" loading="lazy"></figure>
           <span class="num">03</span>
           <h3>Envasar</h3>
           <p>Tudo à mão, em lotes de 200 frascos, com número e data no rótulo.</p>

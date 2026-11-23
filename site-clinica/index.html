@@ -1,0 +1,344 @@
+<title>Odonto Aurora</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: cartão-herói calmo (título à esquerda, foto de sorriso com brilho passando, cartões de confiança), tratamentos com foto, simulador de parcelas, convênios, equipe, consultório, avaliações, agendamento */
+:root{
+  --band:#0e2f3a; --band-ink:#f3f8f9;
+  --bg:#f4f8f9; --card:#ffffff; --ink:#102a33; --muted:#5a7078; --line:#dfe8eb;
+  --teal:#0b8f8a; --teal-soft:#dcf2f0; --sand:#f3e7d8; --gold:#c98a3c;
+  --shadow:0 30px 60px -30px rgba(14,47,58,.35);
+  --font:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --band:#13313b; --band-ink:#f3f8f9;
+  --bg:#0c1518; --card:#132126; --ink:#ecf4f5; --muted:#9db2b8; --line:#22363c;
+  --teal:#4fd0c6; --teal-soft:#12302f; --sand:#2e2619; --gold:#e3aa62;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.75); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --band:#13313b; --band-ink:#f3f8f9;
+  --bg:#0c1518; --card:#132126; --ink:#ecf4f5; --muted:#9db2b8; --line:#22363c;
+  --teal:#4fd0c6; --teal-soft:#12302f; --sand:#2e2619; --gold:#e3aa62;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.75); color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.65;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-weight:800;line-height:1.08;letter-spacing:-.025em;margin:0;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:13px 24px;font:700 .92rem var(--font);text-decoration:none;border:1.5px solid var(--ink);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 22px -12px rgba(0,0,0,.4)}
+.btn-teal{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn-ink{background:var(--ink);color:var(--card)}
+.btn-ghost{background:transparent;color:var(--ink)}
+
+.top{padding-block:36px 0}
+.hero{background:var(--card);border-radius:32px;box-shadow:var(--shadow);overflow:hidden;animation:cardIn .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cardIn{from{transform:translateY(36px) scale(.98);opacity:.3}}
+nav{display:flex;align-items:center;gap:22px;padding:22px 36px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.2rem;text-decoration:none;letter-spacing:-.02em}
+.logo span{width:36px;height:36px;border-radius:50%;background:conic-gradient(from 200deg,var(--teal),#6fd6c9,var(--gold),var(--teal));display:grid;place-items:center}
+.logo span::after{content:"";width:16px;height:16px;border-radius:50%;background:var(--card)}
+.links{display:flex;gap:24px;margin:0 auto;list-style:none;padding:0;font-size:.92rem;color:var(--muted);font-weight:600}
+.links a{text-decoration:none}
+.links a[aria-current]{color:var(--ink)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;padding:12px 36px 54px 64px}
+.hero-copy{min-width:0}
+.pill{display:inline-flex;gap:8px;align-items:center;background:var(--teal-soft);color:var(--teal);font-weight:700;font-size:.8rem;padding:7px 14px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.5rem,5.6vw,4.3rem)}
+.hero h1 .soft{color:var(--teal)}
+.fade{display:inline-block;animation:fadeUp .9s cubic-bezier(.2,.8,.2,1) both}
+.fade:nth-of-type(2){animation-delay:.15s}.fade:nth-of-type(3){animation-delay:.3s}
+@keyframes fadeUp{from{opacity:.1;transform:translateY(24px);filter:blur(6px)}}
+.lead{color:var(--muted);font-size:1.06rem;max-width:46ch;margin:20px 0 28px;animation:fadeUp .9s .45s both}
+.actions{display:flex;flex-wrap:wrap;gap:12px;animation:fadeUp .9s .6s both}
+.counters{display:flex;flex-wrap:wrap;gap:28px;margin-top:30px;animation:fadeUp .9s .75s both}
+.counters b{display:block;font-size:1.8rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.counters span{font-size:.85rem;color:var(--muted)}
+
+.stage{position:relative;min-width:0;min-height:500px;display:flex;justify-content:center;align-items:center}
+.ring{position:absolute;width:min(430px,98%);aspect-ratio:1;border-radius:50%;border:1.5px dashed var(--line);animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.portrait{position:relative;width:min(330px,76%);aspect-ratio:72/86;max-width:100%;border-radius:180px 180px 40px 40px;overflow:hidden;box-shadow:var(--shadow);animation:rise 1.1s .2s cubic-bezier(.2,.8,.2,1) both}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block}
+.portrait::after{content:"";position:absolute;inset:-20% auto -20% -60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:shine 4.5s 1.4s ease-in-out infinite}
+@keyframes shine{0%{left:-60%}35%,100%{left:130%}}
+@keyframes rise{from{opacity:.2;transform:translateY(40px)}}
+.card{position:absolute;z-index:2;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 16px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;font-size:.82rem}
+.card strong{display:block;font-size:.98rem}
+.card small{color:var(--muted)}
+.c1{top:12%;left:0;animation:float 6s 1.2s ease-in-out infinite,fadeUp .8s 1s both}
+.c2{bottom:12%;right:0;animation:float 7s 1.6s ease-in-out infinite,fadeUp .8s 1.2s both}
+@keyframes float{50%{transform:translateY(-10px)}}
+.ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--teal-soft);color:var(--teal);flex:none}
+.ic.g{background:var(--sand);color:var(--gold)}
+
+section{padding-block:84px 0}
+.head{max-width:640px;margin-bottom:32px}
+.kicker{font-size:.8rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.head h2{font-size:clamp(2rem,4vw,2.9rem);margin-top:6px}
+.head p{color:var(--muted);margin:10px 0 0}
+
+.treat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.t{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.t:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.t img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
+.t .in{padding:18px 20px 22px}
+.t h3{font-size:1.2rem}
+.t p{margin:6px 0 0;color:var(--muted);font-size:.94rem}
+.t.wide{grid-column:span 1}
+
+.sim{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px;display:grid;gap:20px;min-width:0}
+.panel h3{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:16px;padding:12px 14px;font:600 .92rem var(--font);cursor:pointer;text-align:left;line-height:1.3}
+.opt small{display:block;color:var(--muted);font-weight:500;font-size:.78rem}
+.opt[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-soft)}
+.opt[aria-pressed="true"] small{color:var(--teal)}
+input[type=range]{width:100%;accent-color:var(--teal)}
+.scale{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+.res{background:var(--band);color:var(--band-ink);border-radius:24px;padding:28px;display:grid;gap:10px}
+.res .lbl{opacity:.7;font-size:.85rem}
+.res .big{font-size:3rem;font-weight:800;letter-spacing:-.03em;line-height:1;color:#7fe0d6;font-variant-numeric:tabular-nums}
+.res .row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid rgba(255,255,255,.1);padding-top:10px;font-size:.92rem}
+.res .msg{font-size:.85rem;background:rgba(255,255,255,.07);border-radius:14px;padding:12px;margin:0;min-height:1.4em}
+
+.plans{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px 26px;display:grid;gap:14px}
+.plans .bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.plans input{flex:1;min-width:200px;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:999px;padding:11px 18px}
+.plans .ans{font-weight:700;min-height:1.4em;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:600}
+.chips span.hit{background:var(--teal);border-color:var(--teal);color:#fff}
+
+.team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.doc{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:6px}
+.doc .av{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--teal-soft);color:var(--teal);margin-bottom:6px}
+.doc h3{font-size:1.1rem}
+.doc p{margin:0;color:var(--muted);font-size:.9rem}
+.doc small{color:var(--muted);font-size:.78rem}
+
+.room{position:relative;margin:0;border-radius:28px;overflow:hidden;aspect-ratio:15/8;max-width:100%;box-shadow:var(--shadow)}
+.room img{width:100%;height:100%;object-fit:cover;display:block}
+.room figcaption{position:absolute;left:24px;bottom:24px;right:24px;max-width:460px;background:rgba(14,47,58,.78);color:#fff;border-radius:18px;padding:16px 20px;backdrop-filter:blur(6px)}
+.room figcaption b{display:block;font-size:1.15rem}
+.room figcaption span{opacity:.85;font-size:.92rem}
+
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+blockquote{margin:0;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:12px}
+blockquote p{margin:0}
+.stars{color:var(--gold);letter-spacing:2px}
+blockquote footer{font-weight:700;margin-top:auto;font-size:.9rem}
+blockquote footer small{display:block;color:var(--muted);font-weight:500}
+
+.book{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:36px;align-items:start}
+.book > div{min-width:0}
+.book ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:12px}
+.book li b{display:block;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.book .sel{user-select:all}
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form label{display:grid;gap:6px;font-weight:600;font-size:.88rem}
+form .full{grid-column:1/-1}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;width:100%}
+.fmsg{grid-column:1/-1;margin:0;font-size:.9rem;color:var(--teal);min-height:1.4em}
+
+footer.site{padding-block:52px 36px;color:var(--muted);font-size:.85rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+footer.site .credits{flex-basis:100%;opacity:.8}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;padding:6px 24px 44px}
+  .links{display:none}
+  nav{padding:18px 24px;justify-content:space-between}
+  .treat,.team,.quotes{grid-template-columns:1fr 1fr}
+  .sim,.book{grid-template-columns:1fr}
+  .book{padding:24px}
+}
+@media (max-width:560px){
+  .treat,.team,.quotes,.opts{grid-template-columns:1fr}
+  form{grid-template-columns:1fr}
+  nav .btn-ghost{display:none}
+  .stage{min-height:430px}
+  .c1{left:-4px}.c2{right:-4px}
+  .room{aspect-ratio:4/5}
+  .room figcaption{left:12px;right:12px;bottom:12px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap top">
+  <header class="hero">
+    <nav aria-label="Principal">
+      <a class="logo" href="#inicio"><span aria-hidden="true"></span>Odonto Aurora</a>
+      <ul class="links">
+        <li><a href="#inicio" aria-current="page">Início</a></li>
+        <li><a href="#tratamentos">Tratamentos</a></li>
+        <li><a href="#simulador">Valores</a></li>
+        <li><a href="#equipe">Equipe</a></li>
+        <li><a href="#agendar">Contato</a></li>
+      </ul>
+      <a class="btn btn-ghost" href="#convenios">Convênios</a>
+      <a class="btn btn-ink" href="#agendar">Agendar</a>
+    </nav>
+    <div class="hero-grid" id="inicio">
+      <div class="hero-copy">
+        <span class="pill">✓ Primeira avaliação sem custo</span>
+        <h1><span class="fade">Cuidar do sorriso</span> <span class="fade">sem medo</span> <span class="fade soft">de dentista.</span></h1>
+        <p class="lead">Atendimento sem pressa, anestesia confortável e plano de tratamento explicado em detalhes. Para adultos e crianças.</p>
+        <div class="actions">
+          <a class="btn btn-teal" href="#agendar">Agendar avaliação</a>
+          <a class="btn btn-ghost" href="#simulador">Simular parcelas</a>
+        </div>
+        <div class="counters">
+          <div><b data-count="12">0</b><span>anos de clínica</span></div>
+          <div><b data-count="8400" data-suffix="+">0</b><span>pacientes atendidos</span></div>
+          <div><b data-count="4.9" data-dec="1">0</b><span>nota no Google</span></div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="ring" aria-hidden="true"></div>
+        <div class="portrait"><img src="img/hero.jpg" alt="Mulher de cabelo cacheado sorrindo com dentes saudáveis" width="720" height="860"></div>
+        <div class="card c1"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span><div><strong>Horário amanhã</strong><small>9h · 11h · 15h30</small></div></div>
+        <div class="card c2"><span class="ic g"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span><div><strong>12 convênios</strong><small>e parcelamento em até 12x</small></div></div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<main class="wrap">
+  <section id="tratamentos">
+    <div class="head"><span class="kicker">Tratamentos</span><h2>Tudo para o seu sorriso em um só lugar</h2></div>
+    <div class="treat">
+      <article class="t"><img src="img/avaliacao.jpg" alt="Dentista conversando com paciente sentada na cadeira do consultório" width="640" height="480" loading="lazy"><div class="in"><h3>Avaliação e limpeza</h3><p>Consulta completa, raio-x e limpeza com jato de bicarbonato.</p></div></article>
+      <article class="t"><img src="img/ortodontia.jpg" alt="Jovem sorrindo segurando escova de dentes e alinhador transparente" width="640" height="480" loading="lazy"><div class="in"><h3>Aparelho e alinhadores</h3><p>Aparelho fixo, estético ou alinhador transparente.</p></div></article>
+      <article class="t"><img src="img/clareamento.jpg" alt="Sorriso de perto com dentes brancos e alinhados" width="640" height="480" loading="lazy"><div class="in"><h3>Clareamento</h3><p>Clareamento de consultório e caseiro com moldeira sob medida.</p></div></article>
+      <article class="t"><img src="img/implante.jpg" alt="Dentista atendendo paciente com equipamento moderno" width="640" height="480" loading="lazy"><div class="in"><h3>Implantes e próteses</h3><p>Implante com planejamento digital e prótese fixa.</p></div></article>
+      <article class="t"><img src="img/infantil.jpg" alt="Menino sorrindo e fazendo sinal de positivo na cadeira do dentista" width="640" height="480" loading="lazy"><div class="in"><h3>Odontopediatria</h3><p>Primeira consulta lúdica para a criança perder o medo.</p></div></article>
+      <article class="t" style="background:var(--band);color:var(--band-ink);display:flex;flex-direction:column;justify-content:center;padding:28px;border-color:transparent"><h3 style="font-size:1.6rem">Urgência no mesmo dia</h3><p style="color:inherit;opacity:.8;margin:10px 0 18px">Dor de dente, dente quebrado ou restauração que caiu. Ligue e encaixamos você hoje.</p><a class="btn btn-teal" href="#agendar" style="align-self:flex-start">Falar com a recepção</a></article>
+    </div>
+  </section>
+
+  <section id="simulador">
+    <div class="head"><span class="kicker">Valores</span><h2>Simule as parcelas do seu tratamento</h2><p>Escolha o tratamento e o número de parcelas no cartão.</p></div>
+    <div class="sim">
+      <div class="panel">
+        <h3>Tratamento</h3>
+        <div class="opts" id="opts"></div>
+        <h3>Parcelas</h3>
+        <input type="range" id="parc" min="1" max="12" value="10" aria-label="Número de parcelas">
+        <div class="scale"><span>à vista</span><span>6x</span><span>12x</span></div>
+      </div>
+      <aside class="res" aria-live="polite">
+        <span class="lbl" id="r-nome">Clareamento de consultório</span>
+        <div class="big" id="r-parc">10x R$ 0</div>
+        <div class="row"><span>Valor total</span><b id="r-total">R$ 0</b></div>
+        <div class="row"><span>À vista com desconto</span><b id="r-vista">R$ 0</b></div>
+        <button class="btn btn-teal" type="button" id="r-btn">Quero agendar avaliação</button>
+        <p class="msg" id="r-msg">Valores de exemplo. O valor final é definido na avaliação.</p>
+      </aside>
+    </div>
+    <div class="plans" id="convenios">
+      <div class="bar"><label for="plano" style="font-weight:800">Seu convênio é aceito?</label><input id="plano" placeholder="Digite o nome do seu plano" autocomplete="off"></div>
+      <p class="ans" id="plano-ans" aria-live="polite">Aceitamos os convênios abaixo.</p>
+      <div class="chips" id="chips"></div>
+    </div>
+  </section>
+
+  <section id="equipe">
+    <div class="head"><span class="kicker">Equipe</span><h2>Quem vai cuidar de você</h2></div>
+    <div class="team">
+      <div class="doc"><span class="av">MA</span><h3>Dra. Marina Alves</h3><p>Ortodontia e alinhadores</p><small>CRO-SP 00000 · exemplo</small></div>
+      <div class="doc"><span class="av">RC</span><h3>Dr. Rafael Costa</h3><p>Implantes e prótese</p><small>CRO-SP 00000 · exemplo</small></div>
+      <div class="doc"><span class="av">LS</span><h3>Dra. Lívia Santos</h3><p>Odontopediatria</p><small>CRO-SP 00000 · exemplo</small></div>
+    </div>
+  </section>
+
+  <section aria-label="Consultório">
+    <figure class="room">
+      <img src="img/consultorio.jpg" alt="Consultório odontológico moderno com cadeira azul e equipamentos" width="1200" height="640" loading="lazy">
+      <figcaption><b>Consultórios esterilizados e climatizados</b><span>Raio-x digital na clínica: você sai com o diagnóstico na mesma consulta.</span></figcaption>
+    </figure>
+  </section>
+
+  <section aria-label="Avaliações">
+    <div class="head"><span class="kicker">Avaliações</span><h2>Pacientes que perderam o medo</h2></div>
+    <div class="quotes">
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"Tinha pavor de dentista. A Dra. Marina explicou cada passo e não senti nada."</p><footer>Patrícia Gomes<small>alinhadores</small></footer></blockquote>
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"Meu filho saiu da consulta pedindo para voltar. Atendimento infantil incrível."</p><footer>Eduardo Martins<small>odontopediatria</small></footer></blockquote>
+      <blockquote><div class="stars" aria-label="5 estrelas">★★★★★</div><p>"Fiz o implante parcelado em 12x e o resultado ficou natural."</p><footer>Sônia Ribeiro<small>implante</small></footer></blockquote>
+    </div>
+  </section>
+
+  <section id="agendar">
+    <div class="book">
+      <div>
+        <div class="head" style="margin-bottom:0"><span class="kicker">Agendamento</span><h2>Marque sua avaliação gratuita</h2><p>A recepção confirma o horário pelo WhatsApp.</p></div>
+        <ul>
+          <li><b>Endereço</b><span class="sel">Av. Central, 1.500 · sala 304 · Centro</span></li>
+          <li><b>Horário</b>Seg a sex 8h às 20h · Sáb 8h às 13h</li>
+          <li><b>WhatsApp</b><span class="sel">(11) 90000-0000</span></li>
+        </ul>
+      </div>
+      <form id="ag" novalidate>
+        <label>Nome<input id="nome" placeholder="Seu nome"></label>
+        <label>Telefone<input id="tel" inputmode="tel" placeholder="(11) 90000-0000"></label>
+        <label>Tratamento<select id="trat"><option>Avaliação e limpeza</option><option>Aparelho e alinhadores</option><option>Clareamento</option><option>Implantes e próteses</option><option>Odontopediatria</option><option>Urgência</option></select></label>
+        <label>Período<select id="per"><option>Manhã</option><option>Tarde</option><option>Noite</option><option>Sábado</option></select></label>
+        <button class="btn btn-teal full" type="submit">Pedir agendamento</button>
+        <p class="fmsg" id="fmsg" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site wrap">
+  <span>© 2026 Odonto Aurora · Responsável técnica: exemplo</span>
+  <span>Site de demonstração: nomes, preços e contatos são fictícios. Criado por <a href="https://www.instagram.com/vertice.digital.sp/" target="_blank" rel="noopener">Vértice Digital</a> · WhatsApp (11) 94254-7938</span>
+  <small class="credits">Fotos: Unsplash (Street Og', Harold Hisona, Diana Polekhina, Nate Johnston, Tony Litvyak, Benyamin Bohlouli, Caroline LM).</small>
+</footer>
+
+<script>
+// contadores do topo
+document.querySelectorAll('[data-count]').forEach(el=>{
+  const alvo=+el.dataset.count, dec=+(el.dataset.dec||0), suf=el.dataset.suffix||'', t0=performance.now()+700, dur=1600;
+  const fmt=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=fmt(alvo);return;}
+  el.textContent=fmt(alvo);
+  const step=now=>{const p=Math.min(1,Math.max(0,(now-t0)/dur)), e=1-Math.pow(1-p,3); el.textContent=fmt(alvo*e); if(p<1) requestAnimationFrame(step);};
+  requestAnimationFrame(step);
+});
+
+const TRAT=[
+  {n:'Clareamento de consultório',sub:'2 sessões',v:1200},
+  {n:'Alinhador transparente',sub:'tratamento completo',v:9800},
+  {n:'Aparelho fixo estético',sub:'instalação + 12 meses',v:4200},
+  {n:'Implante unitário',sub:'implante + coroa',v:3900},
+  {n:'Limpeza + avaliação',sub:'com raio-x',v:220},
+  {n:'Lente de contato dental',sub:'por dente',v:1600}
+];
+let sel=TRAT[0];
+const brl=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const opts=document.getElementById('opts');
+TRAT.forEach(t=>{const b=document.createElement('button');b.type='button';b.className='opt';b.innerHTML=`${t.n}<small>${t.sub}</small>`;b.setAttribute('aria-pressed',t===sel);
+  b.addEventListener('click',()=>{sel=t;opts.querySelectorAll('.opt').forEach((x,i)=>x.setAttribute('aria-pressed',TRAT[i]===t));calc();});opts.append(b);});
+function calc(){const n=+document.getElementById('parc').value;
+  document.getElementById('r-nome').textContent=sel.n;
+  document.getElementById('r-parc').textContent= n===1 ? brl(sel.v*0.93) : `${n}x ${brl(sel.v/n)}`;
+  document.getElementById('r-total').textContent=brl(sel.v);
+  document.getElementById('r-vista').textContent=brl(sel.v*0.93)+' (7% off)';}
+document.getElementById('parc').addEventListener('input',calc); calc();
+document.getElementById('r-btn').addEventListener('click',()=>{document.getElementById('r-msg').textContent=`Mensagem que seria enviada: "Olá! Quero agendar avaliação para ${sel.n.toLowerCase()}." Demonstração: no site real, abre o WhatsApp da clínica.`;});
+
+const PLANOS=['Amil Dental','Bradesco Dental','SulAmérica Odonto','OdontoPrev','Porto Seguro Odonto','Unimed Odonto','MetLife','Hapvida Odonto','Uniodonto','Dental Uni','Interodonto','Odonto System'];
+const chips=document.getElementById('chips'); chips.innerHTML=PLANOS.map(p=>`<span>${p}</span>`).join('');
+const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+document.getElementById('plano').addEventListener('input',e=>{const q=norm(e.target.value.trim()); const ans=document.getElementById('plano-ans'); let hit=0;
+  chips.querySelectorAll('span').forEach(s=>{const ok=q&&norm(s.textContent).includes(q); s.classList.toggle('hit',ok); if(ok) hit++;});
+  ans.textContent=!q?'Aceitamos os convênios abaixo.':hit?`Sim! Encontramos ${hit} plano${hit>1?'s':''} com esse nome.`:'Não encontramos esse plano. Fale com a recepção: temos condições especiais no particular.';});
+
+document.getElementById('ag').addEventListener('submit',e=>{e.preventDefault();const n=document.getElementById('nome').value.trim(),m=document.getElementById('fmsg');
+  m.textContent=n?`Obrigado, ${n}! Pedido de ${document.getElementById('trat').value.toLowerCase()} (${document.getElementById('per').value.toLowerCase()}) registrado nesta demonstração. No site real, a recepção recebe pelo WhatsApp.`:'Preencha o seu nome para continuar.';});
+</script>

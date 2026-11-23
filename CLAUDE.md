@@ -18,4 +18,5 @@
 
 - Responder em português do Brasil.
 - Trabalha com criação de sites (clientes como restaurantes e logística) e usa Windows. Prefere soluções prontas.
+- Os sites deste repositório (`site-restaurante/`, `site-rota-leve/`) são **amostras de portfólio** para oferecer a clientes: nomes, textos, preços e contatos são fictícios e devem continuar marcados como exemplo até virar o site de um cliente real.
 - Fazer perguntas esclarecedoras antes de executar e pesquisar em fontes confiáveis, sem respostas genéricas ou inventadas.

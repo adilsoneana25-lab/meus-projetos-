@@ -3,179 +3,243 @@
 <meta name="description" content="Transporte rodoviário de cargas e armazenagem em São Paulo. Peça seu orçamento.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600&family=Barlow+Condensed:wght@700&display=swap">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
-/* Layout: faixas largas alternando azul-marinho e claro; foto da rodovia no topo; formulário de cotação como peça central. */
+/* Layout estilo Apple: uma ideia por tela, títulos grandes centralizados, seções alternando branco, cinza-claro e escuro.
+   Topo = comercial (frases entrando); destaque = "Como funciona" travado na tela com o caminhão andando na estrada. */
 :root{
-  --navy:#0B2347; --navy-2:#13335F; --amber:#F5B301; --amber-ink:#1A1300;
-  --bg:#F4F6FA; --surface:#FFFFFF; --fg:#15233A; --muted:#55657E; --line:#D9E0EA;
-  --on-navy:#EEF3FA; --on-navy-muted:#B4C2D8;
-  --font-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --navy:#0B2347; --navy-2:#16386A; --amber:#F5B301; --amber-ink:#1A1300;
+  --s1:#FFFFFF; --s2:#F5F5F7; --ink:#1D1D1F; --muted:#6E6E73; --line:#E3E3E8;
+  --dark:#050A14; --dark-2:#0E1626; --on-dark:#F5F5F7; --on-dark-muted:#A1A8B5;
+  --font-display:"Inter Tight","Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --r:10px;
+  --font-sign:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --ease-in:cubic-bezier(.16,1,.3,1); --ease:cubic-bezier(.25,.1,.25,1);
+  --r-card:28px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --navy:#081A35; --navy-2:#0F2A50; --bg:#0D1626; --surface:#142038; --fg:#E6ECF5; --muted:#9AA9C0; --line:#24344F;
-  --on-navy:#EEF3FA; --on-navy-muted:#A9B8CF; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --navy:#081A35; --navy-2:#0F2A50; --bg:#0D1626; --surface:#142038; --fg:#E6ECF5; --muted:#9AA9C0; --line:#24344F;
-  --on-navy:#EEF3FA; --on-navy-muted:#A9B8CF; color-scheme:dark}
+  --s1:#000000; --s2:#101114; --ink:#F5F5F7; --muted:#A1A1A6; --line:#26272B; color-scheme:dark}}
+:root[data-theme="dark"]{--s1:#000000; --s2:#101114; --ink:#F5F5F7; --muted:#A1A1A6; --line:#26272B; color-scheme:dark}
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.6}
-h1,h2,h3{font-family:var(--font-display);line-height:1.05;margin:0;text-wrap:balance;letter-spacing:.005em}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--s1);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--font-display);margin:0;letter-spacing:-.03em;line-height:1.04;text-wrap:balance}
 p{margin:0}
 a{color:inherit}
-.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.eyebrow{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.9rem;color:var(--amber)}
-.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:.04em;text-transform:uppercase;padding:.8rem 1.4rem;border-radius:6px;border:2px solid transparent;text-decoration:none;cursor:pointer;transition:transform .15s ease,background .15s ease}
-.btn:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
-.btn-primary{background:var(--amber);color:var(--amber-ink)}
-.btn-primary:hover{transform:translateY(-1px);background:#FFC21F}
-.btn-ghost{border-color:currentColor;color:var(--on-navy);background:transparent}
-.btn-ghost:hover{background:rgba(255,255,255,.08)}
-@media (prefers-reduced-motion:reduce){.btn{transition:none}.btn:hover{transform:none}}
+ul.clean,ol.clean{list-style:none;margin:0;padding:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.center{text-align:center}
+.kicker{font-weight:600;font-size:1.05rem;color:var(--muted)}
+.kicker.amber{color:var(--amber)}
+.h-xl{font-size:clamp(2.4rem,6vw,4.6rem);font-weight:700}
+.h-lg{font-size:clamp(2rem,4.6vw,3.4rem);font-weight:700}
+.lede{font-size:clamp(1.1rem,1.7vw,1.35rem);color:var(--muted);max-width:40ch;margin-inline:auto}
+.ilustrativo{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:.1rem .55rem;opacity:.75}
 
-/* Cabeçalho */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--navy)}
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--navy);color:var(--on-navy);border-bottom:3px solid var(--amber)}
-header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.75rem}
-.logo{display:flex;align-items:center;gap:.6rem;text-decoration:none}
-.logo b{font-family:var(--font-display);font-size:1.6rem;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+/* Botões em pílula */
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;font:600 1rem/1 var(--font-body);padding:.95rem 1.5rem;border-radius:999px;border:0;text-decoration:none;cursor:pointer;
+  transition:transform .14s var(--ease),background-color .14s var(--ease),box-shadow .14s var(--ease)}
+.pill:active{transform:scale(.97)}
+.pill-amber{background:var(--amber);color:var(--amber-ink)}
+.pill-navy{background:var(--navy);color:#fff}
+.pill-line{background:transparent;color:var(--on-dark);box-shadow:inset 0 0 0 1.5px rgba(245,245,247,.6)}
+.link-more{font-weight:600;color:var(--amber);text-decoration:none}
+@media (hover:hover) and (pointer:fine){
+  .pill-amber:hover{background:#FFC41F}
+  .pill-navy:hover{background:var(--navy-2)}
+  .pill-line:hover{box-shadow:inset 0 0 0 1.5px #fff;background:rgba(255,255,255,.06)}
+  .link-more:hover{text-decoration:underline}
+}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+
+/* Menu fino e translúcido */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--dark)}
+.nav{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);z-index:30;color:var(--on-dark);
+  background:rgba(5,10,20,0);transition:background-color .3s var(--ease),backdrop-filter .3s var(--ease),border-color .3s var(--ease);border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(5,10,20,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom-color:rgba(255,255,255,.08)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:52px}
+.logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;font:800 1.15rem/1 var(--font-display);letter-spacing:-.02em}
 .logo span{color:var(--amber)}
-nav.links{display:flex;gap:1.5rem;font-weight:500;font-size:.95rem}
-nav.links a{text-decoration:none;color:var(--on-navy-muted)}
-nav.links a:hover{color:var(--on-navy)}
-.top .btn{font-size:1rem;padding:.5rem 1rem}
-@media (max-width:820px){nav.links{display:none}}
+.nav nav{display:flex;gap:1.8rem;font-size:.85rem;color:var(--on-dark-muted)}
+.nav nav a{text-decoration:none;transition:color .14s var(--ease)}
+.nav nav a:hover{color:#fff}
+.nav .pill{padding:.5rem .95rem;font-size:.85rem}
+@media (max-width:760px){.nav nav{display:none}}
 
-/* Topo com foto */
-.hero{position:relative;color:var(--on-navy);background:var(--navy);overflow:hidden}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 60%}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(8,22,46,.92) 0%,rgba(8,22,46,.72) 45%,rgba(8,22,46,.15) 100%)}
-.hero .wrap{position:relative;z-index:1;padding-block:clamp(4rem,10vw,7.5rem)}
-.hero h1{font-size:clamp(2.6rem,6.4vw,4.8rem);font-weight:800;text-transform:uppercase;max-width:14ch}
+/* Topo (hero) */
+.hero{position:relative;background:var(--dark);color:var(--on-dark);overflow:hidden;min-height:min(92svh,880px);display:grid;align-items:center}
+.hero-media{position:absolute;inset:-8% 0 0;will-change:transform}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 62%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(120% 80% at 50% 30%,rgba(5,10,20,.35) 0%,rgba(5,10,20,.72) 60%,rgba(5,10,20,.95) 100%)}
+.hero .wrap{position:relative;z-index:1;padding-block:calc(52px + 4.5rem) 4.5rem;text-align:center;display:grid;justify-items:center;gap:1.4rem}
+.headline{position:relative;display:grid}
+.headline > *{grid-area:1/1}
+.scene{font:700 clamp(2.4rem,6.6vw,5.2rem)/1.04 var(--font-display);letter-spacing:-.035em;visibility:hidden;align-self:center}
+.hero h1{font-size:clamp(2.6rem,7.4vw,5.8rem);font-weight:800;letter-spacing:-.04em;max-width:13ch}
 .hero h1 em{font-style:normal;color:var(--amber)}
-.hero p.lead{margin-top:1.2rem;max-width:52ch;font-size:1.1rem;color:var(--on-navy)}
-.hero .ctas{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
-.hero .marks{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;margin-top:2.6rem;font-size:.9rem;color:var(--on-navy-muted)}
-.hero .marks li{display:flex;align-items:center;gap:.45rem}
-.hero .marks svg{color:var(--amber);flex:none}
-ul.clean{list-style:none;margin:0;padding:0}
+.hero .w{display:inline-block}
+.hero .lead{font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--on-dark-muted);max-width:46ch}
+.hero .ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin-top:.4rem}
+.hero .marks{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1.4rem;font-size:.88rem;color:var(--on-dark-muted);margin-top:.8rem}
+.hero .marks li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--amber);margin-right:.5rem;vertical-align:middle}
 
-/* Faixa de rodovias: detalhe do mundo do assunto */
+/* Faixa de rodovias */
 .rodovias{background:var(--amber);color:var(--amber-ink)}
-.rodovias .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.2rem;padding-block:.9rem}
-.rodovias strong{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.06em;font-size:1.05rem}
-.placa{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-display);font-weight:700;font-size:1rem;letter-spacing:.03em}
-.placa i{font-style:normal;background:var(--amber-ink);color:var(--amber);border-radius:4px;padding:.05rem .45rem;font-size:.85rem}
+.rodovias .wrap{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.6rem 1.4rem;padding-block:1rem}
+.rodovias strong{font-weight:600;font-size:.9rem}
+.placa{display:inline-flex;align-items:center;gap:.45rem;font:700 1.05rem/1 var(--font-sign);letter-spacing:.02em}
+.placa i{font-style:normal;background:var(--amber-ink);color:var(--amber);border-radius:5px;padding:.2rem .45rem;font-size:.85rem}
 
-section{padding-block:clamp(3.5rem,8vw,6rem)}
-.sec-head{display:grid;gap:.6rem;max-width:62ch;margin-bottom:2.5rem}
-.sec-head h2{font-size:clamp(2rem,4.2vw,3rem);font-weight:800;text-transform:uppercase}
-.sec-head p{color:var(--muted);font-size:1.05rem}
+section{padding-block:clamp(5rem,11vw,8.5rem)}
+.s-white{background:var(--s1)}
+.s-gray{background:var(--s2)}
+.s-dark{background:var(--dark);color:var(--on-dark)}
+.s-dark .kicker,.s-dark .lede{color:var(--on-dark-muted)}
+.sec-head{display:grid;gap:.9rem;justify-items:center;text-align:center;margin-bottom:clamp(2.5rem,6vw,4rem)}
 
-/* Serviços */
-.servicos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:1.5rem}
-.serv{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
-.serv figure{margin:0;aspect-ratio:9/6;max-width:100%;overflow:hidden;background:var(--navy-2)}
-.serv figure img{width:100%;height:100%;object-fit:cover;display:block}
-.serv .body{padding:1.6rem;display:grid;gap:1rem}
-.serv h3{font-size:2rem;font-weight:800;text-transform:uppercase}
-.serv p{color:var(--muted)}
-.serv ul{display:grid;gap:.55rem}
-.serv li{display:grid;grid-template-columns:22px 1fr;gap:.6rem;align-items:start}
-.serv li svg{color:var(--amber);margin-top:.2rem}
-.serv li b{font-weight:600}
+/* Serviços: cards de tamanhos variados */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.card{position:relative;border-radius:var(--r-card);overflow:hidden;background:var(--s2);min-height:300px;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(1.4rem,3vw,2.2rem);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.card h3{font-size:clamp(1.5rem,2.6vw,2.2rem);font-weight:700}
+.card p{color:var(--muted);margin-top:.55rem;max-width:42ch}
+.card .tag{font-size:.85rem;font-weight:600;color:var(--muted);margin-bottom:.6rem}
+.card.photo{color:#fff;min-height:clamp(420px,52vw,560px);background:var(--dark)}
+.card.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.05);transition:transform 1.4s var(--ease-in)}
+.card.photo.in img,.no-reveal .card.photo img{transform:scale(1)}
+.card.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,10,20,0) 35%,rgba(5,10,20,.88) 100%)}
+.card.photo > *:not(img){position:relative;z-index:1}
+.card.photo p,.card.photo .tag{color:rgba(255,255,255,.8)}
+.card.navy{background:var(--navy);color:#fff}
+.card.navy p,.card.navy .tag{color:rgba(255,255,255,.72)}
+.card .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--s1);color:var(--navy);margin-bottom:auto}
+.card.navy .ico{background:rgba(255,255,255,.1);color:var(--amber)}
+.c4{grid-column:span 4}.c2{grid-column:span 2}.c3{grid-column:span 3}
+@media (max-width:900px){.c4,.c2,.c3{grid-column:span 6}.card{min-height:240px}}
+@media (hover:hover) and (pointer:fine){.card:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 18px 40px rgba(5,10,20,.14)}}
 
-/* Como funciona */
-.processo{background:var(--navy);color:var(--on-navy)}
-.processo .sec-head p{color:var(--on-navy-muted)}
-.etapas{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:1.25rem;counter-reset:e}
-.etapa{border-top:3px solid var(--amber);padding-top:1.1rem;display:grid;gap:.5rem;min-width:0}
-.etapa .n{font-family:var(--font-display);font-weight:800;font-size:2.4rem;color:var(--amber);line-height:1}
-.etapa h3{font-size:1.5rem;font-weight:700;text-transform:uppercase}
-.etapa p{color:var(--on-navy-muted);font-size:.95rem}
+/* Destaque: como funciona (travado na tela) */
+.processo{position:relative;overflow:hidden;padding-block:0}
+.processo .bg{position:absolute;inset:0}
+.processo .bg img{width:100%;height:100%;object-fit:cover;opacity:.32}
+.processo .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--dark) 0%,rgba(5,10,20,.55) 30%,rgba(5,10,20,.55) 70%,var(--dark) 100%)}
+.processo .stage{position:relative;z-index:1;padding-block:clamp(5rem,11vw,8rem)}
+.contador{font-weight:600;color:var(--amber);font-variant-numeric:tabular-nums}
+.steps{display:grid;gap:3rem;margin-top:2.5rem}
+.step{display:grid;gap:.8rem;justify-items:center;text-align:center}
+.step .n{font:700 1rem/1 var(--font-body);color:var(--on-dark-muted)}
+.step h3{font-size:clamp(2.6rem,7vw,5.4rem);font-weight:800;letter-spacing:-.04em}
+.step p{font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--on-dark-muted);max-width:38ch}
+.road{position:relative;height:56px;margin-top:3.5rem;max-width:760px;margin-inline:auto}
+.road::before{content:"";position:absolute;left:0;right:0;top:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.16)}
+.road::after{content:"";position:absolute;left:0;right:0;top:41px;height:2px;background:repeating-linear-gradient(90deg,var(--amber) 0 18px,transparent 18px 34px);opacity:.7}
+.road .truck{position:absolute;left:0;top:6px;color:#fff}
+.road .pin{position:absolute;top:32px;width:20px;height:20px;border-radius:50%;background:var(--dark);border:3px solid var(--amber);transform:translateX(-50%)}
+.road .lbl{position:absolute;top:58px;transform:translateX(-50%);font-size:.75rem;color:var(--on-dark-muted);white-space:nowrap}
+.road .p1{left:0%}.road .p2{left:33.3%}.road .p3{left:66.6%}.road .p4{left:100%}
+.road .lbl.p1{transform:none}.road .lbl.p4{transform:translateX(-100%)}
+/* modo travado (só quando a GSAP carregou) */
+.pinmode .steps{position:relative;height:clamp(17rem,40vw,21rem);gap:0}
+.pinmode .step{position:absolute;inset:0;align-content:center}
+.pinmode .stage{min-height:100svh;display:grid;align-content:center}
+.pinmode .stage > .wrap{width:100%}
 
-/* Armazém em destaque */
-.galpao{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
-.galpao figure{margin:0;border-radius:var(--r);overflow:hidden;aspect-ratio:12/8;max-width:100%}
-.galpao figure img{width:100%;height:100%;object-fit:cover;display:block}
-.ficha{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);margin-top:1.8rem}
-.ficha div{padding:1rem 1.1rem;border-bottom:1px solid var(--line);min-width:0}
-.ficha div:nth-child(odd){border-right:1px solid var(--line)}
-.ficha div:nth-last-child(-n+2){border-bottom:0}
-.ficha dt{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.ficha dd{margin:0;font-family:var(--font-display);font-weight:700;font-size:1.5rem;font-variant-numeric:tabular-nums}
-@media (max-width:820px){.galpao{grid-template-columns:1fr}}
+/* Armazém: foto fixa com texto rolando ao lado */
+.armazem-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(2rem,5vw,4.5rem);align-items:start}
+.armazem-foto{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);border-radius:var(--r-card);overflow:hidden;aspect-ratio:4/5;max-width:100%;background:var(--dark)}
+.armazem-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.armazem-texto{display:grid;gap:clamp(3rem,9vw,6.5rem);padding-block:2rem}
+.dado{display:grid;gap:.4rem;min-width:0}
+.dado .num{font:800 clamp(3.4rem,8vw,6rem)/1 var(--font-display);letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.dado .num small{font-size:.42em;letter-spacing:-.02em;margin-left:.15em}
+.dado h3{font-size:1.35rem;font-weight:700;letter-spacing:-.02em}
+.dado p{color:var(--muted);max-width:38ch}
+@media (max-width:860px){.armazem-grid{grid-template-columns:1fr}.armazem-foto{position:relative;top:0;aspect-ratio:16/11}.armazem-texto{gap:2.6rem;padding-block:0}}
 
-/* Cotação */
-.cotacao{background:var(--surface);border-block:1px solid var(--line)}
-.cot-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:start}
-@media (max-width:900px){.cot-grid{grid-template-columns:1fr}}
-.contato{display:grid;gap:1.1rem;margin-top:1.6rem}
-.contato li{display:grid;grid-template-columns:40px 1fr;gap:.8rem;align-items:center}
-.contato .ic{width:40px;height:40px;border-radius:8px;background:var(--navy);color:var(--amber);display:grid;place-items:center}
-.contato small{display:block;color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}
-.contato span.v{font-weight:600;user-select:all}
-form.cot{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:clamp(1.2rem,3vw,2rem);display:grid;gap:1.1rem}
+/* Orçamento */
+.cot-card{background:var(--s2);border-radius:var(--r-card);padding:clamp(1.4rem,4vw,3rem);display:grid;grid-template-columns:.9fr 1.2fr;gap:clamp(2rem,5vw,4rem);align-items:start}
+@media (max-width:900px){.cot-card{grid-template-columns:1fr}}
+.contato{display:grid;gap:1.1rem;margin-top:2rem}
+.contato li{display:grid;grid-template-columns:42px 1fr;gap:.85rem;align-items:center}
+.contato .ic{width:42px;height:42px;border-radius:12px;background:var(--navy);color:var(--amber);display:grid;place-items:center}
+.contato small{display:block;color:var(--muted);font-size:.8rem}
+.contato .v{font-weight:600;user-select:all}
+form.cot{display:grid;gap:1rem}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media (max-width:520px){.row{grid-template-columns:1fr}}
 .field{display:grid;gap:.35rem;min-width:0}
-.field label{font-size:.85rem;font-weight:600}
-.field input,.field select{font:inherit;font-size:1rem;padding:.7rem .8rem;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg);width:100%}
+.field label,legend{font-size:.85rem;font-weight:600}
+.field input,.field select{font:inherit;font-size:1rem;padding:.85rem 1rem;border:1px solid var(--line);border-radius:14px;background:var(--s1);color:var(--ink);width:100%;transition:border-color .14s var(--ease)}
+.field input:focus,.field select:focus{border-color:var(--navy-2)}
 .field .hint{font-size:.78rem;color:var(--muted)}
-.field.err input,.field.err select{border-color:#D14343}
-.field .msg{font-size:.8rem;color:#D14343;min-height:0}
-fieldset{border:0;margin:0;padding:0;display:grid;gap:.5rem}
-legend{font-size:.85rem;font-weight:600;margin-bottom:.5rem}
-.chips{display:flex;flex-wrap:wrap;gap:.5rem}
-.chips label{display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:.4rem .9rem;font-size:.9rem;cursor:pointer}
-.chips input{accent-color:var(--navy-2)}
-.chips label:has(input:checked){border-color:var(--navy-2);box-shadow:inset 0 0 0 1px var(--navy-2)}
-.resultado{border:2px solid var(--amber);border-radius:var(--r);background:var(--surface);padding:1.2rem;display:grid;gap:.9rem}
-.resultado h3{font-size:1.5rem;text-transform:uppercase}
-.resultado pre{margin:0;white-space:pre-wrap;font-family:var(--font-body);font-size:.92rem;background:var(--bg);border-radius:6px;padding:.9rem;border:1px solid var(--line);overflow-x:auto}
+.field.err input{border-color:#D93A3A}
+.field .msg{font-size:.8rem;color:#D93A3A}
+fieldset{border:0;margin:0;padding:0}
+legend{margin-bottom:.55rem}
+.seg{display:flex;flex-wrap:wrap;gap:.4rem;background:var(--s1);border:1px solid var(--line);border-radius:999px;padding:.3rem;width:fit-content;max-width:100%}
+.seg label{position:relative;padding:.55rem 1rem;border-radius:999px;font-size:.9rem;font-weight:500;cursor:pointer;transition:background-color .14s var(--ease),color .14s var(--ease)}
+.seg input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.seg label:has(input:checked){background:var(--navy);color:#fff}
+.seg label:has(input:focus-visible){outline:3px solid var(--amber);outline-offset:2px}
+.resultado{border-radius:20px;background:var(--s1);border:1px solid var(--line);padding:1.3rem;display:grid;gap:.9rem}
+.resultado h3{font-size:1.4rem}
+.resultado pre{margin:0;white-space:pre-wrap;font:.92rem/1.55 var(--font-body);background:var(--s2);border-radius:12px;padding:1rem;overflow-x:auto}
 .resultado .acoes{display:flex;flex-wrap:wrap;gap:.6rem}
-.btn-navy{background:var(--navy);color:var(--on-navy)}
-.btn-navy:hover{background:var(--navy-2)}
 .nota{font-size:.82rem;color:var(--muted)}
 
-footer{background:var(--navy);color:var(--on-navy-muted);font-size:.88rem}
-footer .wrap{display:grid;gap:1.2rem;padding-block:2.5rem}
+footer{background:var(--dark);color:var(--on-dark-muted);font-size:.85rem}
+footer .wrap{display:grid;gap:1.2rem;padding-block:2.6rem}
 footer .cols{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
-footer .credito{border-top:1px solid rgba(255,255,255,.12);padding-top:1rem;font-size:.8rem}
-footer .credito a{color:var(--on-navy)}
+footer .credito{border-top:1px solid rgba(255,255,255,.1);padding-top:1rem;font-size:.78rem}
+footer a{color:var(--on-dark)}
+
+/* Entrada suave ao rolar (só para o que está abaixo da primeira tela) */
+.reveal-ready [data-reveal]:not(.in){opacity:0;transform:translateY(32px)}
+.reveal-ready [data-reveal]{transition:opacity .8s var(--ease-in),transform .8s var(--ease-in);transition-delay:var(--d,0ms)}
+@media (prefers-reduced-motion:reduce){
+  .reveal-ready [data-reveal]:not(.in){opacity:1;transform:none}
+  .card,.card.photo img,.pill{transition:none}
+  .card.photo img{transform:none}
+  .hero-media{will-change:auto}
+}
 </style>
 
-<header class="top">
+<header class="nav" id="nav">
   <div class="wrap">
     <a class="logo" href="#inicio" aria-label="Rodalto Logística, início">
-      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="6" fill="#F5B301"/><path d="M9 25 L15 9 H19 L25 25" fill="none" stroke="#0B2347" stroke-width="3" stroke-linejoin="round"/><path d="M17 13v3M17 19v3" stroke="#0B2347" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <b>Rod<span>alto</span></b>
+      <svg width="26" height="26" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#F5B301"/><path d="M9 25 L15 9 H19 L25 25" fill="none" stroke="#0B2347" stroke-width="3" stroke-linejoin="round"/><path d="M17 13v3M17 19v3" stroke="#0B2347" stroke-width="2.2" stroke-linecap="round"/></svg>
+      Rod<span>alto</span>
     </a>
-    <nav class="links" aria-label="Seções">
+    <nav aria-label="Seções">
       <a href="#servicos">Serviços</a><a href="#processo">Como funciona</a><a href="#armazem">Armazém</a><a href="#cotacao">Contato</a>
     </nav>
-    <a class="btn btn-primary" href="#cotacao">Pedir orçamento</a>
+    <a class="pill pill-amber" href="#cotacao">Pedir orçamento</a>
   </div>
 </header>
 
 <main id="inicio">
   <section class="hero" style="padding-block:0">
-    <img src="img/hero-rodovia.webp" width="1600" height="900" alt="Dois caminhões baú seguindo por uma rodovia com serra ao fundo">
+    <div class="hero-media" id="heroMedia"><img id="heroImg" src="img/hero-rodovia.webp" width="1600" height="900" alt="Dois caminhões baú seguindo por uma rodovia com serra ao fundo"></div>
     <div class="wrap">
-      <p class="eyebrow">Transporte rodoviário e armazenagem · São Paulo</p>
-      <h1 style="margin-top:.8rem">Sua carga na estrada <em>no prazo combinado</em></h1>
-      <p class="lead">Coletamos na Grande São Paulo e entregamos no interior paulista e nos estados do Sul e Sudeste. Quando a mercadoria precisa esperar, ela fica guardada no nosso armazém em Guarulhos.</p>
-      <div class="ctas">
-        <a class="btn btn-primary" href="#cotacao">Pedir orçamento</a>
-        <a class="btn btn-ghost" href="#servicos">Ver serviços</a>
+      <p class="kicker amber" id="heroKicker">Transporte rodoviário e armazenagem · São Paulo</p>
+      <div class="headline">
+        <p class="scene" id="scene1" aria-hidden="true"><span class="w">Coleta</span> <span class="w">hoje</span> <span class="w">em</span> <span class="w" style="color:var(--amber)">São&nbsp;Paulo.</span></p>
+        <h1 id="heroTitle"><span class="w">Sua</span> <span class="w">carga</span> <span class="w">na</span> <span class="w">estrada</span> <em><span class="w">no</span> <span class="w">prazo</span> <span class="w">combinado.</span></em></h1>
       </div>
-      <ul class="clean marks">
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"/></svg>Rastreamento da coleta à entrega</li>
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"/></svg>Carga segurada</li>
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"/></svg>Resposta da cotação em até 2 horas úteis</li>
+      <p class="lead" id="heroLead">Coletamos na Grande São Paulo e entregamos no interior paulista e nos estados do Sul e Sudeste. Quando a mercadoria precisa esperar, ela fica no nosso armazém em Guarulhos.</p>
+      <div class="ctas" id="heroCtas">
+        <a class="pill pill-amber" href="#cotacao">Pedir orçamento</a>
+        <a class="pill pill-line" href="#servicos">Ver serviços</a>
+      </div>
+      <ul class="clean marks" id="heroMarks">
+        <li>Rastreamento da coleta à entrega</li>
+        <li>Carga segurada</li>
+        <li>Cotação em até 2 horas úteis</li>
       </ul>
     </div>
   </section>
@@ -191,97 +255,118 @@ footer .credito a{color:var(--on-navy)}
     </div>
   </div>
 
-  <section id="servicos">
+  <section class="s-white" id="servicos">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow" style="color:var(--muted)">Serviços</p>
-        <h2>Transporte e armazém no mesmo contrato</h2>
-        <p>Você fala com uma equipe só, do galpão até o destino final.</p>
+      <div class="sec-head" data-reveal>
+        <p class="kicker">Serviços</p>
+        <h2 class="h-xl">Transporte e armazém.<br>Um contrato só.</h2>
+        <p class="lede">Uma equipe cuida da sua carga do galpão até o destino final.</p>
       </div>
-      <div class="servicos">
-        <article class="serv">
-          <figure><img src="img/rodoviario.webp" width="900" height="640" loading="lazy" alt="Caminhão baú em estrada entre montanhas"></figure>
-          <div class="body">
-            <h3>Transporte rodoviário</h3>
-            <p>Frota própria de caminhões toco, truck e carretas para cargas de 1 a 32 toneladas.</p>
-            <ul class="clean">
-              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h11v10H2z"/><path d="M13 9h4l3 3v4h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg><span><b>Carga fechada:</b> o caminhão inteiro vai só com a sua mercadoria, direto ao destino.</span></li>
-              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg><span><b>Carga fracionada:</b> você paga só pelo espaço que usa, a partir de 1 volume.</span></li>
-              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span><b>Rastreamento:</b> link com a posição do caminhão e comprovante de entrega com foto.</span></li>
-            </ul>
-          </div>
+      <div class="bento">
+        <article class="card photo c4" data-reveal>
+          <img src="img/rodoviario.webp" width="900" height="640" loading="lazy" alt="Caminhão baú em estrada entre montanhas">
+          <p class="tag">Transporte rodoviário</p>
+          <h3>Carga fechada, direto ao destino.</h3>
+          <p>O caminhão vai só com a sua mercadoria. Frota de toco, truck e carretas, de 1 a 32 toneladas.</p>
         </article>
-        <article class="serv">
-          <figure><img src="img/armazem.webp" width="900" height="640" loading="lazy" alt="Corredor de armazém com prateleiras altas cheias de caixas"></figure>
-          <div class="body">
-            <h3>Armazenagem</h3>
-            <p>Galpão em Guarulhos, a 10 minutos da Dutra e do aeroporto, com controle de estoque por sistema.</p>
-            <ul class="clean">
-              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M8.5 11l1.5 1.5L13 9.5M8.5 17h7"/></svg><span><b>Estoque controlado:</b> você consulta saldo e movimentações online, por produto e lote.</span></li>
-              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h13M12 7l5 5-5 5"/><path d="M20 5v14"/></svg><span><b>Cross-docking:</b> a carga chega, é separada e sai no mesmo dia, sem ficar parada.</span></li>
-              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg><span><b>Separação de pedidos:</b> montamos e embalamos os pedidos do seu e-commerce ou dos seus clientes.</span></li>
-            </ul>
-          </div>
+        <article class="card c2" data-reveal style="--d:100ms">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span>
+          <h3>Carga fracionada</h3>
+          <p>Você paga só pelo espaço que usa, a partir de 1 volume.</p>
+        </article>
+        <article class="card navy c2" data-reveal>
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+          <h3>Rastreamento</h3>
+          <p>Link com a posição do caminhão e comprovante de entrega com foto.</p>
+        </article>
+        <article class="card photo c4" data-reveal style="--d:100ms">
+          <img src="img/armazem.webp" width="900" height="640" loading="lazy" alt="Corredor de armazém com prateleiras altas cheias de caixas">
+          <p class="tag">Armazenagem</p>
+          <h3>Seu estoque em Guarulhos.</h3>
+          <p>A 10 minutos da Dutra e do aeroporto, com saldo e movimentações consultados online.</p>
+        </article>
+        <article class="card c3" data-reveal>
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h13M12 7l5 5-5 5"/><path d="M20 5v14"/></svg></span>
+          <h3>Cross-docking</h3>
+          <p>A carga chega, é separada e sai no mesmo dia, sem ficar parada.</p>
+        </article>
+        <article class="card c3" data-reveal style="--d:100ms">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M8.5 11l1.5 1.5L13 9.5M8.5 17h7"/></svg></span>
+          <h3>Separação de pedidos</h3>
+          <p>Montamos e embalamos os pedidos do seu e-commerce ou dos seus clientes.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="processo" id="processo">
+  <section class="s-dark processo" id="processo">
+    <div class="bg" aria-hidden="true"><img src="img/hero-rodovia.webp" width="1600" height="900" alt="" loading="lazy"></div>
+    <div class="stage">
+      <div class="wrap">
+        <div class="sec-head" style="margin-bottom:0">
+          <p class="kicker">Como funciona</p>
+          <p class="contador" id="contador" aria-hidden="true">Etapa 1 de 4</p>
+        </div>
+        <ol class="clean steps" id="steps">
+          <li class="step"><span class="n">Etapa 1</span><h3>Cotação</h3><p>Você informa origem, destino, peso e volume. A proposta chega em até 2 horas úteis.</p></li>
+          <li class="step"><span class="n">Etapa 2</span><h3>Coleta</h3><p>Agendamos o horário e buscamos a carga no seu endereço, com a nota fiscal conferida.</p></li>
+          <li class="step"><span class="n">Etapa 3</span><h3>Transporte</h3><p>A carga segue com seguro, e você acompanha a viagem pelo link de rastreamento.</p></li>
+          <li class="step"><span class="n">Etapa 4</span><h3>Entrega</h3><p>Você recebe o comprovante assinado, com foto, assim que a mercadoria chega.</p></li>
+        </ol>
+        <div class="road" id="road" aria-hidden="true">
+          <span class="pin p1"></span><span class="pin p2"></span><span class="pin p3"></span><span class="pin p4"></span>
+          <span class="lbl p1">Cotação</span><span class="lbl p2">Coleta</span><span class="lbl p3">Transporte</span><span class="lbl p4">Entrega</span>
+          <svg class="truck" id="truck" width="44" height="30" viewBox="0 0 44 30" fill="none"><rect x="1" y="2" width="26" height="18" rx="2" fill="#F5F5F7"/><path d="M27 8h8l6 6v6H27z" fill="#F5B301"/><circle cx="9" cy="23" r="4" fill="#050A14" stroke="#F5F5F7" stroke-width="2"/><circle cx="33" cy="23" r="4" fill="#050A14" stroke="#F5F5F7" stroke-width="2"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="s-gray" id="armazem">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Como funciona</p>
-        <h2>Do pedido de orçamento à entrega</h2>
-        <p>Quatro etapas, com uma pessoa responsável pela sua carga em todas elas.</p>
+      <div class="sec-head" data-reveal>
+        <p class="kicker">Nosso armazém</p>
+        <h2 class="h-xl">Espaço para o seu estoque crescer.</h2>
+        <p class="lede">Você contrata por posição-palete e aumenta ou reduz o espaço conforme a demanda.</p>
+        <span class="ilustrativo">Dados ilustrativos</span>
       </div>
-      <ol class="clean etapas">
-        <li class="etapa"><span class="n">1</span><h3>Cotação</h3><p>Você informa origem, destino, peso e volume. A proposta chega em até 2 horas úteis.</p></li>
-        <li class="etapa"><span class="n">2</span><h3>Coleta</h3><p>Agendamos o horário e buscamos a carga no seu endereço, com nota fiscal conferida.</p></li>
-        <li class="etapa"><span class="n">3</span><h3>Transporte</h3><p>A carga segue com seguro e você acompanha a viagem pelo link de rastreamento.</p></li>
-        <li class="etapa"><span class="n">4</span><h3>Entrega</h3><p>Você recebe o comprovante assinado, com foto, assim que a mercadoria é entregue.</p></li>
-      </ol>
-    </div>
-  </section>
-
-  <section id="armazem">
-    <div class="wrap galpao">
-      <figure><img src="img/galpao.webp" width="1200" height="700" loading="lazy" alt="Interior de galpão logístico com estantes de paletes"></figure>
-      <div>
-        <p class="eyebrow" style="color:var(--muted)">Nosso armazém</p>
-        <h2 style="font-size:clamp(2rem,4.2vw,3rem);font-weight:800;text-transform:uppercase;margin-top:.5rem">Espaço para o seu estoque crescer</h2>
-        <p style="color:var(--muted);margin-top:1rem;max-width:52ch">Você contrata por posição-palete e aumenta ou reduz o espaço conforme a sua demanda.</p>
-        <dl class="ficha">
-          <div><dt>Área coberta</dt><dd>8.500 m²</dd></div>
-          <div><dt>Posições-palete</dt><dd>6.200</dd></div>
-          <div><dt>Docas</dt><dd>14</dd></div>
-          <div><dt>Funcionamento</dt><dd>24 h</dd></div>
-        </dl>
+      <div class="armazem-grid">
+        <figure class="armazem-foto" style="margin:0"><img src="img/galpao.webp" width="1200" height="700" loading="lazy" alt="Interior de galpão logístico com estantes de paletes"></figure>
+        <div class="armazem-texto">
+          <div class="dado" data-reveal><span class="num"><span data-count="8500">8.500</span><small>m²</small></span><h3>Área coberta</h3><p>Piso nivelado para empilhadeira e pé-direito alto para estantes de vários níveis.</p></div>
+          <div class="dado" data-reveal><span class="num"><span data-count="6200">6.200</span></span><h3>Posições-palete</h3><p>Cada palete tem endereço no sistema, então você sabe onde está cada produto.</p></div>
+          <div class="dado" data-reveal><span class="num"><span data-count="14">14</span></span><h3>Docas</h3><p>Carga e descarga ao mesmo tempo, sem fila de caminhão na porta.</p></div>
+          <div class="dado" data-reveal><span class="num"><span data-count="24">24</span><small>h</small></span><h3>Funcionamento</h3><p>Recebimento e expedição em três turnos, todos os dias da semana.</p></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="cotacao" id="cotacao">
-    <div class="wrap cot-grid">
-      <div>
-        <p class="eyebrow" style="color:var(--muted)">Orçamento</p>
-        <h2 style="font-size:clamp(2rem,4.2vw,3rem);font-weight:800;text-transform:uppercase;margin-top:.5rem">Peça seu orçamento</h2>
-        <p style="color:var(--muted);margin-top:1rem;max-width:48ch">Preencha os dados da carga. O pedido fica pronto para você enviar pelo WhatsApp ou copiar para o e-mail.</p>
-        <ul class="clean contato">
-          <li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-8l-4 4v-4H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span><div><small>WhatsApp</small><span class="v">(11) 90000-0000</span></div></li>
-          <li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><div><small>E-mail</small><span class="v">comercial@rodalto.com.br</span></div></li>
-          <li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><small>Armazém</small><span class="v">Guarulhos, SP</span></div></li>
-          <li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><small>Atendimento comercial</small><span class="v">Seg. a sex., 7h às 19h · Sáb., 8h às 12h</span></div></li>
-        </ul>
+  <section class="s-white" id="cotacao">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <p class="kicker">Orçamento</p>
+        <h2 class="h-xl">Peça seu orçamento.</h2>
+        <p class="lede">Preencha os dados da carga. O pedido fica pronto para enviar pelo WhatsApp.</p>
       </div>
-
-      <div>
+      <div class="cot-card" data-reveal>
+        <div>
+          <h3 style="font-size:1.6rem;font-weight:700">Fale com o comercial</h3>
+          <ul class="clean contato">
+            <li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-8l-4 4v-4H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span><div><small>WhatsApp</small><span class="v">(11) 90000-0000</span></div></li>
+            <li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><div><small>E-mail</small><span class="v">comercial@rodalto.com.br</span></div></li>
+            <li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><small>Armazém</small><span class="v">Guarulhos, SP</span></div></li>
+            <li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><small>Atendimento comercial</small><span class="v">Seg. a sex., 7h às 19h · Sáb., 8h às 12h</span></div></li>
+          </ul>
+          <p class="nota" style="margin-top:1.4rem">Telefone e e-mail de demonstração.</p>
+        </div>
         <form class="cot" id="form-cot" novalidate>
           <fieldset>
             <legend>Serviço</legend>
-            <div class="chips">
-              <label><input type="radio" name="servico" id="s-fechada" value="Carga fechada" checked> Carga fechada</label>
-              <label><input type="radio" name="servico" id="s-frac" value="Carga fracionada"> Carga fracionada</label>
-              <label><input type="radio" name="servico" id="s-arm" value="Armazenagem"> Armazenagem</label>
+            <div class="seg">
+              <label><input type="radio" name="servico" id="s-fechada" value="Carga fechada" checked>Carga fechada</label>
+              <label><input type="radio" name="servico" id="s-frac" value="Carga fracionada">Fracionada</label>
+              <label><input type="radio" name="servico" id="s-arm" value="Armazenagem">Armazenagem</label>
             </div>
           </fieldset>
           <div class="row">
@@ -295,25 +380,20 @@ footer .credito a{color:var(--on-navy)}
           <div class="field">
             <label for="tipo">Tipo de mercadoria</label>
             <select id="tipo" name="tipo">
-              <option>Carga geral (caixas, paletes)</option>
-              <option>Eletrônicos</option>
-              <option>Alimentos não perecíveis</option>
-              <option>Máquinas e peças</option>
-              <option>Móveis</option>
-              <option>Outro</option>
+              <option>Carga geral (caixas, paletes)</option><option>Eletrônicos</option><option>Alimentos não perecíveis</option><option>Máquinas e peças</option><option>Móveis</option><option>Outro</option>
             </select>
           </div>
           <div class="row">
             <div class="field"><label for="nome">Seu nome</label><input id="nome" name="nome" autocomplete="name" required><span class="msg"></span></div>
             <div class="field"><label for="tel">Telefone</label><input id="tel" name="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 9...." required><span class="msg"></span></div>
           </div>
-          <button class="btn btn-primary" type="submit" style="justify-self:start">Montar pedido de orçamento</button>
+          <button class="pill pill-navy" type="submit" style="justify-self:start">Montar pedido de orçamento</button>
           <div class="resultado" id="resultado" hidden aria-live="polite">
             <h3>Pedido pronto</h3>
             <pre id="texto"></pre>
             <div class="acoes">
-              <a class="btn btn-primary" id="wa" href="#" target="_blank" rel="noopener">Abrir no WhatsApp</a>
-              <button class="btn btn-navy" type="button" id="copiar">Copiar texto</button>
+              <a class="pill pill-amber" id="wa" href="#" target="_blank" rel="noopener">Abrir no WhatsApp</a>
+              <button class="pill pill-navy" type="button" id="copiar">Copiar texto</button>
             </div>
             <p class="nota" id="nota">Se o WhatsApp não abrir, copie o texto e envie para (11) 90000-0000.</p>
           </div>
@@ -326,11 +406,11 @@ footer .credito a{color:var(--on-navy)}
 <footer>
   <div class="wrap">
     <div class="cols">
-      <span><b style="color:var(--on-navy)">Rodalto Logística</b> · Transporte rodoviário e armazenagem · São Paulo, SP</span>
+      <span><b style="color:var(--on-dark)">Rodalto Logística</b> · Transporte rodoviário e armazenagem · São Paulo, SP</span>
       <span>Empresa fictícia criada como modelo de site.</span>
     </div>
     <p class="credito">Fotos do Unsplash:
-      <a href="https://unsplash.com/@bhargavpanchal1986" target="_blank" rel="noopener">Bhargav Panchal</a> (topo),
+      <a href="https://unsplash.com/@bhargavpanchal1986" target="_blank" rel="noopener">Bhargav Panchal</a> (topo e como funciona),
       <a href="https://unsplash.com/@brunovdkraan" target="_blank" rel="noopener">Bruno van der Kraan</a> (transporte),
       <a href="https://unsplash.com/@carmendis" target="_blank" rel="noopener">Lance Chang</a> (armazenagem),
       <a href="https://unsplash.com/@albertorodriguez" target="_blank" rel="noopener">Alberto Rodríguez</a> (galpão).
@@ -339,6 +419,91 @@ footer .credito a{color:var(--on-navy)}
 </footer>
 
 <script>
+/* ---------- Estilo suave (sem biblioteca) ---------- */
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root=document.documentElement;
+
+  // Menu translúcido depois de rolar
+  var nav=document.getElementById('nav');
+  function navState(){nav.classList.toggle('scrolled',scrollY>24);}
+  addEventListener('scroll',navState,{passive:true});navState();
+
+  // Parallax leve no topo
+  var media=document.getElementById('heroMedia'),ticking=false;
+  if(!reduce){
+    addEventListener('scroll',function(){
+      if(ticking)return;ticking=true;
+      requestAnimationFrame(function(){var y=Math.min(scrollY,innerHeight);media.style.transform='translate3d(0,'+(y*0.22)+'px,0)';ticking=false;});
+    },{passive:true});
+  }
+
+  // Números contando
+  function countUp(el){
+    var end=+el.dataset.count;if(reduce||!end){return;}
+    var t0=null,dur=1400;
+    function step(t){if(!t0)t0=t;var p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(end*e).toLocaleString('pt-BR');if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  }
+
+  // Entrada ao rolar: só esconde o que está abaixo da primeira tela
+  var items=[].slice.call(document.querySelectorAll('[data-reveal]'));
+  if(!('IntersectionObserver' in window)||reduce){
+    root.classList.add('no-reveal');return;
+  }
+  items.forEach(function(el){if(el.getBoundingClientRect().top<innerHeight*0.95)el.classList.add('in');});
+  root.classList.add('reveal-ready');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting)return;
+      var el=en.target;el.classList.add('in');io.unobserve(el);
+      el.querySelectorAll('[data-count]').forEach(countUp);
+    });
+  },{rootMargin:'0px 0px -12% 0px',threshold:0.08});
+  items.forEach(function(el){if(!el.classList.contains('in'))io.observe(el);});
+})();
+
+/* ---------- Modo Motion (GSAP): topo e "Como funciona" ---------- */
+addEventListener('DOMContentLoaded',function(){
+  if(!window.gsap||!window.ScrollTrigger)return; // sem GSAP: tudo já está visível
+  gsap.registerPlugin(ScrollTrigger);
+  var mm=gsap.matchMedia();
+  mm.add({motion:'(prefers-reduced-motion: no-preference)',mobile:'(max-width: 767px)'},function(ctx){
+    if(!ctx.conditions.motion)return;
+    var mobile=ctx.conditions.mobile;
+
+    // Topo como um comercial: 1 cena curta e depois a frase principal com o botão
+    var tl=gsap.timeline({defaults:{ease:'expo.out'}});
+    tl.from('#heroKicker',{autoAlpha:0,y:12,duration:.6},0.1)
+      .fromTo('#scene1 .w',{autoAlpha:0,y:18,filter:'blur(8px)'},{autoAlpha:1,y:0,filter:'blur(0px)',stagger:.08,duration:.6},0.15)
+      .to('#scene1',{autoAlpha:0,y:-14,filter:'blur(8px)',duration:.35,ease:'power2.in'},'+=0.45')
+      .from('#heroTitle .w',{autoAlpha:0,y:24,filter:'blur(8px)',stagger:.06,duration:.6},'-=0.1')
+      .from(['#heroLead','#heroCtas','#heroMarks'],{autoAlpha:0,y:16,stagger:.08,duration:.55},'-=0.55')
+      .from('#heroImg',{scale:1.12,duration:2.6,ease:'power2.out'},0);
+
+    // Destaque: seção travada, etapas trocando com a rolagem e o caminhão andando
+    var sec=document.getElementById('processo');
+    sec.classList.add('pinmode');
+    var steps=gsap.utils.toArray('#steps .step'),road=document.getElementById('road'),truck=document.getElementById('truck'),cont=document.getElementById('contador');
+    gsap.set(steps.slice(1),{autoAlpha:0,y:30,filter:'blur(8px)'});
+    var pt=gsap.timeline({
+      scrollTrigger:{trigger:sec,start:'top top',end:function(){return '+='+Math.round(innerHeight*(mobile?1.5:2.2));},pin:true,scrub:0.6,invalidateOnRefresh:true},
+      onUpdate:function(){var i=Math.max(0,Math.min(3,Math.floor(pt.time()+0.05)));var t='Etapa '+(i+1)+' de 4';if(cont.textContent!==t)cont.textContent=t;}
+    });
+    pt.to(truck,{x:function(){return road.clientWidth-truck.getBoundingClientRect().width;},ease:'none',duration:3},0);
+    for(var i=1;i<steps.length;i++){
+      pt.to(steps[i-1],{autoAlpha:0,y:-30,filter:'blur(8px)',duration:.4,ease:'power2.in'},i-0.25)
+        .to(steps[i],{autoAlpha:1,y:0,filter:'blur(0px)',duration:.4,ease:'power3.out'},i-0.05);
+    }
+    return function(){sec.classList.remove('pinmode');};
+  });
+  var refresh=function(){ScrollTrigger.refresh();};
+  addEventListener('load',refresh);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(refresh);
+});
+
+/* ---------- Orçamento ---------- */
 (function(){
   var f=document.getElementById('form-cot'),res=document.getElementById('resultado'),txt=document.getElementById('texto'),
       wa=document.getElementById('wa'),cp=document.getElementById('copiar'),nota=document.getElementById('nota');
@@ -353,11 +518,10 @@ footer .credito a{color:var(--on-navy)}
     var digits=v('tel').replace(/\D/g,'');var badT=digits.length<10;setErr('tel',badT?'Informe o telefone com DDD.':'');if(badT)ok=false;
     if(!ok){var first=f.querySelector('.field.err input');if(first)first.focus();return;}
     var serv=f.querySelector('input[name=servico]:checked').value,vol=num(v('volume'));
-    var linhas=['Olá, Rodalto! Quero um orçamento.','','Serviço: '+serv,'Origem: '+v('origem'),'Destino: '+v('destino'),
+    var t=['Olá, Rodalto! Quero um orçamento.','','Serviço: '+serv,'Origem: '+v('origem'),'Destino: '+v('destino'),
       'Peso: '+p.toLocaleString('pt-BR')+' kg','Volume: '+(vol>0?vol.toLocaleString('pt-BR')+' m³':'não informado'),
-      'Mercadoria: '+v('tipo'),'','Nome: '+v('nome'),'Telefone: '+v('tel')];
-    var t=linhas.join('\n');txt.textContent=t;
-    wa.href='https://wa.me/'+WHATS+'?text='+encodeURIComponent(t);
+      'Mercadoria: '+v('tipo'),'','Nome: '+v('nome'),'Telefone: '+v('tel')].join('\n');
+    txt.textContent=t;wa.href='https://wa.me/'+WHATS+'?text='+encodeURIComponent(t);
     res.hidden=false;nota.textContent='Se o WhatsApp não abrir, copie o texto e envie para (11) 90000-0000.';
     res.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
   });

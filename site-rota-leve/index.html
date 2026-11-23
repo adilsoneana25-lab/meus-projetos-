@@ -68,7 +68,12 @@ nav{display:flex;align-items:center;gap:24px;padding:22px 36px}
 .track-msg{font-size:.85rem;color:var(--muted);margin-top:10px;min-height:1.4em}
 
 /* celular */
-.phone-zone{position:relative;display:flex;justify-content:center;min-width:0}
+.phone-zone{position:relative;display:flex;justify-content:flex-end;align-items:center;min-width:0;min-height:460px}
+.truck-photo{position:absolute;left:0;top:50%;margin:0;width:min(340px,72%);aspect-ratio:1;translate:0 -50%;border-radius:50%;padding:10px;background:var(--card);box-shadow:0 0 0 1px var(--line),0 40px 60px -30px rgba(20,40,80,.5);animation:photoIn 1.1s .2s cubic-bezier(.2,.8,.2,1) both}
+.truck-photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;animation:kenburns 18s ease-in-out infinite alternate}
+@keyframes photoIn{from{transform:scale(.7);opacity:.2}}
+@keyframes kenburns{to{transform:scale(1.12)}}
+.phone-zone .phone{position:relative;z-index:2;margin-right:6%}
 .phone{width:240px;max-width:100%;aspect-ratio:9/18.5;background:var(--phone);border-radius:38px;padding:10px;box-shadow:0 40px 60px -25px rgba(10,20,40,.55);transform:rotate(-6deg);animation:float 6s ease-in-out infinite}
 @keyframes float{50%{transform:rotate(-6deg) translateY(-14px)}}
 .screen{height:100%;background:#f6f9fd;border-radius:30px;overflow:hidden;color:#151a24;padding:16px 14px;display:flex;flex-direction:column;gap:12px;font-size:.66rem}
@@ -109,8 +114,12 @@ section{padding-block:88px 0}
 .sec-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-top:6px}
 .sec-head p{color:var(--muted);margin:12px 0 0}
 .services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.service{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;transition:transform .25s,box-shadow .25s}
+.svc-img{display:block;width:100%;height:auto;aspect-ratio:64/42;max-width:100%;object-fit:cover;border-radius:16px;margin-bottom:4px;transition:transform .6s}
+.service{overflow:hidden}
+.service:hover .svc-img{transform:scale(1.04)}
+.service{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px 14px 24px;transition:transform .25s,box-shadow .25s}
 .service:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.service h3,.service p,.service .meta{padding-inline:10px}
 .service h3{font-size:1.2rem;margin:18px 0 8px}
 .service p{color:var(--muted);margin:0;font-size:.95rem}
 .service .meta{margin-top:16px;font-size:.8rem;font-weight:600;color:var(--accent)}
@@ -124,6 +133,11 @@ section{padding-block:88px 0}
 .flow p{margin:0;color:var(--muted);font-size:.93rem}
 .flow{padding:0;margin:0}
 
+.band{position:relative;margin:0;border-radius:28px;overflow:hidden;aspect-ratio:2/1;max-width:100%;box-shadow:var(--shadow)}
+.band img{display:block;width:100%;height:100%;object-fit:cover}
+.band figcaption{position:absolute;left:24px;bottom:24px;right:24px;max-width:440px;background:rgba(12,18,30,.72);color:#fff;padding:18px 22px;border-radius:18px;display:grid;gap:4px;backdrop-filter:blur(6px)}
+.band figcaption strong{font-family:var(--display);font-size:1.25rem}
+.band figcaption span{opacity:.85;font-size:.92rem}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;background:var(--btn);color:var(--btn-ink);border-radius:28px;padding:44px}
 .stats div{min-width:0}
 .stats strong{display:block;font:700 clamp(1.8rem,3.5vw,2.6rem) var(--display);font-variant-numeric:tabular-nums}
@@ -148,6 +162,7 @@ input,select,textarea{font:inherit;color:var(--ink);background:var(--sky-bottom)
 textarea{min-height:110px;resize:vertical}
 .form-msg{grid-column:1/-1;font-size:.9rem;color:var(--accent);min-height:1.4em;margin:0}
 
+footer.site .credits{flex-basis:100%;opacity:.8}
 footer.site{padding-block:56px 40px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 @media (max-width:900px){
@@ -158,9 +173,13 @@ footer.site{padding-block:56px 40px;color:var(--muted);font-size:.85rem;display:
   .flow,.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .flow li::after{display:none}
   .contact{grid-template-columns:1fr;padding:28px}
-  .phone-zone{margin-top:24px}
+  .phone-zone{margin-top:24px;min-height:420px}
+  .truck-photo{width:min(300px,78%)}
+  .phone-zone .phone{width:190px;margin-right:0}
 }
 @media (max-width:480px){
+  .band{aspect-ratio:4/5}
+  .band figcaption{left:12px;right:12px;bottom:12px}
   .auth .btn-ghost{display:none}
   form{grid-template-columns:1fr}
   .stats{padding:28px;grid-template-columns:1fr 1fr}
@@ -215,6 +234,7 @@ footer.site{padding-block:56px 40px;color:var(--muted);font-size:.85rem;display:
         </div>
 
         <div class="phone-zone reveal d3" aria-label="Exemplo do aplicativo de rastreio">
+          <figure class="truck-photo"><img src="img/hero-carregamento.jpg" alt="Empilhadeira carregando paletes num caminhão em frente ao galpão" width="760" height="760"></figure>
           <div class="phone">
             <div class="screen">
               <div class="top"><span>☰</span><span>Olá, Marina</span><span class="avatar"></span></div>
@@ -256,19 +276,19 @@ footer.site{padding-block:56px 40px;color:var(--muted);font-size:.85rem;display:
     </div>
     <div class="services">
       <article class="service">
-        <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span>
+        <img class="svc-img" src="img/carga-fracionada.jpg" alt="Empilhadeira levando paletes para dentro do baú do caminhão" width="640" height="420" loading="lazy">
         <h3>Carga fracionada</h3>
         <p>Pague só pelo espaço que usar. Ideal para e-commerce e distribuidores com volumes variados.</p>
         <div class="meta">A partir de 1 volume</div>
       </article>
       <article class="service">
-        <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l9-6 9 6v12"/><path d="M8 21v-7h8v7"/></svg></span>
+        <img class="svc-img" src="img/armazenagem.jpg" alt="Galpão com porta-paletes cheios e empilhadeira no corredor" width="640" height="420" loading="lazy">
         <h3>Armazenagem</h3>
         <p>Galpão com controle de estoque, separação e expedição no mesmo dia do pedido.</p>
         <div class="meta">Recebimento conferido por NF-e</div>
       </article>
       <article class="service">
-        <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+        <img class="svc-img" src="img/ultima-milha.jpg" alt="Entregador carregando caixas pela rua até o destinatário" width="640" height="420" loading="lazy">
         <h3>Última milha</h3>
         <p>Entrega na porta do consumidor com foto e assinatura digital como comprovante.</p>
         <div class="meta">Comprovante em até 2 h</div>
@@ -287,6 +307,13 @@ footer.site{padding-block:56px 40px;color:var(--muted);font-size:.85rem;display:
       <li><h3>Transporte</h3><p>Emitimos CT-e e MDF-e, e você acompanha cada etapa pelo código de rastreio.</p></li>
       <li><h3>Entrega</h3><p>Seu cliente recebe e você recebe o comprovante digital na hora.</p></li>
     </ol>
+  </section>
+
+  <section aria-label="Nossa operação">
+    <figure class="band">
+      <img src="img/galpao-operacao.jpg" alt="Empilhadeira transportando uma caixa paletizada dentro do galpão" width="1200" height="600" loading="lazy">
+      <figcaption><strong>Galpão próprio de 6.000 m²</strong><span>Recebimento conferido por NF-e, separação e expedição no mesmo dia.</span></figcaption>
+    </figure>
   </section>
 
   <section aria-label="Números da empresa">
@@ -342,6 +369,7 @@ footer.site{padding-block:56px 40px;color:var(--muted);font-size:.85rem;display:
 <footer class="site wrap">
   <span>© 2026 Rota Leve Logística · CNPJ 00.000.000/0001-00</span>
   <span>Textos e números de exemplo: substitua pelos dados do cliente.</span>
+  <small class="credits">Fotos: Unsplash (Krisana Nakajo, Elevate, AFINIS Group, Maarten van den Heuvel).</small>
 </footer>
 
 <script>

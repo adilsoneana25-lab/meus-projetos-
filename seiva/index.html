@@ -87,12 +87,13 @@ a{color:inherit}
 .frames{position:absolute;inset:0}
 .frame{position:absolute;inset:-5%;background-size:cover;background-position:center;opacity:0;will-change:transform,opacity;transform:translateZ(0)}
 .frame:first-child{opacity:1}
+.frame:last-child{z-index:2}
 #hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s var(--ease-out);will-change:transform;transform:translateZ(0)}
 .stage.video-ready #hero-video{opacity:1}
-.scrim{position:absolute;inset:0;pointer-events:none;background:
+.scrim{position:absolute;inset:0;z-index:3;pointer-events:none;background:
   linear-gradient(90deg,rgba(8,16,11,.6) 0%,rgba(8,16,11,.42) 38%,rgba(8,16,11,.12) 58%,rgba(8,16,11,0) 72%),
   radial-gradient(ellipse 120% 90% at 50% 45%,rgba(8,16,11,0) 40%,rgba(8,16,11,.55) 100%);}
-.band{position:absolute;left:clamp(20px,6vw,96px);top:50%;transform:translateY(-50%);width:min(600px,46vw);color:var(--on-dark);text-shadow:var(--tshadow);opacity:0;pointer-events:none}
+.band{position:absolute;z-index:4;left:clamp(20px,6vw,96px);top:50%;transform:translateY(-50%);width:min(600px,46vw);color:var(--on-dark);text-shadow:var(--tshadow);opacity:0;pointer-events:none}
 .band.live-pe{pointer-events:auto}
 .band::before{content:"";position:absolute;inset:-70% -36% -70% -60%;z-index:-1;pointer-events:none;opacity:calc(.25 + .75*var(--k,1));background:radial-gradient(ellipse 56% 50% at 46% 50%,rgba(6,12,8,var(--sa,.6)) 0%,rgba(6,12,8,calc(var(--sa,.6)*.9)) 34%,rgba(6,12,8,calc(var(--sa,.6)*.55)) 58%,rgba(6,12,8,calc(var(--sa,.6)*.2)) 78%,rgba(6,12,8,0) 96%)}
 .kicker{display:inline-block;font:400 13px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#E7C793;margin-bottom:18px}
@@ -113,7 +114,7 @@ a{color:inherit}
 .b4 .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*3,1);opacity:var(--kc);transform:translateY(calc((1 - var(--kc))*28px))}
 .b4 .sub{--ks:clamp(0,(var(--k,0) - .62)*4,1);opacity:var(--ks);transform:translateY(calc((1 - var(--ks))*14px));font-size:clamp(17px,1.4vw,20px);line-height:1.55;margin:20px 0 0;max-width:42ch;color:#E8ECE4}
 .b4 .row{--kb:clamp(0,(var(--k,0) - .78)*5,1);opacity:var(--kb);transform:translateY(calc((1 - var(--kb))*12px));margin-top:28px}
-.cue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);color:var(--on-dark);font:400 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px;text-shadow:0 1px 6px rgba(0,0,0,.6);transition:opacity .5s var(--ease-out)}
+.cue{position:absolute;z-index:4;left:50%;bottom:26px;transform:translateX(-50%);color:var(--on-dark);font:400 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px;text-shadow:0 1px 6px rgba(0,0,0,.6);transition:opacity .5s var(--ease-out)}
 .cue i{width:1.5px;height:38px;background:linear-gradient(var(--on-dark),transparent);animation:cue 2.4s var(--ease-io) infinite;animation-delay:-.6s;transform-origin:top}
 @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 .cue.gone{opacity:0}
@@ -532,8 +533,9 @@ html.rm .stage-note{opacity:1;transform:none}
 (() => {
   'use strict';
   /* Vídeo do topo: deixe null enquanto não houver vídeo. Com vídeo, use 'assets/hero-scrub.mp4' e o tamanho em bytes. */
-  const HERO_VIDEO = null;
-  const VIDEO_BYTES = 0;
+  const HERO_VIDEO = 'assets/hero-scrub.mp4';
+  const VIDEO_BYTES = 6147685;
+  const VIDEO_END = 0.80;   /* o vídeo termina aqui; depois ele se funde com a foto do frasco */
 
   const WA = 'https://wa.me/?text=' + encodeURIComponent('Olá! Quero o kit de amostras da Seiva.');
   document.querySelectorAll('a.wa').forEach(a => { a.href = WA; });
@@ -658,14 +660,14 @@ html.rm .stage-note{opacity:1;transform:none}
     clearTimeout(watchdog);
     video.src = URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
     video.load();
-    video.addEventListener('canplay', () => { requestSeek(shown * video.duration); stage.classList.add('video-ready'); }, { once: true });
+    video.addEventListener('canplay', () => { requestSeek(clamp(shown / VIDEO_END, 0, 1) * video.duration); stage.classList.add('video-ready'); }, { once: true });
   }
 
   /* ---- loop suave que descansa ---- */
   let target = 0, shown = 0, rafId = null, lastTick = 0, heroOnScreen = true;
   function render(p){
     renderFrames(p);
-    if (HERO_VIDEO && stage.classList.contains('video-ready')) requestSeek(p * video.duration);
+    if (HERO_VIDEO && stage.classList.contains('video-ready')) requestSeek(clamp(p / VIDEO_END, 0, 1) * video.duration);
     updateCaptions(p);
   }
   function tick(now){

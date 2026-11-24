@@ -8,4 +8,4 @@ Abra `adega/index.html` no navegador; não precisa de instalação.
 - Menu de tela cheia, busca e rodapé em acordeão no celular
 - Sacola com contador e aviso
 - Verificação de idade (+18) e avisos legais de consumo de álcool
-- Garrafas desenhadas em SVG, sem imagens externas
+- Fotos reais do Unsplash (licença gratuita, uso comercial permitido) em `adega/img/`, com créditos no rodapé

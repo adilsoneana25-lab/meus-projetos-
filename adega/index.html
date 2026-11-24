@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adega Prima — Vinhos, espumantes e destilados</title>
+  <meta name="description" content="Adega Prima: vinhos, espumantes, destilados e cervejas especiais com curadoria, entrega refrigerada e atendimento de sommelier.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Ícones e garrafas reutilizáveis -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="shine" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".22" stop-color="#fff" stop-opacity=".35"/>
+      <stop offset=".32" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".85" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".35"/>
+    </linearGradient>
+  </defs>
+  <symbol id="logo" viewBox="0 0 24 24"><path fill="currentColor" d="M7 2h10l-.6 6.2A4.5 4.5 0 0 1 13 12.3V19h3v2H8v-2h3v-6.7a4.5 4.5 0 0 1-3.4-4.1L7 2Zm2.2 2 .4 4h4.8l.4-4H9.2Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13Zm4.6-1.9L20 20"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M5 8h14l-1 13H6L5 8Zm4 0V6.5a3 3 0 0 1 6 0V8"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6"/></symbol>
+
+  <symbol id="b-wine" viewBox="0 0 100 340">
+    <path fill="var(--glass,#3b0d14)" d="M42 8h16v104c0 30 25 40 25 75v137q0 8-8 8H25q-8 0-8-8V187c0-35 25-45 25-75Z"/>
+    <rect x="41" y="6" width="18" height="58" rx="2" fill="var(--foil,#7a1020)"/>
+    <rect x="21" y="200" width="58" height="78" rx="2" fill="var(--label,#f4efe6)"/>
+    <rect x="31" y="218" width="38" height="3" fill="var(--ink,#7a1020)"/>
+    <rect x="35" y="228" width="30" height="2" fill="var(--ink,#7a1020)" opacity=".5"/>
+    <rect x="35" y="258" width="30" height="2" fill="var(--ink,#7a1020)" opacity=".5"/>
+    <path fill="url(#shine)" d="M42 8h16v104c0 30 25 40 25 75v137q0 8-8 8H25q-8 0-8-8V187c0-35 25-45 25-75Z"/>
+  </symbol>
+  <symbol id="b-sparkling" viewBox="0 0 100 340">
+    <path fill="var(--glass,#1f3b22)" d="M41 10h18v70c0 50 27 60 27 100v144q0 8-8 8H22q-8 0-8-8V180c0-40 27-50 27-100Z"/>
+    <path fill="var(--foil,#c9a24b)" d="M39 4h22v100c0 14-6 22-11 22s-11-8-11-22Z"/>
+    <rect x="18" y="210" width="64" height="70" rx="2" fill="var(--label,#f6f1e3)"/>
+    <rect x="30" y="228" width="40" height="3" fill="var(--ink,#8c6a1e)"/>
+    <rect x="36" y="240" width="28" height="2" fill="var(--ink,#8c6a1e)" opacity=".5"/>
+    <path fill="url(#shine)" d="M41 10h18v70c0 50 27 60 27 100v144q0 8-8 8H22q-8 0-8-8V180c0-40 27-50 27-100Z"/>
+  </symbol>
+  <symbol id="b-spirit" viewBox="0 0 100 340">
+    <rect x="38" y="6" width="24" height="26" rx="3" fill="var(--foil,#2b1a0e)"/>
+    <path fill="var(--glass,#a8561c)" d="M40 32h20v40q0 10 14 14 12 3 12 15v223q0 8-8 8H22q-8 0-8-8V101q0-12 12-15 14-4 14-14Z"/>
+    <rect x="22" y="170" width="56" height="96" rx="2" fill="var(--label,#111)"/>
+    <rect x="32" y="196" width="36" height="3" fill="var(--ink,#d8b46a)"/>
+    <rect x="38" y="208" width="24" height="2" fill="var(--ink,#d8b46a)" opacity=".6"/>
+    <path fill="url(#shine)" d="M40 32h20v40q0 10 14 14 12 3 12 15v223q0 8-8 8H22q-8 0-8-8V101q0-12 12-15 14-4 14-14Z"/>
+  </symbol>
+  <symbol id="b-beer" viewBox="0 0 100 340">
+    <path fill="var(--glass,#5a3208)" d="M42 60h16v50c0 28 20 34 20 60v154q0 8-8 8H30q-8 0-8-8V170c0-26 20-32 20-60Z"/>
+    <rect x="40" y="54" width="20" height="12" rx="2" fill="var(--foil,#d9a441)"/>
+    <rect x="22" y="210" width="56" height="72" rx="2" fill="var(--label,#d9a441)"/>
+    <rect x="32" y="232" width="36" height="3" fill="var(--ink,#3a1f04)"/>
+    <path fill="url(#shine)" d="M42 60h16v50c0 28 20 34 20 60v154q0 8-8 8H30q-8 0-8-8V170c0-26 20-32 20-60Z"/>
+  </symbol>
+</svg>
+
+<a class="skip" href="#conteudo">Ir para o conteúdo principal</a>
+
+<!-- ============ TOPO (navegação global) ============ -->
+<nav class="gnav" id="gnav" aria-label="Global">
+  <div class="gnav-inner">
+    <a class="gnav-logo" href="#" aria-label="Adega Prima"><svg><use href="#logo"/></svg></a>
+    <ul class="gnav-list" id="gnav-list">
+      <li><a href="#loja">Loja</a></li>
+      <li><a href="#tintos">Vinhos</a></li>
+      <li><a href="#espumantes">Espumantes</a></li>
+      <li><a href="#destilados">Destilados</a></li>
+      <li><a href="#cervejas">Cervejas</a></li>
+      <li><a href="#kits">Kits</a></li>
+      <li><a href="#acessorios">Acessórios</a></li>
+      <li><a href="#experiencias">Experiências</a></li>
+      <li><a href="#suporte">Suporte</a></li>
+    </ul>
+    <div class="gnav-actions">
+      <button class="gnav-btn" id="search-btn" aria-label="Buscar"><svg><use href="#i-search"/></svg></button>
+      <button class="gnav-btn bag" id="bag-btn" aria-label="Sacola"><svg><use href="#i-bag"/></svg><span class="bag-count" id="bag-count" hidden>0</span></button>
+      <button class="gnav-menu" id="menu-btn" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="flyout" id="search-flyout" hidden>
+    <div class="flyout-inner">
+      <form role="search" onsubmit="return false">
+        <svg><use href="#i-search"/></svg>
+        <input type="search" placeholder="Buscar na adega" aria-label="Buscar na adega">
+      </form>
+      <p class="flyout-label">Links rápidos</p>
+      <ul>
+        <li><a href="#tintos">→ Tintos da semana</a></li>
+        <li><a href="#kits">→ Kits para presente</a></li>
+        <li><a href="#experiencias">→ Degustações</a></li>
+        <li><a href="#suporte">→ Rastrear pedido</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="scrim" id="scrim" hidden></div>
+
+<!-- Faixa de aviso -->
+<div class="ribbon"><p>Frete refrigerado grátis em compras acima de R$ 299. <a href="#loja">Comprar agora <svg><use href="#i-chev"/></svg></a></p></div>
+
+<main id="conteudo">
+
+  <!-- HERO 1 -->
+  <section class="hero light" id="tintos">
+    <div class="hero-copy reveal">
+      <h2 class="eyebrow">Novo</h2>
+      <h1>Reserva Malbec 2021</h1>
+      <p class="sub">Intenso. Elegante. Inesquecível.</p>
+      <div class="ctas"><a class="btn" href="#tintos">Saiba mais</a><a class="btn ghost" data-add="Reserva Malbec 2021" href="#">Comprar</a></div>
+    </div>
+    <div class="hero-art reveal">
+      <svg class="bottle b-tilt-l" style="--glass:#2a0910;--foil:#5c0b17"><use href="#b-wine"/></svg>
+      <svg class="bottle big" style="--glass:#3b0d14;--foil:#7a1020"><use href="#b-wine"/></svg>
+      <svg class="bottle b-tilt-r" style="--glass:#1f080d;--foil:#3a0610;--label:#e9dfcc"><use href="#b-wine"/></svg>
+    </div>
+  </section>
+
+  <!-- HERO 2 -->
+  <section class="hero dark" id="espumantes">
+    <div class="hero-copy reveal">
+      <h2 class="eyebrow gold">Edição Brut Nature</h2>
+      <h1>Espumantes.</h1>
+      <p class="sub">Perlage fino. Celebração em cada taça.</p>
+      <div class="ctas"><a class="btn" href="#espumantes">Saiba mais</a><a class="btn ghost light" data-add="Espumante Brut Nature" href="#">Comprar</a></div>
+    </div>
+    <div class="hero-art reveal">
+      <svg class="bottle" style="--glass:#18301b"><use href="#b-sparkling"/></svg>
+      <svg class="bottle big" style="--glass:#0f2412;--foil:#d8b55e"><use href="#b-sparkling"/></svg>
+      <svg class="bottle" style="--glass:#e8e0c8;--foil:#c9a24b;--label:#1b1b1b;--ink:#c9a24b"><use href="#b-sparkling"/></svg>
+    </div>
+  </section>
+
+  <!-- GRADE DE TILES -->
+  <section class="tiles" id="loja" aria-label="Destaques">
+    <article class="tile cream reveal" id="destilados">
+      <h2>Single Malt 12 anos</h2>
+      <p class="sub">Defumado na medida certa.</p>
+      <div class="ctas"><a class="btn" href="#destilados">Saiba mais</a><a class="btn ghost" data-add="Single Malt 12 anos" href="#">Comprar</a></div>
+      <div class="tile-art"><svg class="bottle" style="--glass:#b2621f"><use href="#b-spirit"/></svg></div>
+    </article>
+
+    <article class="tile black reveal">
+      <h2>Gin Botânico</h2>
+      <p class="sub">Cítrico, floral e brasileiro.</p>
+      <div class="ctas"><a class="btn" href="#destilados">Saiba mais</a><a class="btn ghost light" data-add="Gin Botânico" href="#">Comprar</a></div>
+      <div class="tile-art"><svg class="bottle" style="--glass:#9fd3c7;--foil:#0e3b36;--label:#0e3b36;--ink:#cfeee6"><use href="#b-spirit"/></svg></div>
+    </article>
+
+    <article class="tile amber reveal" id="cervejas">
+      <h2>Cervejas Especiais</h2>
+      <p class="sub">IPA, Weiss, Stout. Direto das cervejarias.</p>
+      <div class="ctas"><a class="btn" href="#cervejas">Saiba mais</a><a class="btn ghost" data-add="Kit Cervejas Especiais" href="#">Comprar</a></div>
+      <div class="tile-art row">
+        <svg class="bottle sm"><use href="#b-beer"/></svg>
+        <svg class="bottle sm" style="--glass:#1a0e05;--label:#f2efe9;--ink:#1a0e05"><use href="#b-beer"/></svg>
+        <svg class="bottle sm" style="--glass:#7a4a12;--label:#2d5a3d;--ink:#f2efe9"><use href="#b-beer"/></svg>
+      </div>
+    </article>
+
+    <article class="tile rose reveal">
+      <h2>Rosés de Provence</h2>
+      <p class="sub">O verão, engarrafado.</p>
+      <div class="ctas"><a class="btn" href="#tintos">Saiba mais</a><a class="btn ghost" data-add="Rosé de Provence" href="#">Comprar</a></div>
+      <div class="tile-art"><svg class="bottle" style="--glass:#f2a8a2;--foil:#e4cfc9;--ink:#b5524a"><use href="#b-wine"/></svg></div>
+    </article>
+
+    <article class="tile white reveal" id="kits">
+      <h2>Kits para presente</h2>
+      <p class="sub">Caixa de madeira, cartão e entrega no dia.</p>
+      <div class="ctas"><a class="btn" href="#kits">Montar kit</a><a class="btn ghost" data-add="Kit Presente Duo" href="#">Comprar</a></div>
+      <div class="tile-art row">
+        <svg class="bottle sm2" style="--glass:#3b0d14"><use href="#b-wine"/></svg>
+        <svg class="bottle sm2" style="--glass:#e7e2c9;--foil:#c9a24b;--label:#fff"><use href="#b-wine"/></svg>
+      </div>
+    </article>
+
+    <article class="tile navy reveal" id="experiencias">
+      <h2>Clube Prima</h2>
+      <p class="sub">3 rótulos por mês, escolhidos por sommelier.</p>
+      <div class="ctas"><a class="btn" href="#experiencias">Saiba mais</a><a class="btn ghost light" data-add="Assinatura Clube Prima" href="#">Assinar</a></div>
+      <div class="tile-art"><p class="price-big">a partir de<br><strong>R$ 189/mês</strong></p></div>
+    </article>
+  </section>
+
+  <!-- Por que comprar -->
+  <section class="why" id="acessorios">
+    <h2 class="section-title reveal">Por que comprar na Adega Prima.</h2>
+    <div class="cards">
+      <div class="card reveal"><span class="ico">❄︎</span><h3>Entrega refrigerada</h3><p>Seu vinho viaja a 14 °C, do nosso estoque à sua porta.</p></div>
+      <div class="card reveal"><span class="ico">✦</span><h3>Sommelier on-line</h3><p>Harmonização personalizada por chat, de graça.</p></div>
+      <div class="card reveal"><span class="ico">↺</span><h3>Troca sem custo</h3><p>Garrafa com defeito? Trocamos em até 30 dias.</p></div>
+      <div class="card reveal"><span class="ico">%</span><h3>Até 10x sem juros</h3><p>Pix com 5% de desconto em qualquer pedido.¹</p></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ RODAPÉ ============ -->
+<footer class="gfooter" id="suporte">
+  <div class="gfooter-inner">
+    <section class="footnotes">
+      <ol>
+        <li>Desconto de 5% no Pix aplicado sobre o valor dos produtos, não cumulativo com outras promoções. Parcelamento em até 10x sem juros no cartão para compras acima de R$ 500.</li>
+        <li>Frete refrigerado grátis para capitais e regiões metropolitanas, em compras acima de R$ 299. Consulte disponibilidade para seu CEP.</li>
+      </ol>
+      <p class="legal-warning"><strong>Venda e consumo proibidos para menores de 18 anos.</strong> Se beber, não dirija. Aprecie com moderação.</p>
+    </section>
+
+    <nav class="breadcrumbs" aria-label="Trilha">
+      <svg><use href="#logo"/></svg><svg class="chev"><use href="#i-chev"/></svg><span>Início</span>
+    </nav>
+
+    <nav class="directory" aria-label="Mapa do site">
+      <div class="col">
+        <h3><button aria-expanded="false">Comprar e Explorar</button></h3>
+        <ul>
+          <li><a href="#tintos">Vinhos tintos</a></li><li><a href="#tintos">Vinhos brancos</a></li><li><a href="#tintos">Rosés</a></li>
+          <li><a href="#espumantes">Espumantes</a></li><li><a href="#destilados">Destilados</a></li><li><a href="#cervejas">Cervejas</a></li>
+          <li><a href="#acessorios">Acessórios</a></li><li><a href="#kits">Kits e presentes</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3><button aria-expanded="false">Conta</button></h3>
+        <ul><li><a href="#">Gerenciar sua conta</a></li><li><a href="#">Conta Adega Prima</a></li><li><a href="#">Meus pedidos</a></li></ul>
+        <h3><button aria-expanded="false">Clube</button></h3>
+        <ul><li><a href="#experiencias">Clube Prima</a></li><li><a href="#">Gerenciar assinatura</a></li><li><a href="#">Benefícios</a></li></ul>
+      </div>
+      <div class="col">
+        <h3><button aria-expanded="false">Loja Adega Prima</button></h3>
+        <ul>
+          <li><a href="#">Encontrar uma loja</a></li><li><a href="#experiencias">Degustações e cursos</a></li><li><a href="#">Sommelier on-line</a></li>
+          <li><a href="#">Formas de pagamento</a></li><li><a href="#">Status do pedido</a></li><li><a href="#">Ajuda para comprar</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3><button aria-expanded="false">Para Empresas</button></h3>
+        <ul><li><a href="#">Restaurantes e bares</a></li><li><a href="#">Presentes corporativos</a></li><li><a href="#">Eventos</a></li></ul>
+        <h3><button aria-expanded="false">Valores</button></h3>
+        <ul><li><a href="#">Consumo responsável</a></li><li><a href="#">Produtores locais</a></li><li><a href="#">Meio ambiente</a></li></ul>
+      </div>
+      <div class="col">
+        <h3><button aria-expanded="false">Sobre a Adega Prima</button></h3>
+        <ul><li><a href="#">Nossa história</a></li><li><a href="#">Trabalhe conosco</a></li><li><a href="#">Imprensa</a></li><li><a href="#">Contato</a></li></ul>
+      </div>
+    </nav>
+
+    <p class="more-ways">Mais formas de comprar: <a href="#">encontre uma loja</a> perto de você. Ou ligue para (11) 4000-0000.</p>
+
+    <div class="legal">
+      <p class="copyright">Copyright © <span id="year">2026</span> Adega Prima. Todos os direitos reservados.</p>
+      <ul class="legal-links">
+        <li><a href="#">Política de Privacidade</a></li><li><a href="#">Termos de Uso</a></li><li><a href="#">Vendas e Reembolsos</a></li><li><a href="#">Mapa do Site</a></li>
+      </ul>
+      <a class="locale" href="#">Brasil</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Verificação de idade -->
+<div class="age" id="age" hidden>
+  <div class="age-card" role="dialog" aria-modal="true" aria-labelledby="age-title">
+    <svg class="age-logo"><use href="#logo"/></svg>
+    <h2 id="age-title">Você tem 18 anos ou mais?</h2>
+    <p>A venda de bebidas alcoólicas é proibida para menores de 18 anos.</p>
+    <div class="ctas"><button class="btn" id="age-yes">Sim, tenho 18+</button><button class="btn ghost" id="age-no">Não</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

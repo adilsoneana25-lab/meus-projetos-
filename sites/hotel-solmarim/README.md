@@ -1,6 +1,6 @@
-# Maré Alta Hotel & Spa
+# Solmarim Hotel & Spa
 
-Site de demonstração de um hotel à beira-mar (fictício) na Costa do Dendê, Bahia.
+Site de demonstração de um hotel fictício à beira-mar. O nome, a Enseada de Coruípe, Porto Coral e todos os contatos são inventados.
 Layout, cores e animações foram estudados no site do MDS Collective (indicado no Awwwards)
 com a skill `reanimate`. Os textos, o nome e as fotos são próprios: nada da marca de referência foi copiado.
 

@@ -336,7 +336,7 @@ if (gpuMode === "hardware") {
   else if (process.platform === "linux") launchArgs.push("--use-angle=vulkan", "--enable-features=Vulkan,VulkanFromANGLE,DefaultANGLEVulkan");
 }
 if (virtual) launchArgs.push("--disable-smooth-scrolling"); // wheel scrolling animates on the compositor's real clock otherwise
-const browser = await chromium.launch({ headless: !a.headed, args: launchArgs });
+const browser = await chromium.launch({ headless: !a.headed, args: launchArgs, executablePath: process.env.REANIMATE_CHROMIUM || undefined });
 const context = await browser.newContext({
   viewport, deviceScaleFactor: scale,
   colorScheme: a["color-scheme"] || undefined,

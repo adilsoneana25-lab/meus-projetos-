@@ -88,7 +88,7 @@ if (mode === "filmstrip") {
   }
 } else usage(HELP);
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ executablePath: process.env.REANIMATE_CHROMIUM || undefined });
 const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
 const paths: string[] = [];
 for (const s of sheets) {

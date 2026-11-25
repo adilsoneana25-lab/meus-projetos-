@@ -44,7 +44,7 @@ These three cover different questions. If the user isn't sure which, ask whether
 
 Model-invoked skills the others lean on. Reach for them directly when the **knowledge**, not a process, is what's missing.
 
-- **`/emil-design-eng`**: the core philosophy for UI polish, component interactions, and the invisible details. The fallback when no narrower skill fits.
+- **`/direcao-visual-premium`**: visual direction plus the core philosophy for UI polish, component interactions, and the invisible details (merged from emil-design-eng). The fallback when no narrower skill fits.
 - **`/apple-design`**: Apple's principles for interface design and fluid, physical motion, translated for the web.
 - **`/animation-vocabulary`**: when the problem is the **word**. "What's it called when…" turns a vague description into the exact term to prompt with.
 
